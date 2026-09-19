@@ -5,6 +5,13 @@ All notable changes to Aegis are documented here. Aegis follows
 [release-please](https://github.com/googleapis/release-please) from the
 [Conventional Commits](https://www.conventionalcommits.org) on `main`; see [Releasing](docs/releasing.md).
 
+## [1.0.1](https://github.com/Walkaisa/aegis/compare/v1.0.0...v1.0.1) (2026-09-19)
+
+
+### Bug Fixes
+
+* **deps:** bump the production group with 2 updates ([#1](https://github.com/Walkaisa/aegis/issues/1)) ([bf7ad83](https://github.com/Walkaisa/aegis/commit/bf7ad83f78de5e5a746dc06533269d1688d4d94e))
+
 ## [1.0.0](https://github.com/Walkaisa/Aegis/releases/tag/v1.0.0) (2026-09-19)
 
 First public release.
