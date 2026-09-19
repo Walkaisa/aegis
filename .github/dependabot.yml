@@ -13,6 +13,11 @@ updates:
     commit-message:
       prefix: fix(deps)
       prefix-development: chore(deps)
+    ignore:
+      # Describes the Node.js runtime, so its major version moves together with .nvmrc and the
+      # base image in the Dockerfile, never on its own.
+      - dependency-name: "@types/node"
+        update-types: [version-update:semver-major]
     groups:
       production:
         dependency-type: production
