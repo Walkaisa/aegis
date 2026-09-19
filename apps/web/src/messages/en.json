@@ -1,0 +1,1330 @@
+{
+	"meta": {
+		"description": "Aegis – your private OpenID Connect provider for single sign-on across your own applications."
+	},
+	"common": {
+		"cancel": "Cancel",
+		"copy": "Copy",
+		"copied": "Copied",
+		"copyFailed": "Could not copy. Please copy the value manually.",
+		"showPassword": "Show password",
+		"hidePassword": "Hide password",
+		"loadFailed": "Could not load",
+		"retry": "Try again",
+		"done": "Done",
+		"securedBy": "Secured by Aegis · OpenID Connect",
+		"moreActions": "More actions"
+	},
+	"preferences": {
+		"language": "Language",
+		"theme": "Appearance",
+		"system": "System",
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"nav": {
+		"tagline": "Administration",
+		"adminArea": "Administration area",
+		"newApplication": "New application",
+		"dashboard": "Dashboard",
+		"applications": "Applications",
+		"users": "Users",
+		"sessions": "Sessions",
+		"audit": "Audit log",
+		"settings": "Settings",
+		"account": "My account",
+		"signOut": "Sign out",
+		"groups": {
+			"manage": "Manage",
+			"system": "System"
+		}
+	},
+	"devices": {
+		"browserOnOs": "{browser} on {os}",
+		"unknown": "Unknown device"
+	},
+	"roles": {
+		"admin": "Admin",
+		"user": "User"
+	},
+	"accountStatus": {
+		"enabled": "Active",
+		"disabled": "Disabled"
+	},
+	"setup": {
+		"title": "Set up Aegis",
+		"footer": "The setup can only be completed once. Add more users in the administration afterwards.",
+		"progress": "Step {current} of {total}",
+		"stepComplete": "complete",
+		"stepCurrent": "current step",
+		"instanceStep": "Instance",
+		"instanceTitle": "Welcome to Aegis",
+		"instanceDescription": "Start by naming your instance. You will create the admin account next.",
+		"instanceName": "Instance name",
+		"instanceNameDescription": "You can change it later in the settings.",
+		"preview": "Sign-in page preview",
+		"previewHeading": "Sign in",
+		"accountStep": "Admin account",
+		"accountTitle": "Create the admin account",
+		"accountDescription": "This account manages {instance} – applications, users and settings.",
+		"displayName": "Name",
+		"displayNamePlaceholder": "Jane Doe",
+		"email": "Email address",
+		"emailPlaceholder": "admin@example.com",
+		"password": "Password",
+		"passwordConfirmation": "Confirm password",
+		"passwordsMatch": "Passwords match",
+		"next": "Continue",
+		"back": "Back",
+		"submit": "Complete setup"
+	},
+	"signIn": {
+		"pageTitle": "Sign in",
+		"title": "Welcome back",
+		"description": "Sign in to manage {instance}.",
+		"email": "Email address",
+		"emailPlaceholder": "name@example.com",
+		"password": "Password",
+		"submit": "Sign in",
+		"forbidden": "This account has no access to the administration. Sign in with an admin account.",
+		"footer": "Admin accounts only. To use your applications, sign in through the application itself."
+	},
+	"signedOut": {
+		"title": "Signed out",
+		"description": "You have been signed out successfully. You can close this window now."
+	},
+	"notFound": {
+		"title": "Page not found",
+		"description": "The page you requested does not exist.",
+		"home": "Go to start page"
+	},
+	"authRequest": {
+		"consentPageTitle": "Allow access",
+		"loading": "Preparing sign-in …",
+		"redirecting": "Redirecting …",
+		"cancel": "Cancel",
+		"returnNotice": "Return to the application to start a new sign-in.",
+		"signIn": {
+			"title": "Sign in",
+			"description": "Sign in to continue to <strong>{client}</strong>.",
+			"redirectNotice": "You will continue to {origin}.",
+			"reauthenticationTitle": "Please sign in again",
+			"reauthenticationDescription": "The application requires you to confirm your identity again.",
+			"deniedTitle": "No access with this account",
+			"deniedDescription": "You're signed in as {account}, but this account may not sign in to <strong>{client}</strong>. Sign in with another account.",
+			"accessDenied": "This account may not sign in to {client}.",
+			"email": "Email address",
+			"emailPlaceholder": "name@example.com",
+			"password": "Password",
+			"submit": "Continue",
+			"access": "Requested permissions"
+		},
+		"consent": {
+			"title": "<strong>{client}</strong> wants to access your account",
+			"signedInAs": "Signed in",
+			"scopesHeading": "The application will be able to access:",
+			"revokeNotice": "Your approval applies until an admin revokes the access.",
+			"redirectNotice": "After approval you will continue to {origin}.",
+			"deny": "Deny",
+			"allow": "Allow"
+		},
+		"expired": {
+			"title": "Sign-in expired",
+			"description": "This sign-in request is no longer valid."
+		},
+		"failed": {
+			"title": "Sign-in not possible"
+		},
+		"missing": {
+			"title": "No sign-in request",
+			"description": "This page opens automatically when an application signs in through Aegis."
+		}
+	},
+	"scopes": {
+		"openid": {
+			"title": "Identity",
+			"description": "Recognize you by your unique account ID."
+		},
+		"profile": {
+			"title": "Profile",
+			"description": "Read your name and profile picture."
+		},
+		"email": {
+			"title": "Email address",
+			"description": "Read your email address."
+		}
+	},
+	"validation": {
+		"required": "This field is required.",
+		"invalid": "Please enter a valid value.",
+		"too_long": "The value is too long.",
+		"email_invalid": "Please enter a valid email address.",
+		"email_taken": "This email address is already used by another account.",
+		"password_too_short": "Use at least {min} characters.",
+		"password_too_long": "Use no more than {max} characters.",
+		"password_mismatch": "The passwords do not match.",
+		"current_password_invalid": "The current password is incorrect.",
+		"redirect_uri_invalid": "Please enter a valid URI.",
+		"redirect_uri_wildcard": "Wildcards (*) are not allowed – URIs are matched exactly.",
+		"redirect_uri_fragment": "URIs must not contain a fragment (#).",
+		"redirect_uri_credentials": "URIs must not contain credentials.",
+		"redirect_uri_insecure": "Use HTTPS. HTTP is only allowed for localhost.",
+		"redirect_uri_custom_scheme": "Custom URI schemes are only allowed for public clients.",
+		"redirect_uri_duplicate": "This URI is already listed.",
+		"redirect_uris_required": "Add at least one redirect URI.",
+		"scope_openid_required": "The openid scope is always required.",
+		"pkce_required_for_public_clients": "Public applications must always use PKCE.",
+		"too_many_items": "Too many entries.",
+		"out_of_range": "The value is outside the allowed range.",
+		"totp_code_invalid": "Enter the 6-digit code from your authenticator app.",
+		"second_factor_invalid": "The code is invalid or has already been used."
+	},
+	"errors": {
+		"bad_request": "The request is invalid.",
+		"validation_failed": "Please check your entries.",
+		"unauthorized": "Please sign in again.",
+		"forbidden": "Your account doesn't have permission for this.",
+		"not_found": "The item could not be found.",
+		"rate_limited": "Too many requests. Please try again in a moment.",
+		"payload_too_large": "The request is too large.",
+		"unsupported_media_type": "The request format is not supported.",
+		"cross_origin_rejected": "The request origin is not allowed. Please reload the page.",
+		"internal_error": "Something went wrong. Please try again later.",
+		"service_unavailable": "The service is temporarily unavailable.",
+		"setup_required": "Aegis needs to be set up first.",
+		"setup_completed": "Aegis is already set up. Please sign in.",
+		"sign_in_failed": "Sign-in failed. Check your email address and password.",
+		"sign_in_throttled": "Too many failed sign-in attempts. Please wait a few minutes.",
+		"invalid_current_password": "The current password is incorrect.",
+		"email_taken": "This email address is already used by another account.",
+		"last_active_admin": "This is the last active admin account. At least one active admin must always exist.",
+		"auth_request_expired": "The sign-in has expired. Start again from the application.",
+		"auth_request_invalid": "The sign-in is invalid. Start again from the application.",
+		"application_access_denied": "This account may not sign in to this application.",
+		"network_error": "Cannot reach the server. Please check your connection.",
+		"invalid_image": "The file is not a supported image.",
+		"second_factor_invalid": "The code is invalid or has already been used.",
+		"second_factor_expired": "The sign-in has expired. Please sign in again.",
+		"two_factor_already_enabled": "Two-factor authentication is already on.",
+		"two_factor_not_enabled": "Two-factor authentication is not on.",
+		"two_factor_setup_required": "The setup has expired. Please start it again."
+	},
+	"oidcError": {
+		"pageTitle": "Sign-in error",
+		"footer": "Return to the application to start a new sign-in.",
+		"details": "Technical details",
+		"home": "Go to Aegis",
+		"invalid_request": {
+			"title": "Invalid request",
+			"description": "The application sent an incomplete or invalid sign-in request."
+		},
+		"invalid_client": {
+			"title": "Unknown application",
+			"description": "The application is not registered or has been disabled."
+		},
+		"invalid_redirect_uri": {
+			"title": "Invalid redirect URI",
+			"description": "The redirect address is not registered exactly like this for the application."
+		},
+		"unauthorized_client": {
+			"title": "Application not authorized",
+			"description": "This application may not use the requested sign-in method."
+		},
+		"unsupported_response_type": {
+			"title": "Sign-in method not supported",
+			"description": "Aegis only supports the authorization code flow."
+		},
+		"invalid_scope": {
+			"title": "Invalid permissions",
+			"description": "The application requested permissions that are not enabled for it."
+		},
+		"access_denied": {
+			"title": "Access denied",
+			"description": "Access to the application was not allowed."
+		},
+		"login_required": {
+			"title": "Sign-in required",
+			"description": "Return to the application and sign in again."
+		},
+		"consent_required": {
+			"title": "Approval required",
+			"description": "This application needs your approval before it can continue."
+		},
+		"interaction_required": {
+			"title": "Action required",
+			"description": "Return to the application and start signing in again."
+		},
+		"invalid_grant": {
+			"title": "Authorization invalid",
+			"description": "The authorization has expired or is invalid. Start a new sign-in."
+		},
+		"server_error": {
+			"title": "Sign-in unavailable",
+			"description": "The server could not complete the request. Please try again later."
+		},
+		"default": {
+			"title": "Sign-in failed",
+			"description": "The sign-in request could not be completed."
+		}
+	},
+	"overview": {
+		"title": "Dashboard",
+		"greeting": "Hello {name}",
+		"description": "Everything important about your instance at a glance.",
+		"newApplication": "New application",
+		"stats": {
+			"applications": "Applications",
+			"users": "Users",
+			"activeSessions": "Active sessions",
+			"failedSignIns24h": "Failed sign-ins (24 h)"
+		},
+		"gettingStarted": {
+			"title": "Getting started",
+			"description": "Secure your account, connect your first application and sign in through it.",
+			"progress": "{done} of {total} done",
+			"done": "Done",
+			"steps": {
+				"application": {
+					"title": "Create an application",
+					"description": "Register your application and define where Aegis redirects to after signing in.",
+					"action": "Create now"
+				},
+				"signIn": {
+					"title": "First sign-in",
+					"description": "Sign in through your application. Your admin account has access automatically – no separate user account needed.",
+					"action": "Go to applications",
+					"pending": "Available once an application is registered."
+				},
+				"secure": {
+					"title": "Secure your account",
+					"description": "Protect your admin account with an authenticator app in addition to the password.",
+					"action": "Set up two-factor"
+				}
+			}
+		},
+		"recentActivity": "Recent activity",
+		"viewAll": "View all",
+		"noActivity": "No activity yet.",
+		"recentActivityDescription": "The newest entries of the audit log.",
+		"activity": {
+			"title": "Sign-in activity",
+			"description": "Sign-ins to Aegis and to applications over the last 14 days (UTC).",
+			"succeeded": "Succeeded",
+			"failed": "Failed",
+			"total": "Total",
+			"failureRate": "Failure rate"
+		},
+		"topApplications": {
+			"title": "Most used applications",
+			"description": "Sign-ins of the last 30 days.",
+			"empty": "No sign-ins to applications yet.",
+			"deleted": "Deleted application"
+		}
+	},
+	"applications": {
+		"title": "Applications",
+		"description": "Applications users sign in to through Aegis.",
+		"new": "New application",
+		"emptyTitle": "Register your first application",
+		"emptyDescription": "Choose what kind of application you want to connect to Aegis.",
+		"disabled": "Disabled",
+		"columns": {
+			"application": "Application",
+			"clientId": "Client ID",
+			"kind": "Kind",
+			"access": "Access",
+			"status": "Status",
+			"sessions": "Sessions",
+			"lastUsedColumn": "Last used",
+			"createdAt": "Created"
+		},
+		"activeSessions": "{count, plural, =0 {No active session} one {# active session} other {# active sessions}}",
+		"access": {
+			"everyone": "All accounts",
+			"assigned": "{count, plural, =0 {Nobody assigned} one {# account} other {# accounts}}"
+		},
+		"lastUsed": "Last used {time}",
+		"neverUsed": "Never used",
+		"searchPlaceholder": "Search name or client ID…"
+	},
+	"applicationKinds": {
+		"web": {
+			"title": "Web application",
+			"description": "Server-side apps that can keep a client secret safe.",
+			"examples": "Next.js, Nuxt, SvelteKit, Laravel, Django"
+		},
+		"spa": {
+			"title": "Single-page app",
+			"description": "Runs entirely in the browser – no secret, protected by PKCE.",
+			"examples": "React, Vue, Angular, Svelte"
+		},
+		"native": {
+			"title": "Native & CLI",
+			"description": "Desktop, mobile and command-line apps with a custom URI scheme.",
+			"examples": "iOS, Android, Electron, CLI"
+		}
+	},
+	"newApplication": {
+		"title": "New application",
+		"description": "Register an application so users can sign in to it through Aegis.",
+		"backToApplications": "Applications",
+		"steps": {
+			"type": "Application",
+			"configure": "Configuration",
+			"credentials": "Credentials"
+		},
+		"name": "Name",
+		"nameDescription": "Shown in Aegis and on the sign-in page.",
+		"namePlaceholder": "e.g. Nextcloud",
+		"kindHeading": "Application type",
+		"kindDescription": "Determines how your application identifies itself to Aegis.",
+		"integrationHeading": "Integration",
+		"integrationDescription": "Pick your library – Aegis suggests matching URLs.",
+		"genericIntegration": "Other OIDC library",
+		"baseUrl": "Application URL",
+		"baseUrlDescription": "The address your application is reachable at.",
+		"redirectUri": "Redirect URI",
+		"redirectUriAutoDescription": "Derived from the application URL and matched exactly. Adjust if needed.",
+		"redirectUriDescription": "Where Aegis redirects to after signing in, e.g. a custom URI scheme.",
+		"signOutUri": "Post sign-out redirect URI",
+		"signOutUriDescription": "Optional. Where users may be sent after signing out through the application.",
+		"moreUrisHint": "You can add more redirect URIs, for example for a local development environment, in the settings after creating the application.",
+		"scopesHeading": "Scopes",
+		"scopesDescription": "Which data the application may request.",
+		"skipConsent": "Skip the consent screen",
+		"skipConsentDescription": "Recommended for your own applications – signing in continues without asking.",
+		"cancel": "Cancel",
+		"next": "Continue",
+		"previous": "Back",
+		"create": "Create application",
+		"done": {
+			"title": "{name} is ready",
+			"description": "Enter these values in your application – then users can sign in with Aegis.",
+			"issuer": "Issuer",
+			"clientId": "Client ID",
+			"clientSecret": "Client secret",
+			"secretWarningTitle": "The secret is only shown now",
+			"secretWarning": "Aegis stores it encrypted and never shows it again. If you lose it, generate a new one in the quickstart.",
+			"publicNotice": "Public applications have no secret – the code exchange is protected by PKCE (S256).",
+			"snippetHeading": "Configuration for {integration}",
+			"confirm": "I have stored the client secret.",
+			"openApplication": "Open application",
+			"publicNoticeTitle": "No client secret"
+		},
+		"help": {
+			"type": {
+				"title": "Which type fits?",
+				"body": "If your code runs on a server, choose “Web application” – it receives a client secret. Apps in the browser or on devices cannot protect a secret and secure the sign-in with PKCE instead."
+			},
+			"configure": {
+				"title": "What is a redirect URI?",
+				"body": "After signing in, Aegis sends the browser back to this address of your application. It must be registered exactly – without wildcards. HTTP is only allowed for localhost."
+			},
+			"credentials": {
+				"title": "Almost done",
+				"body": "With the issuer, client ID and secret your application can sign users in. Choose who may sign in on the Access tab afterwards."
+			}
+		}
+	},
+	"applicationDetail": {
+		"back": "Applications",
+		"notFoundTitle": "Application not found",
+		"notFoundDescription": "This application does not exist or has been deleted.",
+		"tabs": {
+			"quickstart": "Overview",
+			"settings": "Settings",
+			"access": "Access",
+			"sessions": "Sessions"
+		},
+		"copyId": "Copy client ID",
+		"idCopied": "Client ID copied",
+		"restricted": "Restricted",
+		"restrictedHint": "Only assigned accounts can sign in."
+	},
+	"quickstart": {
+		"credentials": "Credentials",
+		"credentialsDescription": "How the application signs in to Aegis.",
+		"issuer": "Issuer",
+		"clientId": "Client ID",
+		"clientSecret": "Client secret",
+		"secretRotatedAt": "Generated on {date}",
+		"secretHidden": "No longer visible for security reasons.",
+		"rotateSecret": "Generate new secret",
+		"rotateTitle": "Rotate client secret?",
+		"rotateDescription": "A new secret is generated and the current one stops working immediately – update your application right away.",
+		"rotateConfirm": "Generate new secret",
+		"secretRotated": "New client secret generated.",
+		"publicClientNotice": "Public application without a secret. The code exchange is protected by PKCE (S256).",
+		"integration": "Integration",
+		"integrationDescription": "Ready-made configuration for your library.",
+		"genericIntegration": "Other OIDC library",
+		"secretPlaceholderNotice": "Replace {placeholder} with your stored client secret.",
+		"endpoints": "Endpoints",
+		"endpointsDescription": "Only needed if your library does not support discovery.",
+		"endpointLabels": {
+			"discovery": "Discovery",
+			"authorization": "Authorization",
+			"token": "Token",
+			"userinfo": "UserInfo",
+			"jwks": "JWKS",
+			"endSession": "Sign-out",
+			"revocation": "Revocation"
+		},
+		"details": "Details",
+		"detailLabels": {
+			"type": "Type",
+			"authentication": "Authentication",
+			"grant": "Flow",
+			"pkce": "PKCE",
+			"scopes": "Scopes",
+			"consent": "Consent",
+			"created": "Created",
+			"lastUsed": "Last used"
+		},
+		"grantValue": "Authorization Code",
+		"noClientAuthentication": "None (PKCE)",
+		"consentSkipped": "Skipped",
+		"consentRequired": "Required",
+		"neverUsed": "Never",
+		"urls": "Sign-in URLs",
+		"redirectUris": "Redirect URIs",
+		"postSignOutRedirectUris": "Post sign-out redirect URIs",
+		"none": "None",
+		"edit": "Edit",
+		"facts": {
+			"status": "Status",
+			"enabled": "Enabled",
+			"disabled": "Disabled",
+			"enabledHint": "Sign-ins are possible.",
+			"disabledHint": "Sign-ins are rejected.",
+			"confidential": "Confidential, with client secret",
+			"public": "Public, without client secret",
+			"sessions": "Active sessions",
+			"sessionsHint": "{count, plural, =0 {Nobody signed in} one {# person signed in} other {# people signed in}}"
+		}
+	},
+	"clientForm": {
+		"fixErrors": "Please fix the highlighted fields.",
+		"general": "General",
+		"generalDescription": "How the application is named in Aegis and on the sign-in page.",
+		"name": "Name",
+		"namePlaceholder": "e.g. Nextcloud",
+		"description": "Description",
+		"descriptionHint": "Optional. Shown on the consent screen.",
+		"descriptionPlaceholder": "What is this application used for?",
+		"urls": "Sign-in URLs",
+		"urlsDescription": "URIs are matched exactly. HTTPS is required, HTTP only for localhost.",
+		"redirectUris": "Redirect URIs",
+		"redirectUrisDescription": "Where Aegis sends users back after signing in, e.g. https://app.example.com/auth/callback.",
+		"postSignOutRedirectUris": "Post sign-out redirect URIs",
+		"postSignOutRedirectUrisDescription": "Optional. Where users may be sent after signing out through the application.",
+		"uriPlaceholder": "https://app.example.com/auth/callback",
+		"addUri": "Add URI",
+		"removeUri": "Remove URI",
+		"scopes": "Scopes",
+		"scopesDescription": "Which scopes the application may request. Aegis rejects any other request.",
+		"scopeRequired": "always enabled",
+		"scopeDescriptions": {
+			"openid": "The user's account ID (sub). Required for OpenID Connect.",
+			"profile": "The user's name and profile picture (name, picture, updated_at).",
+			"email": "The user's email address (email, email_verified)."
+		},
+		"security": "Security",
+		"securityDescription": "How the application identifies itself, whether it must use PKCE and whether users have to consent.",
+		"clientType": "Client type",
+		"clientTypes": {
+			"confidential": "Confidential",
+			"public": "Public"
+		},
+		"typeLocked": "The type cannot be changed after creation.",
+		"authMethod": "Client authentication",
+		"authMethodDescription": "How the application sends its secret to the token endpoint.",
+		"authMethods": {
+			"client_secret_basic": "HTTP Basic (client_secret_basic)",
+			"client_secret_post": "Form field (client_secret_post)"
+		},
+		"pkce": "PKCE",
+		"pkcePolicies": {
+			"required": "Required",
+			"optional": "Optional",
+			"disabled": "Disabled"
+		},
+		"pkcePolicyDescriptions": {
+			"required": "The application must use PKCE with S256.",
+			"optional": "PKCE is supported but not strictly required for this confidential application.",
+			"disabled": "PKCE is not required for this application. Only use this for confidential server applications."
+		},
+		"pkcePublicLocked": "Public applications have no secret, so PKCE cannot be turned off.",
+		"skipConsent": "Skip the consent screen",
+		"skipConsentDescription": "For your own trusted applications. Native apps always ask.",
+		"status": "Status",
+		"enabled": "Application enabled",
+		"enabledDescription": "Disabled applications cannot start sign-ins; existing tokens are revoked.",
+		"unsavedChanges": "Unsaved changes",
+		"discard": "Discard",
+		"save": "Save changes",
+		"saved": "Changes saved.",
+		"danger": "Danger zone",
+		"dangerDescription": "This action cannot be undone.",
+		"deleteHint": "Permanently removes the application, its tokens and all related sign-ins.",
+		"delete": "Delete application",
+		"deleteTitle": "Delete application?",
+		"deleteDescription": "“{name}” will be deleted permanently. Users will no longer be able to sign in to it through Aegis.",
+		"deleteConfirm": "Delete permanently",
+		"deleted": "“{name}” has been deleted.",
+		"uriLabel": "{field} {index}"
+	},
+	"secretDialog": {
+		"title": "Save the client secret",
+		"description": "Enter the client ID and client secret in your application now.",
+		"clientId": "Client ID",
+		"clientSecret": "Client secret",
+		"warningTitle": "Shown only once",
+		"warning": "Aegis stores the secret encrypted and never shows it again. If you lose it, generate a new one.",
+		"confirm": "I have stored the client secret safely.",
+		"done": "Done"
+	},
+	"clientSessions": {
+		"title": "Sessions",
+		"description": "Users signed in to “{name}”.",
+		"revokeAll": "End all",
+		"revokeAllTitle": "End all sessions?",
+		"revokeAllDescription": "All tokens of {name} become invalid. Users have to sign in through Aegis again on the next request.",
+		"revokeAllConfirm": "End all",
+		"revoked": "All sessions of {name} ended.",
+		"revoke": "End",
+		"revokeTitle": "End session?",
+		"revokeDescription": "The sign-in of {name} to {client} ends and the account’s tokens for this application become invalid. {name} has to sign in through Aegis again on the next request.",
+		"revokeConfirm": "End session",
+		"sessionRevoked": "Session of {name} ended.",
+		"emptyTitle": "No active sign-ins",
+		"emptyDescription": "Sessions appear here as soon as a user signs in to this application through Aegis.",
+		"notice": "The application manages its own session. A user is only signed out there once the application ends its session.",
+		"searchPlaceholder": "Search account or device…",
+		"columns": {
+			"account": "Account",
+			"device": "Device",
+			"lastSignIn": "Last sign-in",
+			"firstSignIn": "First sign-in",
+			"expiresAt": "Expires"
+		}
+	},
+	"applicationAccess": {
+		"title": "Who can sign in",
+		"description": "Admins can always sign in. This policy applies to every other account.",
+		"policies": {
+			"everyone": {
+				"title": "All accounts",
+				"description": "Every active account can sign in to this application."
+			},
+			"assigned": {
+				"title": "Assigned accounts only",
+				"description": "Only the accounts assigned below can sign in."
+			}
+		},
+		"save": "Save policy",
+		"saved": "Access updated.",
+		"restrictTitle": "Access will be restricted",
+		"restrictWarning": "Accounts that aren't assigned are signed out of “{name}” right away and their tokens are revoked.",
+		"assignedTitle": "Assigned accounts",
+		"assignedDescription": "These accounts can sign in to “{name}”.",
+		"inactiveNotice": "All accounts currently have access. Assignments take effect once you restrict access to assigned accounts.",
+		"assign": "Assign account",
+		"assignTitle": "Assign account",
+		"assignDescription": "The account can sign in to “{name}” afterwards.",
+		"assignLabel": "Account",
+		"assignPlaceholder": "Select an account",
+		"assignSearch": "Search name or email address…",
+		"assignEmpty": "No account found.",
+		"assignConfirm": "Assign",
+		"assignedToast": "“{account}” assigned.",
+		"remove": "Remove",
+		"removeTitle": "Remove assignment?",
+		"removeDescription": "“{account}” can no longer sign in to “{name}” while access is restricted. Existing sign-ins end right away.",
+		"removeConfirm": "Remove",
+		"removedToast": "Assignment of “{account}” removed.",
+		"searchPlaceholder": "Search accounts…",
+		"emptyTitle": "No accounts assigned",
+		"emptyDescription": "Assign the accounts that may sign in to this application.",
+		"columns": {
+			"account": "Account",
+			"role": "Role",
+			"assignedAt": "Assigned"
+		}
+	},
+	"users": {
+		"title": "Users",
+		"description": "Accounts for signing in to applications and for managing Aegis.",
+		"create": "Create account",
+		"columns": {
+			"name": "Name",
+			"role": "Role",
+			"status": "Status",
+			"createdAt": "Created",
+			"lastSignIn": "Last sign-in",
+			"sessions": "Sessions"
+		},
+		"neverSignedIn": "Never",
+		"searchPlaceholder": "Search name or email address…",
+		"emptyTitle": "No accounts yet",
+		"emptyDescription": "Create the first user or admin account."
+	},
+	"newUser": {
+		"back": "Users",
+		"title": "Create account",
+		"description": "Create a user account for your applications or an additional admin account.",
+		"created": "“{name}” has been created.",
+		"role": "Role",
+		"roleDescription": "Roles build on each other: admins can do everything users can and also manage Aegis.",
+		"roles": {
+			"user": "Signs in to the applications the account has access to. No access to the administration.",
+			"admin": "Manages Aegis and can sign in to every application."
+		},
+		"adminWarningTitle": "Full administrative access",
+		"adminWarning": "Admins can manage applications, accounts, sessions and settings.",
+		"profile": "Profile",
+		"profileDescription": "Name and email address are shared with applications.",
+		"displayName": "Name",
+		"email": "Email address",
+		"emailVerified": "Mark email address as verified",
+		"emailVerifiedDescription": "Applications receive the claim email_verified = true.",
+		"password": "Password",
+		"passwordDescription": "Share the password with the person through a secure channel.",
+		"generate": "Generate",
+		"generatedNotice": "Generated password",
+		"status": "Status",
+		"enabled": "Account enabled",
+		"enabledDescription": "Disabled accounts cannot sign in.",
+		"submit": "Create account",
+		"generatedHint": "Copy it now and share it securely – it is not shown again."
+	},
+	"userDetail": {
+		"back": "Users",
+		"notFoundTitle": "Account not found",
+		"notFoundDescription": "This account does not exist or has been deleted.",
+		"you": "You",
+		"profile": "Profile",
+		"profileDescription": "Name and email address are shared with applications.",
+		"displayName": "Name",
+		"email": "Email address",
+		"emailVerified": "Email address verified",
+		"emailVerifiedDescription": "Applications receive the claim email_verified.",
+		"role": "Role",
+		"roleDescription": "Users sign in to applications. Admins also manage Aegis and can sign in everywhere.",
+		"roleChangeTitle": "The role will change",
+		"roleChangeWarning": "All sessions of the account are ended and granted access is revoked.",
+		"roleChangeSelfWarning": "You will be signed out and can no longer open the administration.",
+		"save": "Save changes",
+		"saved": "Changes saved.",
+		"status": "Status",
+		"statusEnabledDescription": "The account can sign in.",
+		"statusDisabledDescription": "The account cannot sign in.",
+		"disable": "Disable",
+		"enable": "Enable",
+		"disableTitle": "Disable account?",
+		"disableDescription": "“{name}” can no longer sign in. All sessions end immediately and granted access is revoked.",
+		"disableConfirm": "Disable",
+		"enableTitle": "Enable account?",
+		"enableDescription": "“{name}” will be able to sign in again.",
+		"disabledToast": "Account disabled.",
+		"enabledToast": "Account enabled.",
+		"password": "Password",
+		"passwordDescription": "Last changed {time}.",
+		"resetHint": "Set a new password, e.g. when it has been forgotten. All sessions are ended.",
+		"resetPassword": "Reset password",
+		"resetTitle": "Reset password",
+		"resetDescription": "All sessions of “{name}” are ended and granted access is revoked.",
+		"resetModes": {
+			"generate": {
+				"title": "Generate a random password",
+				"description": "Aegis creates a secure password and shows it once."
+			},
+			"manual": {
+				"title": "Set the password yourself",
+				"description": "At least {min} characters."
+			}
+		},
+		"newPassword": "New password",
+		"resetSubmit": "Reset",
+		"resetDone": "Password reset.",
+		"generatedTitle": "New password",
+		"generatedDescription": "Copy the password now and share it securely. It will not be shown again.",
+		"sessions": "Sessions",
+		"activeSessions": "{count, plural, =0 {No active session} one {# active session} other {# active sessions}}",
+		"danger": "Danger zone",
+		"dangerDescription": "This action cannot be undone.",
+		"deleteHint": "Permanently deletes the account, its sessions and consents. Audit log entries are kept.",
+		"delete": "Delete account",
+		"deleteTitle": "Delete account?",
+		"deleteDescription": "“{name}” will be deleted permanently.",
+		"deleteConfirm": "Delete permanently",
+		"deleted": "“{name}” has been deleted.",
+		"details": "Details",
+		"detailLabels": {
+			"role": "Role",
+			"emailVerified": "Email verified",
+			"sessions": "Active sessions",
+			"createdAt": "Created",
+			"lastSignIn": "Last sign-in",
+			"passwordChanged": "Password changed",
+			"email": "E-mail",
+			"updatedAt": "Last changed",
+			"twoFactor": "Two-factor"
+		},
+		"yes": "Yes",
+		"no": "No",
+		"never": "Never",
+		"generatedWarningTitle": "Shown only once",
+		"generatedWarning": "Copy the password now and share it securely. It cannot be shown again later.",
+		"tabs": {
+			"overview": "Overview",
+			"settings": "Settings",
+			"applications": "Applications",
+			"sessions": "Sessions"
+		},
+		"lastAdmin": {
+			"title": "Only active admin account",
+			"role": "At least one admin must always exist. Create another admin account first to change the role.",
+			"disable": "At least one active admin must always exist. Create another admin account first to disable this one.",
+			"delete": "The only active admin account can't be deleted. Create another admin account first."
+		},
+		"facts": {
+			"status": "Status",
+			"enabled": "Enabled",
+			"disabled": "Disabled"
+		},
+		"activity": "Recent activity",
+		"activityDescription": "Audit log entries about this account.",
+		"viewAudit": "Audit log",
+		"noActivity": "No activity for this account yet.",
+		"applications": "Signed in to",
+		"noApplications": "Not signed in to any application right now.",
+		"changeRole": "Change role",
+		"statusDescription": "Disabled accounts can't sign in.",
+		"sessionsTab": {
+			"title": "Sessions",
+			"description": "Devices “{name}” is signed in on.",
+			"revokeAll": "End all",
+			"revokeAllTitle": "End all sessions?",
+			"revokeAllDescription": "All sessions of “{name}” are ended and granted access is revoked.",
+			"revokeAllConfirm": "End all",
+			"revokedAll": "{count, plural, =0 {No session ended.} one {# session ended.} other {# sessions ended.}}",
+			"searchPlaceholder": "Search device, IP address or application…",
+			"emptyTitle": "No active sessions",
+			"emptyDescription": "Once the account signs in, the session shows up here."
+		},
+		"twoFactor": {
+			"title": "Two-factor authentication",
+			"description": "Every account sets it up itself. If someone lost access to their app, you can reset it here.",
+			"enabled": "On",
+			"disabled": "Not set up",
+			"enabledHint": "Every sign-in asks for a code from the authenticator app as well.",
+			"disabledHint": "The account signs in with the password only.",
+			"disabledSelfHint": "Set it up in your account settings.",
+			"manageOwn": "Manage in my account",
+			"reset": "Reset",
+			"resetTitle": "Reset two-factor authentication?",
+			"resetDescription": "“{name}” will sign in with the password only again. The recovery codes are deleted. Only reset it if you are sure the request comes from that person.",
+			"resetConfirm": "Reset",
+			"resetDone": "Two-factor authentication of {name} reset."
+		},
+		"copyId": "Copy user ID",
+		"idCopied": "User ID copied"
+	},
+	"userApplications": {
+		"title": "Applications",
+		"description": "The applications “{name}” can sign in to.",
+		"adminNotice": "Admins can sign in to every application. Assignments only take effect while the account has the user role.",
+		"columns": {
+			"application": "Application",
+			"policy": "Access",
+			"signIn": "Sign-in",
+			"assigned": "Assigned"
+		},
+		"policies": {
+			"everyone": "All accounts",
+			"assigned": "Assigned only"
+		},
+		"allowed": "Allowed",
+		"denied": "No access",
+		"notNeeded": "Not needed",
+		"assign": "Assignment to “{name}”",
+		"assignedToast": "“{name}” assigned.",
+		"unassignedToast": "Assignment to “{name}” removed.",
+		"searchPlaceholder": "Search applications…",
+		"emptyTitle": "No applications yet",
+		"emptyDescription": "Applications you register will show up here."
+	},
+	"sessions": {
+		"title": "Sessions",
+		"description": "Active sessions of all accounts. One sign-in covers the administration and all applications.",
+		"current": "This session",
+		"lastActive": "active {time}",
+		"noApplications": "No application yet",
+		"revoke": "End",
+		"revokeTitle": "End session?",
+		"revokeDescription": "{name} will be signed out in this browser.",
+		"revokeCurrentDescription": "You will be signed out in this browser.",
+		"revokeConfirm": "End",
+		"revoked": "Session ended.",
+		"revokeAll": "End all",
+		"revokeAllTitle": "End all sessions?",
+		"revokeAllDescription": "All sessions are ended and all access to applications is revoked – yours included. Everyone has to sign in again, you as well.",
+		"revokeAllConfirm": "End all",
+		"searchPlaceholder": "Search account, device or IP address…",
+		"emptyTitle": "No active sessions",
+		"emptyDescription": "As soon as somebody signs in, their session shows up here.",
+		"columns": {
+			"account": "Account",
+			"role": "Role",
+			"device": "Device",
+			"applications": "Applications",
+			"lastActive": "Last active",
+			"signedInAt": "Signed in",
+			"expiresAt": "Expires"
+		},
+		"secondFactor": "2FA",
+		"secondFactorHint": "Confirmed with a second factor"
+	},
+	"audit": {
+		"title": "Audit log",
+		"description": "Every sign-in, every change and every rejected request ends up here.",
+		"filters": {
+			"severities": "Severity",
+			"categories": "Area",
+			"outcomes": "Outcome",
+			"sources": "Source"
+		},
+		"emptyTitle": "Nothing recorded yet",
+		"emptyDescription": "Every sign-in, access and change is kept here.",
+		"unknownApplication": "unknown application",
+		"unknownAccount": "unknown account",
+		"byActor": "by {actor}",
+		"reasons": {
+			"throttled": "too many attempts",
+			"unknown_email": "unknown email address",
+			"invalid_password": "wrong password",
+			"account_disabled": "account disabled",
+			"not_permitted": "not permitted",
+			"invalid_second_factor": "wrong code"
+		},
+		"events": {
+			"setup": {
+				"completed": "Aegis set up"
+			},
+			"auth": {
+				"sign_in": {
+					"succeeded": "{subject} signed in",
+					"failed": "Sign-in failed"
+				},
+				"sign_out": "{subject} signed out"
+			},
+			"user": {
+				"created": "Account {subject} created",
+				"updated": "Account {subject} updated",
+				"enabled": "Account {subject} enabled",
+				"disabled": "Account {subject} disabled",
+				"deleted": "Account {subject} deleted",
+				"password_reset": "Password of {subject} reset",
+				"password_changed": "{subject} changed the password",
+				"role_changed": "Role of {subject} changed",
+				"avatar_updated": "Profile picture of {subject} changed",
+				"avatar_removed": "Profile picture of {subject} removed",
+				"two_factor_enabled": "{subject} turned on two-factor authentication",
+				"two_factor_disabled": "{subject} turned off two-factor authentication",
+				"two_factor_reset": "Two-factor authentication of {subject} reset",
+				"recovery_codes_regenerated": "{subject} created new recovery codes"
+			},
+			"session": {
+				"revoked": "Session of {subject} ended",
+				"all_revoked": "All sessions ended"
+			},
+			"client": {
+				"created": "Application “{client}” created",
+				"updated": "Application “{client}” updated",
+				"deleted": "Application “{client}” deleted",
+				"secret_rotated": "Client secret of “{client}” rotated",
+				"sessions_revoked": "Access of “{client}” revoked",
+				"session_revoked": "Session of {subject} at “{client}” ended",
+				"logo_updated": "Logo of “{client}” changed",
+				"logo_removed": "Logo of “{client}” removed",
+				"user_assigned": "{subject} assigned to “{client}”",
+				"user_unassigned": "{subject} removed from “{client}”"
+			},
+			"oidc": {
+				"authorization": {
+					"succeeded": "{subject} signed in to “{client}”",
+					"failed": "Sign-in request from “{client}” rejected",
+					"cancelled": "Sign-in to “{client}” cancelled",
+					"denied": "Access of {subject} to “{client}” denied"
+				},
+				"consent": {
+					"granted": "{subject} allowed access for “{client}”"
+				},
+				"token": {
+					"failed": "Token request from “{client}” failed"
+				},
+				"sign_out": "{subject} signed out via “{client}”"
+			},
+			"settings": {
+				"updated": "Settings changed"
+			},
+			"signing_key": {
+				"rotated": "Signing key rotated"
+			}
+		},
+		"refresh": "Refresh",
+		"searchPlaceholder": "Search event, account, application or IP address…",
+		"oldest": "Oldest entry: {date}",
+		"summary": {
+			"entries": "{count, plural, one {entry} other {entries}} in the selected range",
+			"hint": "Click a severity to filter by it."
+		},
+		"columns": {
+			"event": "Event",
+			"actor": "Triggered by",
+			"origin": "Origin",
+			"occurredAt": "Time"
+		},
+		"categories": {
+			"authentication": "Sign-in",
+			"users": "Users",
+			"applications": "Applications",
+			"system": "System"
+		},
+		"severities": {
+			"info": "Info",
+			"notice": "Notice",
+			"warning": "Warning",
+			"error": "Error",
+			"critical": "Critical"
+		},
+		"outcomes": {
+			"success": "Succeeded",
+			"failure": "Failed"
+		},
+		"sources": {
+			"admin": "Administration",
+			"user": "User",
+			"application": "Application",
+			"system": "System"
+		},
+		"targets": {
+			"account": "Account",
+			"session": "Session",
+			"application": "Application",
+			"instance": "Instance",
+			"signing_key": "Signing key"
+		},
+		"range": {
+			"label": "Time range",
+			"options": {
+				"0": "All",
+				"24": "24 h",
+				"168": "7 days",
+				"720": "30 days"
+			}
+		},
+		"retention": {
+			"title": "Keep entries for",
+			"label": "{days, plural, one {# day} other {# days}} retention",
+			"option": "{days, plural, one {# day} other {# days}}",
+			"saved": "Audit entries are now kept for {days} days."
+		},
+		"details": {
+			"occurredAt": "Timestamp",
+			"severity": "Severity",
+			"outcome": "Outcome",
+			"category": "Area",
+			"source": "Source",
+			"target": "Target",
+			"eventType": "Event type",
+			"actor": "Triggered by",
+			"subject": "Affected account",
+			"application": "Application",
+			"ipAddress": "IP address",
+			"client": "Device",
+			"metadata": "Additional data",
+			"unknown": "Unknown",
+			"yes": "Yes",
+			"no": "No",
+			"event": "Event",
+			"people": "Involved",
+			"context": "Context"
+		},
+		"fields": {
+			"reason": "Reason",
+			"email": "Email address",
+			"context": "Context",
+			"role": "Role",
+			"enabled": "Enabled",
+			"emailChanged": "Email address changed",
+			"sessions": "Sessions ended",
+			"instanceName": "Instance name",
+			"sessionTtlDays": "Session lifetime in days",
+			"auditRetentionDays": "Retention in days",
+			"kid": "Key ID",
+			"error": "Error",
+			"mode": "Mode",
+			"scopes": "Scopes",
+			"accessPolicy": "Access",
+			"pkcePolicy": "PKCE",
+			"from": "Before",
+			"to": "After",
+			"clientId": "Client ID",
+			"name": "Name",
+			"type": "Type",
+			"secondFactor": "Second factor"
+		}
+	},
+	"settings": {
+		"title": "Settings",
+		"description": "Instance, your admin account and security.",
+		"tabs": {
+			"general": "General",
+			"account": "My account",
+			"security": "Security"
+		},
+		"save": "Save",
+		"instance": "Instance",
+		"instanceDescription": "General settings of Aegis.",
+		"instanceName": "Instance name",
+		"instanceNameDescription": "Shown on the sign-in pages and in the menu.",
+		"sessionTtl": "Session lifetime",
+		"sessionTtlDescription": "How long a sign-in stays valid ({min}–{max} days). Applies to new sign-ins.",
+		"days": "days",
+		"issuer": "Issuer",
+		"issuerDescription": "Configured via AEGIS_ISSUER.",
+		"instanceSaved": "Settings saved.",
+		"profile": "Profile",
+		"profileDescription": "Name and email address of your admin account.",
+		"displayName": "Name",
+		"email": "Email address",
+		"emailDescription": "You sign in with this address.",
+		"currentPassword": "Current password",
+		"currentPasswordDescription": "Required to change your email address.",
+		"profileSaved": "Profile saved.",
+		"password": "Change password",
+		"passwordDescription": "All other sessions of your account are ended afterwards.",
+		"newPassword": "New password",
+		"confirmPassword": "Confirm new password",
+		"changePassword": "Change password",
+		"passwordChanged": "Password changed. All other sessions have been ended.",
+		"appearance": "Appearance",
+		"appearanceDescription": "Applies to this browser.",
+		"language": "Language",
+		"languageDescription": "“System” follows your browser’s language.",
+		"theme": "Color scheme",
+		"themeDescription": "“System” follows your operating system.",
+		"keys": "Signing keys",
+		"keysDescription": "Aegis signs ID tokens with this key (RS256).",
+		"rotateKey": "Rotate key",
+		"rotateKeyTitle": "Rotate signing key?",
+		"rotateKeyDescription": "New tokens are signed with a new key. The previous key stays published for now so issued tokens remain valid.",
+		"rotateKeyConfirm": "Rotate",
+		"keyRotated": "A new signing key is active.",
+		"active": "Active",
+		"retired": "Retired",
+		"createdAt": "Created on {date}",
+		"retiredAt": "Retired on {date}",
+		"retention": "Retired keys stay published for {days} days and are removed afterwards.",
+		"protections": "Safeguards",
+		"protectionsDescription": "These rules always apply and cannot be turned off.",
+		"protectionItems": {
+			"roles": "Roles are hierarchical: users only sign in to applications, admins also manage Aegis. Every request is checked against the permissions of its role on the server.",
+			"applicationAccess": "Applications can be restricted to assigned accounts; revoking access ends sign-ins and tokens immediately.",
+			"pkce": "PKCE with S256 only – required for public applications, set per application for confidential ones. A code_challenge that is sent is always verified.",
+			"redirectUris": "Redirect URIs are matched exactly – no wildcards.",
+			"codeFlow": "Authorization code flow only – no implicit or password grant.",
+			"argon2": "Passwords stored as Argon2id hashes ({memory} MiB, {iterations} iterations, parallelism {parallelism}).",
+			"encryption": "Signing keys and client secrets are encrypted with AES-256-GCM.",
+			"rateLimit": "Sign-in attempts are limited per IP address."
+		},
+		"auditRetention": "Audit log retention",
+		"auditRetentionDescription": "How long audit entries are kept ({min}–{max} days). Older entries are removed automatically.",
+		"copyUserId": "Copy user ID",
+		"userIdCopied": "User ID copied",
+		"accountCreated": "Account created",
+		"lastSignIn": "Last sign-in",
+		"passwordChangedAt": "Password changed",
+		"never": "Never",
+		"languageSearch": "Search language…",
+		"languageEmpty": "No language found."
+	},
+	"password": {
+		"strength": "Strength",
+		"levels": {
+			"weak": "Weak",
+			"fair": "Fair",
+			"good": "Good",
+			"strong": "Strong"
+		},
+		"requirements": {
+			"length": "At least {min} characters",
+			"lowercase": "At least one lowercase letter",
+			"uppercase": "At least one uppercase letter",
+			"digit": "At least one number",
+			"symbol": "At least one special character"
+		},
+		"met": "met",
+		"notMet": "not met"
+	},
+	"breadcrumbs": {
+		"newApplication": "New application",
+		"newUser": "Create account",
+		"account": "My account",
+		"security": "Security"
+	},
+	"table": {
+		"search": "Search",
+		"searchPlaceholder": "Search…",
+		"filters": "Filters",
+		"columns": "Columns",
+		"columnsHint": "Visible columns",
+		"reset": "Reset",
+		"emptyTitle": "No entries",
+		"emptyDescription": "There is nothing to show here yet.",
+		"noMatchesTitle": "Nothing found",
+		"noMatchesDescription": "No entry matches this search or these filters.",
+		"range": "{first}–{last} of {total}",
+		"rowsPerPage": "Rows per page",
+		"page": "Page {page} of {pageCount}",
+		"firstPage": "First page",
+		"previousPage": "Previous page",
+		"nextPage": "Next page",
+		"lastPage": "Last page",
+		"open": "Open"
+	},
+	"avatar": {
+		"change": "Change profile picture",
+		"upload": "Upload new picture",
+		"remove": "Remove profile picture",
+		"title": "Profile picture",
+		"description": "Choose a picture. You can adjust the crop afterwards.",
+		"cropDescription": "Drag and zoom the picture until the crop fits.",
+		"dropTitle": "Drop a picture here or browse",
+		"dropHint": "PNG, JPEG or WebP, up to {size} MB",
+		"cropArea": "Crop area – move with the arrow keys, zoom with + and −",
+		"zoom": "Zoom",
+		"zoomIn": "Zoom in",
+		"zoomOut": "Zoom out",
+		"preview": "Preview",
+		"reset": "Reset",
+		"chooseOther": "Other picture",
+		"cancel": "Cancel",
+		"save": "Save",
+		"uploaded": "Profile picture updated.",
+		"removed": "Profile picture removed.",
+		"removeTitle": "Remove profile picture?",
+		"removeDescription": "The initials are shown again instead of the picture.",
+		"removeConfirm": "Remove",
+		"invalidType": "Please choose a PNG, JPEG or WebP image.",
+		"tooLarge": "The picture is too large (at most {size} MB).",
+		"loadFailed": "The picture could not be loaded."
+	},
+	"applicationLogo": {
+		"change": "Change logo",
+		"upload": "Upload new logo",
+		"remove": "Remove logo",
+		"title": "Application logo",
+		"uploaded": "Logo updated.",
+		"removed": "Logo removed.",
+		"removeTitle": "Remove logo?",
+		"removeDescription": "The colored monogram is shown again instead of the logo.",
+		"removeConfirm": "Remove"
+	},
+	"twoFactor": {
+		"title": "Two-factor authentication",
+		"description": "Protect your account with a code from an authenticator app in addition to your password.",
+		"authenticator": "Authenticator app",
+		"enabled": "On",
+		"disabled": "Not set up",
+		"enabledSince": "On since {date}. Every sign-in asks for a code as well.",
+		"disabledHint": "Works with any TOTP app, e.g. 1Password, Google Authenticator or Microsoft Authenticator.",
+		"step": "Step {step} of {total}",
+		"currentPassword": "Current password",
+		"codeLabel": "Verification code",
+		"codeDescription": "A code from your authenticator app or a recovery code.",
+		"signIn": {
+			"title": "Confirm your sign-in",
+			"totpDescription": "Enter the 6-digit code from your authenticator app.",
+			"recoveryDescription": "Enter one of your recovery codes. Each code works only once.",
+			"codeLabel": "Code from the authenticator app",
+			"recoveryLabel": "Recovery code",
+			"submit": "Confirm",
+			"useRecoveryCode": "Use a recovery code",
+			"useAuthenticator": "Use a code from the app",
+			"notYou": "Other account",
+			"invalidCode": "That code doesn't match. Check that your device's time is correct and try the current code.",
+			"invalidRecoveryCode": "This recovery code is invalid or has already been used.",
+			"expired": "The sign-in has expired or was attempted too often. Please sign in again."
+		},
+		"enable": {
+			"action": "Set up",
+			"continue": "Continue",
+			"submit": "Turn on",
+			"done": "Two-factor authentication is on. Your other sessions have been ended.",
+			"qrLabel": "QR code for the authenticator app",
+			"scanTitle": "Scan the QR code",
+			"scan": "Open your authenticator app, such as Google Authenticator, Microsoft Authenticator or 1Password, and add a new account by QR code.",
+			"account": "Account",
+			"issuer": "Issuer",
+			"manualTitle": "Can't scan the code?",
+			"manual": "Enter this key in the app instead. The spaces are optional.",
+			"copyKey": "Copy key",
+			"labelTitle": "Choose a name",
+			"labelDescription": "Helps you recognize the app later, e.g. Bitwarden or 1Password.",
+			"labelPlaceholder": "e.g. Bitwarden",
+			"codeLabel": "Verification code",
+			"codeDescription": "Enter the 6-digit code the app shows right now.",
+			"steps": {
+				"1": {
+					"title": "Confirm your password",
+					"description": "Before you set up two-factor authentication, confirm that it's you."
+				},
+				"2": {
+					"title": "Connect your authenticator app",
+					"description": "Add your account in the app and confirm with the first code."
+				},
+				"3": {
+					"title": "Save your recovery codes",
+					"description": "Two-factor authentication is on. These codes get you into your account if you lose your device."
+				}
+			}
+		},
+		"disable": {
+			"action": "Turn off",
+			"title": "Turn off two-factor authentication?",
+			"description": "Confirm with your password and a code. Afterwards, the password alone signs you in again.",
+			"submit": "Turn off",
+			"done": "Two-factor authentication turned off.",
+			"warningTitle": "Your account will be less protected",
+			"warning": "The recovery codes are deleted. Anyone who knows your password can sign in."
+		},
+		"regenerate": {
+			"action": "Create new codes",
+			"title": "Create new recovery codes?",
+			"description": "Confirm with your password and a code. All previous recovery codes stop working.",
+			"submit": "Create codes",
+			"done": "New recovery codes created."
+		},
+		"recoveryCodes": {
+			"remaining": "{count} of {total} recovery codes left",
+			"low": "Create new codes in time.",
+			"copy": "Copy",
+			"download": "Download",
+			"warningTitle": "Only visible now",
+			"warning": "Keep the codes in a safe place, e.g. your password manager. Each code works exactly once.",
+			"confirm": "I have stored the recovery codes safely.",
+			"newTitle": "New recovery codes",
+			"newDescription": "The previous codes no longer work.",
+			"file": {
+				"heading": "Recovery codes for {instance}",
+				"account": "Account",
+				"origin": "Address",
+				"created": "Created",
+				"usage": "Each code can be used once instead of a code from the authenticator app."
+			}
+		}
+	}
+}

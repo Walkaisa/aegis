@@ -1,0 +1,34 @@
+{
+	"name": "@aegis/db",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Aegis database schema, client and migrations (Drizzle ORM, PostgreSQL)",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"migrations"
+	],
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc -p tsconfig.json",
+		"db:generate": "drizzle-kit generate"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.45.2",
+		"pg": "^8.23.0"
+	},
+	"devDependencies": {
+		"@types/node": "^24.13.4",
+		"@types/pg": "^8.23.1",
+		"drizzle-kit": "^0.31.10",
+		"tsdown": "^0.23.0",
+		"typescript": "~6.0.3"
+	}
+}

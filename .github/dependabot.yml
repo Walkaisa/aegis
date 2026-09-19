@@ -1,0 +1,43 @@
+version: 2
+
+# Commit prefixes decide whether an update ends up in a release: runtime dependencies and the base
+# image ship inside the Docker image, so they are fixes and trigger a patch release. Development
+# dependencies and GitHub Actions do not change the image and stay out of the changelog.
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: fix(deps)
+      prefix-development: chore(deps)
+    groups:
+      production:
+        dependency-type: production
+        update-types: [minor, patch]
+      development:
+        dependency-type: development
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: fix(deps)
+    ignore:
+      # Moving to the next Node.js LTS is a deliberate change, together with .nvmrc.
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci(deps)
+    groups:
+      actions:
+        patterns: ["*"]

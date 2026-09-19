@@ -1,0 +1,50 @@
+name: aegis
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-aegis}
+      POSTGRES_USER: ${POSTGRES_USER:-aegis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - internal
+
+  aegis:
+    build:
+      context: .
+    image: aegis:local
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      AEGIS_ISSUER: ${AEGIS_ISSUER:?Set AEGIS_ISSUER in .env}
+      AEGIS_ENCRYPTION_KEY: ${AEGIS_ENCRYPTION_KEY:?Set AEGIS_ENCRYPTION_KEY in .env}
+      AEGIS_DATABASE_URL: postgres://${POSTGRES_USER:-aegis}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-aegis}
+      AEGIS_HOST: 0.0.0.0
+      AEGIS_PORT: 3000
+      AEGIS_TRUST_PROXY: ${AEGIS_TRUST_PROXY:-false}
+      AEGIS_LOG_LEVEL: ${AEGIS_LOG_LEVEL:-info}
+      AEGIS_ARGON2_MEMORY_KIB: ${AEGIS_ARGON2_MEMORY_KIB:-65536}
+      AEGIS_ARGON2_ITERATIONS: ${AEGIS_ARGON2_ITERATIONS:-3}
+      AEGIS_ARGON2_PARALLELISM: ${AEGIS_ARGON2_PARALLELISM:-4}
+      AEGIS_AUDIT_RETENTION_DAYS: ${AEGIS_AUDIT_RETENTION_DAYS:-180}
+    ports:
+      - "${AEGIS_BIND_ADDRESS:-127.0.0.1}:${AEGIS_PORT:-3000}:3000"
+    networks:
+      - internal
+
+volumes:
+  postgres-data:
+
+networks:
+  internal:

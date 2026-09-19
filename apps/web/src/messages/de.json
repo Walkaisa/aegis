@@ -1,0 +1,1330 @@
+{
+	"meta": {
+		"description": "Aegis – dein privater OpenID-Connect-Provider für Single Sign-on in deinen eigenen Anwendungen."
+	},
+	"common": {
+		"cancel": "Abbrechen",
+		"copy": "Kopieren",
+		"copied": "Kopiert",
+		"copyFailed": "Kopieren fehlgeschlagen. Bitte kopiere den Wert manuell.",
+		"showPassword": "Passwort anzeigen",
+		"hidePassword": "Passwort verbergen",
+		"loadFailed": "Laden fehlgeschlagen",
+		"retry": "Erneut versuchen",
+		"done": "Fertig",
+		"securedBy": "Geschützt durch Aegis · OpenID Connect",
+		"moreActions": "Weitere Aktionen"
+	},
+	"preferences": {
+		"language": "Sprache",
+		"theme": "Darstellung",
+		"system": "System",
+		"light": "Hell",
+		"dark": "Dunkel"
+	},
+	"nav": {
+		"tagline": "Administration",
+		"adminArea": "Verwaltungsbereich",
+		"newApplication": "Neue Anwendung",
+		"dashboard": "Dashboard",
+		"applications": "Anwendungen",
+		"users": "Benutzer",
+		"sessions": "Sitzungen",
+		"audit": "Audit-Log",
+		"settings": "Einstellungen",
+		"account": "Mein Konto",
+		"signOut": "Abmelden",
+		"groups": {
+			"manage": "Verwalten",
+			"system": "System"
+		}
+	},
+	"devices": {
+		"browserOnOs": "{browser} auf {os}",
+		"unknown": "Unbekanntes Gerät"
+	},
+	"roles": {
+		"admin": "Admin",
+		"user": "Benutzer"
+	},
+	"accountStatus": {
+		"enabled": "Aktiv",
+		"disabled": "Deaktiviert"
+	},
+	"setup": {
+		"title": "Aegis einrichten",
+		"footer": "Die Einrichtung ist nur einmal möglich. Weitere Benutzer legst du danach in der Verwaltung an.",
+		"progress": "Schritt {current} von {total}",
+		"stepComplete": "abgeschlossen",
+		"stepCurrent": "aktueller Schritt",
+		"instanceStep": "Instanz",
+		"instanceTitle": "Willkommen bei Aegis",
+		"instanceDescription": "Gib deiner Instanz zuerst einen Namen. Danach legst du das Admin-Konto an.",
+		"instanceName": "Name der Instanz",
+		"instanceNameDescription": "Lässt sich später in den Einstellungen ändern.",
+		"preview": "Vorschau der Anmeldeseite",
+		"previewHeading": "Anmelden",
+		"accountStep": "Admin-Konto",
+		"accountTitle": "Admin-Konto anlegen",
+		"accountDescription": "Mit diesem Konto verwaltest du {instance} – Anwendungen, Benutzer und Einstellungen.",
+		"displayName": "Name",
+		"displayNamePlaceholder": "Max Mustermann",
+		"email": "E-Mail-Adresse",
+		"emailPlaceholder": "admin@example.com",
+		"password": "Passwort",
+		"passwordConfirmation": "Passwort bestätigen",
+		"passwordsMatch": "Passwörter stimmen überein",
+		"next": "Weiter",
+		"back": "Zurück",
+		"submit": "Einrichtung abschließen"
+	},
+	"signIn": {
+		"pageTitle": "Anmelden",
+		"title": "Willkommen zurück",
+		"description": "Melde dich an, um {instance} zu verwalten.",
+		"email": "E-Mail-Adresse",
+		"emailPlaceholder": "name@example.com",
+		"password": "Passwort",
+		"submit": "Anmelden",
+		"forbidden": "Dieses Konto hat keinen Zugriff auf die Verwaltung. Melde dich mit einem Admin-Konto an.",
+		"footer": "Zugang nur für Admin-Konten. An deinen Anwendungen meldest du dich direkt über die jeweilige Anwendung an."
+	},
+	"signedOut": {
+		"title": "Abgemeldet",
+		"description": "Du wurdest erfolgreich abgemeldet. Du kannst dieses Fenster jetzt schließen."
+	},
+	"notFound": {
+		"title": "Seite nicht gefunden",
+		"description": "Die angeforderte Seite existiert nicht.",
+		"home": "Zur Startseite"
+	},
+	"authRequest": {
+		"consentPageTitle": "Zugriff erlauben",
+		"loading": "Anmeldung wird vorbereitet …",
+		"redirecting": "Du wirst weitergeleitet …",
+		"cancel": "Abbrechen",
+		"returnNotice": "Kehre zur Anwendung zurück, um eine neue Anmeldung zu starten.",
+		"signIn": {
+			"title": "Anmelden",
+			"description": "Melde dich an, um mit <strong>{client}</strong> fortzufahren.",
+			"redirectNotice": "Nach der Anmeldung geht es weiter zu {origin}.",
+			"reauthenticationTitle": "Erneute Anmeldung erforderlich",
+			"reauthenticationDescription": "Die Anwendung verlangt, dass du deine Identität erneut bestätigst.",
+			"deniedTitle": "Kein Zugriff mit diesem Konto",
+			"deniedDescription": "Du bist als {account} angemeldet, aber dieses Konto darf sich nicht bei <strong>{client}</strong> anmelden. Melde dich mit einem anderen Konto an.",
+			"accessDenied": "Dieses Konto darf sich nicht bei {client} anmelden.",
+			"email": "E-Mail-Adresse",
+			"emailPlaceholder": "name@example.com",
+			"password": "Passwort",
+			"submit": "Weiter",
+			"access": "Angefragte Berechtigungen"
+		},
+		"consent": {
+			"title": "<strong>{client}</strong> möchte auf dein Konto zugreifen",
+			"signedInAs": "Angemeldet",
+			"scopesHeading": "Die Anwendung erhält Zugriff auf:",
+			"revokeNotice": "Deine Zustimmung gilt, bis ein Admin den Zugriff widerruft.",
+			"redirectNotice": "Nach deiner Zustimmung geht es weiter zu {origin}.",
+			"deny": "Ablehnen",
+			"allow": "Zulassen"
+		},
+		"expired": {
+			"title": "Anmeldung abgelaufen",
+			"description": "Die Anmeldeanfrage ist nicht mehr gültig."
+		},
+		"failed": {
+			"title": "Anmeldung nicht möglich"
+		},
+		"missing": {
+			"title": "Keine Anmeldeanfrage",
+			"description": "Diese Seite öffnet sich automatisch, wenn sich eine Anwendung über Aegis anmeldet."
+		}
+	},
+	"scopes": {
+		"openid": {
+			"title": "Identität",
+			"description": "Dich anhand deiner eindeutigen Konto-ID erkennen."
+		},
+		"profile": {
+			"title": "Profil",
+			"description": "Deinen Namen und dein Profilbild lesen."
+		},
+		"email": {
+			"title": "E-Mail-Adresse",
+			"description": "Deine E-Mail-Adresse lesen."
+		}
+	},
+	"validation": {
+		"required": "Dieses Feld ist erforderlich.",
+		"invalid": "Bitte gib einen gültigen Wert ein.",
+		"too_long": "Der Wert ist zu lang.",
+		"email_invalid": "Bitte gib eine gültige E-Mail-Adresse ein.",
+		"email_taken": "Diese E-Mail-Adresse wird bereits von einem anderen Konto verwendet.",
+		"password_too_short": "Verwende mindestens {min} Zeichen.",
+		"password_too_long": "Verwende höchstens {max} Zeichen.",
+		"password_mismatch": "Die Passwörter stimmen nicht überein.",
+		"current_password_invalid": "Das aktuelle Passwort ist falsch.",
+		"redirect_uri_invalid": "Bitte gib eine gültige URI ein.",
+		"redirect_uri_wildcard": "Platzhalter (*) sind nicht erlaubt – URIs werden exakt verglichen.",
+		"redirect_uri_fragment": "URIs dürfen kein Fragment (#) enthalten.",
+		"redirect_uri_credentials": "URIs dürfen keine Zugangsdaten enthalten.",
+		"redirect_uri_insecure": "Verwende HTTPS. HTTP ist nur für localhost erlaubt.",
+		"redirect_uri_custom_scheme": "Eigene URI-Schemata sind nur für öffentliche Clients erlaubt.",
+		"redirect_uri_duplicate": "Diese URI ist bereits eingetragen.",
+		"redirect_uris_required": "Füge mindestens eine Redirect-URI hinzu.",
+		"scope_openid_required": "Der Scope openid ist immer erforderlich.",
+		"pkce_required_for_public_clients": "Öffentliche Anwendungen müssen PKCE immer verwenden.",
+		"too_many_items": "Zu viele Einträge.",
+		"out_of_range": "Der Wert liegt außerhalb des zulässigen Bereichs.",
+		"totp_code_invalid": "Gib den 6-stelligen Code aus deiner Authenticator-App ein.",
+		"second_factor_invalid": "Der Code ist ungültig oder wurde bereits verwendet."
+	},
+	"errors": {
+		"bad_request": "Die Anfrage ist ungültig.",
+		"validation_failed": "Bitte überprüfe deine Eingaben.",
+		"unauthorized": "Bitte melde dich erneut an.",
+		"forbidden": "Dafür fehlt deinem Konto die Berechtigung.",
+		"not_found": "Der Eintrag wurde nicht gefunden.",
+		"rate_limited": "Zu viele Anfragen. Bitte versuche es gleich noch einmal.",
+		"payload_too_large": "Die Anfrage ist zu groß.",
+		"unsupported_media_type": "Das Format der Anfrage wird nicht unterstützt.",
+		"cross_origin_rejected": "Der Ursprung der Anfrage ist nicht erlaubt. Bitte lade die Seite neu.",
+		"internal_error": "Etwas ist schiefgelaufen. Bitte versuche es später erneut.",
+		"service_unavailable": "Der Dienst ist vorübergehend nicht verfügbar.",
+		"setup_required": "Aegis muss zuerst eingerichtet werden.",
+		"setup_completed": "Aegis ist bereits eingerichtet. Bitte melde dich an.",
+		"sign_in_failed": "Anmeldung fehlgeschlagen. Prüfe E-Mail-Adresse und Passwort.",
+		"sign_in_throttled": "Zu viele fehlgeschlagene Anmeldeversuche. Bitte warte ein paar Minuten.",
+		"invalid_current_password": "Das aktuelle Passwort ist falsch.",
+		"email_taken": "Diese E-Mail-Adresse wird bereits von einem anderen Konto verwendet.",
+		"last_active_admin": "Das ist das letzte aktive Admin-Konto. Es muss immer mindestens ein aktiver Admin existieren.",
+		"auth_request_expired": "Die Anmeldung ist abgelaufen. Starte sie in der Anwendung erneut.",
+		"auth_request_invalid": "Die Anmeldung ist ungültig. Starte sie in der Anwendung erneut.",
+		"application_access_denied": "Dieses Konto darf sich nicht bei dieser Anwendung anmelden.",
+		"network_error": "Keine Verbindung zum Server. Bitte überprüfe deine Verbindung.",
+		"invalid_image": "Die Datei ist kein unterstütztes Bild.",
+		"second_factor_invalid": "Der Code ist ungültig oder wurde bereits verwendet.",
+		"second_factor_expired": "Die Anmeldung ist abgelaufen. Bitte melde dich erneut an.",
+		"two_factor_already_enabled": "Die Zwei-Faktor-Authentifizierung ist bereits aktiv.",
+		"two_factor_not_enabled": "Die Zwei-Faktor-Authentifizierung ist nicht aktiv.",
+		"two_factor_setup_required": "Die Einrichtung ist abgelaufen. Bitte starte sie erneut."
+	},
+	"oidcError": {
+		"pageTitle": "Anmeldefehler",
+		"footer": "Kehre zur Anwendung zurück, um eine neue Anmeldung zu starten.",
+		"details": "Technische Details",
+		"home": "Zu Aegis",
+		"invalid_request": {
+			"title": "Ungültige Anfrage",
+			"description": "Die Anwendung hat eine unvollständige oder ungültige Anmeldeanfrage gesendet."
+		},
+		"invalid_client": {
+			"title": "Unbekannte Anwendung",
+			"description": "Die Anwendung ist nicht registriert oder deaktiviert."
+		},
+		"invalid_redirect_uri": {
+			"title": "Ungültige Redirect-URI",
+			"description": "Die Weiterleitungsadresse ist für diese Anwendung nicht exakt so registriert."
+		},
+		"unauthorized_client": {
+			"title": "Anwendung nicht berechtigt",
+			"description": "Diese Anwendung darf die angeforderte Anmeldemethode nicht verwenden."
+		},
+		"unsupported_response_type": {
+			"title": "Anmeldemethode nicht unterstützt",
+			"description": "Aegis unterstützt ausschließlich den Authorization Code Flow."
+		},
+		"invalid_scope": {
+			"title": "Ungültige Berechtigungen",
+			"description": "Die Anwendung hat Berechtigungen angefordert, die für sie nicht freigegeben sind."
+		},
+		"access_denied": {
+			"title": "Zugriff verweigert",
+			"description": "Der Zugriff auf die Anwendung wurde nicht erlaubt."
+		},
+		"login_required": {
+			"title": "Anmeldung erforderlich",
+			"description": "Kehre zur Anwendung zurück und melde dich erneut an."
+		},
+		"consent_required": {
+			"title": "Zustimmung erforderlich",
+			"description": "Diese Anwendung benötigt deine Zustimmung, bevor sie fortfahren kann."
+		},
+		"interaction_required": {
+			"title": "Aktion erforderlich",
+			"description": "Kehre zur Anwendung zurück und starte die Anmeldung erneut."
+		},
+		"invalid_grant": {
+			"title": "Autorisierung ungültig",
+			"description": "Die Autorisierung ist abgelaufen oder ungültig. Starte eine neue Anmeldung."
+		},
+		"server_error": {
+			"title": "Anmeldung nicht verfügbar",
+			"description": "Der Server konnte die Anfrage nicht abschließen. Bitte versuche es später erneut."
+		},
+		"default": {
+			"title": "Anmeldung fehlgeschlagen",
+			"description": "Die Anmeldeanfrage konnte nicht abgeschlossen werden."
+		}
+	},
+	"overview": {
+		"title": "Dashboard",
+		"greeting": "Hallo {name}",
+		"description": "Alles Wichtige zu deiner Instanz auf einen Blick.",
+		"newApplication": "Neue Anwendung",
+		"stats": {
+			"applications": "Anwendungen",
+			"users": "Benutzer",
+			"activeSessions": "Aktive Sitzungen",
+			"failedSignIns24h": "Fehlversuche (24 h)"
+		},
+		"gettingStarted": {
+			"title": "Erste Schritte",
+			"description": "Sichere dein Konto, verbinde deine erste Anwendung und melde dich darüber an.",
+			"progress": "{done} von {total} erledigt",
+			"done": "Erledigt",
+			"steps": {
+				"application": {
+					"title": "Anwendung erstellen",
+					"description": "Registriere deine Anwendung und lege fest, wohin Aegis nach der Anmeldung zurückleitet.",
+					"action": "Jetzt erstellen"
+				},
+				"signIn": {
+					"title": "Erste Anmeldung",
+					"description": "Melde dich über deine Anwendung an. Dein Admin-Konto hat automatisch Zugriff – ein eigenes Benutzerkonto brauchst du nicht.",
+					"action": "Zu den Anwendungen",
+					"pending": "Sobald eine Anwendung registriert ist."
+				},
+				"secure": {
+					"title": "Konto absichern",
+					"description": "Schütze dein Admin-Konto mit einer Authenticator-App – zusätzlich zum Passwort.",
+					"action": "Zwei-Faktor einrichten"
+				}
+			}
+		},
+		"recentActivity": "Letzte Aktivität",
+		"viewAll": "Alle anzeigen",
+		"noActivity": "Noch keine Aktivität.",
+		"recentActivityDescription": "Die neuesten Einträge im Audit-Log.",
+		"activity": {
+			"title": "Anmeldeaktivität",
+			"description": "Anmeldungen bei Aegis und an Anwendungen der letzten 14 Tage (UTC).",
+			"succeeded": "Erfolgreich",
+			"failed": "Fehlgeschlagen",
+			"total": "Gesamt",
+			"failureRate": "Fehlerquote"
+		},
+		"topApplications": {
+			"title": "Meistgenutzte Anwendungen",
+			"description": "Anmeldungen der letzten 30 Tage.",
+			"empty": "Noch keine Anmeldungen an Anwendungen.",
+			"deleted": "Gelöschte Anwendung"
+		}
+	},
+	"applications": {
+		"title": "Anwendungen",
+		"description": "Anwendungen, an denen sich Benutzer über Aegis anmelden.",
+		"new": "Neue Anwendung",
+		"emptyTitle": "Registriere deine erste Anwendung",
+		"emptyDescription": "Wähle aus, welche Art von Anwendung du mit Aegis verbinden möchtest.",
+		"disabled": "Deaktiviert",
+		"columns": {
+			"application": "Anwendung",
+			"clientId": "Client-ID",
+			"kind": "Art",
+			"access": "Zugriff",
+			"status": "Status",
+			"sessions": "Sitzungen",
+			"lastUsedColumn": "Zuletzt verwendet",
+			"createdAt": "Erstellt"
+		},
+		"activeSessions": "{count, plural, =0 {Keine aktive Sitzung} one {# aktive Sitzung} other {# aktive Sitzungen}}",
+		"access": {
+			"everyone": "Alle Konten",
+			"assigned": "{count, plural, =0 {Niemand zugewiesen} one {# Konto} other {# Konten}}"
+		},
+		"lastUsed": "Zuletzt verwendet {time}",
+		"neverUsed": "Noch nie verwendet",
+		"searchPlaceholder": "Name oder Client-ID suchen…"
+	},
+	"applicationKinds": {
+		"web": {
+			"title": "Web-Anwendung",
+			"description": "Serverseitige Apps, die ein Client-Secret sicher aufbewahren.",
+			"examples": "Next.js, Nuxt, SvelteKit, Laravel, Django"
+		},
+		"spa": {
+			"title": "Single-Page-App",
+			"description": "Läuft vollständig im Browser – ohne Secret, abgesichert durch PKCE.",
+			"examples": "React, Vue, Angular, Svelte"
+		},
+		"native": {
+			"title": "Native & CLI",
+			"description": "Desktop-, Mobile- und Kommandozeilen-Apps mit eigenem URI-Schema.",
+			"examples": "iOS, Android, Electron, CLI"
+		}
+	},
+	"newApplication": {
+		"title": "Neue Anwendung",
+		"description": "Registriere eine Anwendung, damit sich Benutzer dort über Aegis anmelden können.",
+		"backToApplications": "Anwendungen",
+		"steps": {
+			"type": "Anwendung",
+			"configure": "Konfiguration",
+			"credentials": "Zugangsdaten"
+		},
+		"name": "Name",
+		"nameDescription": "Wird in Aegis und auf der Anmeldeseite angezeigt.",
+		"namePlaceholder": "z. B. Nextcloud",
+		"kindHeading": "Anwendungstyp",
+		"kindDescription": "Bestimmt, wie sich deine Anwendung gegenüber Aegis ausweist.",
+		"integrationHeading": "Integration",
+		"integrationDescription": "Wähle deine Bibliothek – Aegis schlägt passende URLs vor.",
+		"genericIntegration": "Andere OIDC-Bibliothek",
+		"baseUrl": "Anwendungs-URL",
+		"baseUrlDescription": "Die Adresse, unter der deine Anwendung erreichbar ist.",
+		"redirectUri": "Redirect-URI",
+		"redirectUriAutoDescription": "Wird aus der Anwendungs-URL abgeleitet und exakt verglichen. Bei Bedarf anpassen.",
+		"redirectUriDescription": "Wohin Aegis nach der Anmeldung zurückleitet, z. B. ein eigenes URI-Schema.",
+		"signOutUri": "Redirect-URI nach Abmeldung",
+		"signOutUriDescription": "Optional. Wohin nach einer Abmeldung über die Anwendung zurückgeleitet werden darf.",
+		"moreUrisHint": "Weitere Redirect-URIs, etwa für eine lokale Entwicklungsumgebung, kannst du nach dem Erstellen in den Einstellungen hinzufügen.",
+		"scopesHeading": "Scopes",
+		"scopesDescription": "Welche Daten die Anwendung anfordern darf.",
+		"skipConsent": "Zustimmungsbildschirm überspringen",
+		"skipConsentDescription": "Empfohlen für deine eigenen Anwendungen – die Anmeldung geht ohne Rückfrage weiter.",
+		"cancel": "Abbrechen",
+		"next": "Weiter",
+		"previous": "Zurück",
+		"create": "Anwendung erstellen",
+		"done": {
+			"title": "{name} ist bereit",
+			"description": "Trage diese Werte in deiner Anwendung ein – danach können sich Benutzer mit Aegis anmelden.",
+			"issuer": "Issuer",
+			"clientId": "Client-ID",
+			"clientSecret": "Client-Secret",
+			"secretWarningTitle": "Das Secret wird nur jetzt angezeigt",
+			"secretWarning": "Aegis speichert es verschlüsselt und zeigt es nie wieder an. Geht es verloren, erzeugst du im Schnellstart ein neues.",
+			"publicNotice": "Öffentliche Anwendungen haben kein Secret – der Code-Austausch ist durch PKCE (S256) geschützt.",
+			"snippetHeading": "Konfiguration für {integration}",
+			"confirm": "Ich habe das Client-Secret gespeichert.",
+			"openApplication": "Zur Anwendung",
+			"publicNoticeTitle": "Kein Client-Secret"
+		},
+		"help": {
+			"type": {
+				"title": "Welcher Typ passt?",
+				"body": "Läuft dein Code auf einem Server, wähle „Web-Anwendung“ – sie erhält ein Client-Secret. Apps im Browser oder auf Geräten können kein Secret schützen und sichern die Anmeldung stattdessen mit PKCE ab."
+			},
+			"configure": {
+				"title": "Was ist eine Redirect-URI?",
+				"body": "Nach der Anmeldung schickt Aegis den Browser zu dieser Adresse deiner Anwendung zurück. Sie muss exakt registriert sein – ohne Platzhalter. HTTP ist nur für localhost erlaubt."
+			},
+			"credentials": {
+				"title": "Fast geschafft",
+				"body": "Mit Issuer, Client-ID und Secret kann sich deine Anwendung anmelden. Wer sich anmelden darf, legst du anschließend im Tab „Zugriff“ fest."
+			}
+		}
+	},
+	"applicationDetail": {
+		"back": "Anwendungen",
+		"notFoundTitle": "Anwendung nicht gefunden",
+		"notFoundDescription": "Diese Anwendung existiert nicht oder wurde gelöscht.",
+		"tabs": {
+			"quickstart": "Übersicht",
+			"settings": "Einstellungen",
+			"access": "Zugriff",
+			"sessions": "Sitzungen"
+		},
+		"copyId": "Client-ID kopieren",
+		"idCopied": "Client-ID kopiert",
+		"restricted": "Eingeschränkt",
+		"restrictedHint": "Nur zugewiesene Konten können sich anmelden."
+	},
+	"quickstart": {
+		"credentials": "Zugangsdaten",
+		"credentialsDescription": "Damit meldet sich die Anwendung bei Aegis an.",
+		"issuer": "Issuer",
+		"clientId": "Client-ID",
+		"clientSecret": "Client-Secret",
+		"secretRotatedAt": "Erzeugt am {date}",
+		"secretHidden": "Aus Sicherheitsgründen nicht mehr sichtbar.",
+		"rotateSecret": "Neues Secret erzeugen",
+		"rotateTitle": "Client-Secret rotieren?",
+		"rotateDescription": "Es wird ein neues Secret erzeugt. Das bisherige ist sofort ungültig – trage das neue direkt in deiner Anwendung ein.",
+		"rotateConfirm": "Neues Secret erzeugen",
+		"secretRotated": "Neues Client-Secret erzeugt.",
+		"publicClientNotice": "Öffentliche Anwendung ohne Secret. Der Code-Austausch ist durch PKCE (S256) geschützt.",
+		"integration": "Integration",
+		"integrationDescription": "Fertige Konfiguration für deine Bibliothek.",
+		"genericIntegration": "Andere OIDC-Bibliothek",
+		"secretPlaceholderNotice": "Ersetze {placeholder} durch dein gespeichertes Client-Secret.",
+		"endpoints": "Endpunkte",
+		"endpointsDescription": "Nur nötig, wenn deine Bibliothek keine Discovery unterstützt.",
+		"endpointLabels": {
+			"discovery": "Discovery",
+			"authorization": "Authorization",
+			"token": "Token",
+			"userinfo": "UserInfo",
+			"jwks": "JWKS",
+			"endSession": "Abmeldung",
+			"revocation": "Revocation"
+		},
+		"details": "Details",
+		"detailLabels": {
+			"type": "Typ",
+			"authentication": "Authentifizierung",
+			"grant": "Flow",
+			"pkce": "PKCE",
+			"scopes": "Scopes",
+			"consent": "Zustimmung",
+			"created": "Erstellt",
+			"lastUsed": "Zuletzt verwendet"
+		},
+		"grantValue": "Authorization Code",
+		"noClientAuthentication": "Keine (PKCE)",
+		"consentSkipped": "Übersprungen",
+		"consentRequired": "Erforderlich",
+		"neverUsed": "Noch nie",
+		"urls": "Anmelde-URLs",
+		"redirectUris": "Redirect-URIs",
+		"postSignOutRedirectUris": "Redirect-URIs nach Abmeldung",
+		"none": "Keine",
+		"edit": "Bearbeiten",
+		"facts": {
+			"status": "Status",
+			"enabled": "Aktiv",
+			"disabled": "Deaktiviert",
+			"enabledHint": "Anmeldungen sind möglich.",
+			"disabledHint": "Anmeldungen werden abgelehnt.",
+			"confidential": "Vertraulich, mit Client-Secret",
+			"public": "Öffentlich, ohne Client-Secret",
+			"sessions": "Aktive Sitzungen",
+			"sessionsHint": "{count, plural, =0 {Niemand angemeldet} one {# Person angemeldet} other {# Personen angemeldet}}"
+		}
+	},
+	"clientForm": {
+		"fixErrors": "Bitte korrigiere die markierten Felder.",
+		"general": "Allgemein",
+		"generalDescription": "Wie die Anwendung in Aegis und auf der Anmeldeseite heißt.",
+		"name": "Name",
+		"namePlaceholder": "z. B. Nextcloud",
+		"description": "Beschreibung",
+		"descriptionHint": "Optional. Wird auf dem Zustimmungsbildschirm angezeigt.",
+		"descriptionPlaceholder": "Wofür wird die Anwendung genutzt?",
+		"urls": "Anmelde-URLs",
+		"urlsDescription": "URIs werden exakt verglichen. HTTPS ist Pflicht, HTTP nur für localhost.",
+		"redirectUris": "Redirect-URIs",
+		"redirectUrisDescription": "Wohin Aegis nach der Anmeldung zurückleitet, z. B. https://app.example.com/auth/callback.",
+		"postSignOutRedirectUris": "Redirect-URIs nach Abmeldung",
+		"postSignOutRedirectUrisDescription": "Optional. Wohin nach einer Abmeldung über die Anwendung zurückgeleitet werden darf.",
+		"uriPlaceholder": "https://app.example.com/auth/callback",
+		"addUri": "URI hinzufügen",
+		"removeUri": "URI entfernen",
+		"scopes": "Scopes",
+		"scopesDescription": "Welche Scopes die Anwendung anfordern darf. Andere Anfragen lehnt Aegis ab.",
+		"scopeRequired": "immer aktiv",
+		"scopeDescriptions": {
+			"openid": "Konto-ID des Benutzers (sub). Für OpenID Connect erforderlich.",
+			"profile": "Name und Profilbild des Benutzers (name, picture, updated_at).",
+			"email": "E-Mail-Adresse des Benutzers (email, email_verified)."
+		},
+		"security": "Sicherheit",
+		"securityDescription": "Wie sich die Anwendung ausweist, ob sie PKCE verwenden muss und ob Benutzer zustimmen müssen.",
+		"clientType": "Client-Typ",
+		"clientTypes": {
+			"confidential": "Vertraulich",
+			"public": "Öffentlich"
+		},
+		"typeLocked": "Der Typ kann nach dem Erstellen nicht mehr geändert werden.",
+		"authMethod": "Client-Authentifizierung",
+		"authMethodDescription": "Wie die Anwendung ihr Secret am Token-Endpunkt übermittelt.",
+		"authMethods": {
+			"client_secret_basic": "HTTP Basic (client_secret_basic)",
+			"client_secret_post": "Formularfeld (client_secret_post)"
+		},
+		"pkce": "PKCE",
+		"pkcePolicies": {
+			"required": "Erforderlich",
+			"optional": "Optional",
+			"disabled": "Deaktiviert"
+		},
+		"pkcePolicyDescriptions": {
+			"required": "Die Anwendung muss PKCE mit S256 verwenden.",
+			"optional": "PKCE wird unterstützt, ist für diese vertrauliche Anwendung aber nicht zwingend erforderlich.",
+			"disabled": "PKCE wird für diese Anwendung nicht verlangt. Nur für vertrauliche Server-Anwendungen verwenden."
+		},
+		"pkcePublicLocked": "Öffentliche Anwendungen haben kein Secret, daher lässt sich PKCE nicht abschalten.",
+		"skipConsent": "Zustimmungsbildschirm überspringen",
+		"skipConsentDescription": "Für deine eigenen, vertrauenswürdigen Anwendungen. Native Apps fragen immer nach.",
+		"status": "Status",
+		"enabled": "Anwendung aktiviert",
+		"enabledDescription": "Deaktivierte Anwendungen können keine Anmeldungen starten; bestehende Tokens werden widerrufen.",
+		"unsavedChanges": "Ungespeicherte Änderungen",
+		"discard": "Verwerfen",
+		"save": "Änderungen speichern",
+		"saved": "Änderungen gespeichert.",
+		"danger": "Gefahrenzone",
+		"dangerDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
+		"deleteHint": "Entfernt die Anwendung, ihre Tokens und alle zugehörigen Anmeldungen dauerhaft.",
+		"delete": "Anwendung löschen",
+		"deleteTitle": "Anwendung löschen?",
+		"deleteDescription": "„{name}“ wird dauerhaft gelöscht. Benutzer können sich danach nicht mehr über Aegis an dieser Anwendung anmelden.",
+		"deleteConfirm": "Endgültig löschen",
+		"deleted": "„{name}“ wurde gelöscht.",
+		"uriLabel": "{field} {index}"
+	},
+	"secretDialog": {
+		"title": "Client-Secret speichern",
+		"description": "Trage Client-ID und Client-Secret jetzt in deiner Anwendung ein.",
+		"clientId": "Client-ID",
+		"clientSecret": "Client-Secret",
+		"warningTitle": "Wird nur einmal angezeigt",
+		"warning": "Aegis speichert das Secret verschlüsselt und zeigt es nie wieder an. Geht es verloren, musst du ein neues erzeugen.",
+		"confirm": "Ich habe das Client-Secret sicher gespeichert.",
+		"done": "Fertig"
+	},
+	"clientSessions": {
+		"title": "Sitzungen",
+		"description": "Benutzer, die bei „{name}“ angemeldet sind.",
+		"revokeAll": "Alle beenden",
+		"revokeAllTitle": "Alle Sitzungen beenden?",
+		"revokeAllDescription": "Alle Tokens von {name} werden ungültig. Beim nächsten Zugriff müssen sich Benutzer erneut über Aegis anmelden.",
+		"revokeAllConfirm": "Alle beenden",
+		"revoked": "Alle Sitzungen bei {name} beendet.",
+		"revoke": "Beenden",
+		"revokeTitle": "Sitzung beenden?",
+		"revokeDescription": "Die Anmeldung von {name} bei {client} wird beendet und die Tokens des Kontos für diese Anwendung werden ungültig. Beim nächsten Zugriff muss sich {name} erneut über Aegis anmelden.",
+		"revokeConfirm": "Beenden",
+		"sessionRevoked": "Sitzung von {name} beendet.",
+		"emptyTitle": "Keine aktiven Anmeldungen",
+		"emptyDescription": "Sobald sich ein Benutzer über Aegis bei dieser Anwendung anmeldet, erscheint die Sitzung hier.",
+		"notice": "Die Anwendung verwaltet ihre eigene Sitzung. Abgemeldet ist ein Benutzer dort erst, wenn die Anwendung ihre Sitzung beendet.",
+		"searchPlaceholder": "Konto oder Gerät suchen…",
+		"columns": {
+			"account": "Konto",
+			"device": "Gerät",
+			"lastSignIn": "Letzte Anmeldung",
+			"firstSignIn": "Erste Anmeldung",
+			"expiresAt": "Läuft ab"
+		}
+	},
+	"applicationAccess": {
+		"title": "Wer darf sich anmelden?",
+		"description": "Admins können sich immer anmelden. Für alle anderen Konten gilt diese Richtlinie.",
+		"policies": {
+			"everyone": {
+				"title": "Alle Konten",
+				"description": "Jedes aktive Konto kann sich bei dieser Anwendung anmelden."
+			},
+			"assigned": {
+				"title": "Nur zugewiesene Konten",
+				"description": "Nur die unten zugewiesenen Konten können sich anmelden."
+			}
+		},
+		"save": "Richtlinie speichern",
+		"saved": "Zugriff aktualisiert.",
+		"restrictTitle": "Zugriff wird eingeschränkt",
+		"restrictWarning": "Nicht zugewiesene Konten werden sofort von „{name}“ abgemeldet und ihre Tokens widerrufen.",
+		"assignedTitle": "Zugewiesene Konten",
+		"assignedDescription": "Diese Konten dürfen sich bei „{name}“ anmelden.",
+		"inactiveNotice": "Derzeit haben alle Konten Zugriff. Zuweisungen greifen, sobald du den Zugriff auf zugewiesene Konten beschränkst.",
+		"assign": "Konto zuweisen",
+		"assignTitle": "Konto zuweisen",
+		"assignDescription": "Das Konto darf sich danach bei „{name}“ anmelden.",
+		"assignLabel": "Konto",
+		"assignPlaceholder": "Konto auswählen",
+		"assignSearch": "Name oder E-Mail-Adresse suchen…",
+		"assignEmpty": "Kein Konto gefunden.",
+		"assignConfirm": "Zuweisen",
+		"assignedToast": "„{account}“ zugewiesen.",
+		"remove": "Entfernen",
+		"removeTitle": "Zuweisung entfernen?",
+		"removeDescription": "„{account}“ kann sich danach nicht mehr bei „{name}“ anmelden, solange der Zugriff eingeschränkt ist. Bestehende Anmeldungen enden sofort.",
+		"removeConfirm": "Entfernen",
+		"removedToast": "Zuweisung von „{account}“ entfernt.",
+		"searchPlaceholder": "Konto suchen…",
+		"emptyTitle": "Keine Konten zugewiesen",
+		"emptyDescription": "Weise die Konten zu, die sich bei dieser Anwendung anmelden dürfen.",
+		"columns": {
+			"account": "Konto",
+			"role": "Rolle",
+			"assignedAt": "Zugewiesen"
+		}
+	},
+	"users": {
+		"title": "Benutzer",
+		"description": "Konten für die Anmeldung an Anwendungen und für die Verwaltung von Aegis.",
+		"create": "Konto erstellen",
+		"columns": {
+			"name": "Name",
+			"role": "Rolle",
+			"status": "Status",
+			"createdAt": "Erstellt",
+			"lastSignIn": "Letzte Anmeldung",
+			"sessions": "Sitzungen"
+		},
+		"neverSignedIn": "Noch nie",
+		"searchPlaceholder": "Name oder E-Mail-Adresse suchen…",
+		"emptyTitle": "Noch keine Konten",
+		"emptyDescription": "Erstelle das erste Benutzer- oder Admin-Konto."
+	},
+	"newUser": {
+		"back": "Benutzer",
+		"title": "Konto erstellen",
+		"description": "Lege ein Benutzerkonto für deine Anwendungen oder ein weiteres Admin-Konto an.",
+		"created": "„{name}“ wurde erstellt.",
+		"role": "Rolle",
+		"roleDescription": "Rollen bauen aufeinander auf: Admins dürfen alles, was Benutzer dürfen, und verwalten zusätzlich Aegis.",
+		"roles": {
+			"user": "Meldet sich bei den Anwendungen an, für die das Konto freigegeben ist. Kein Zugriff auf die Verwaltung.",
+			"admin": "Verwaltet Aegis und kann sich bei allen Anwendungen anmelden."
+		},
+		"adminWarningTitle": "Voller Verwaltungszugriff",
+		"adminWarning": "Admins können Anwendungen, Konten, Sitzungen und Einstellungen verwalten.",
+		"profile": "Profil",
+		"profileDescription": "Name und E-Mail-Adresse werden an Anwendungen übermittelt.",
+		"displayName": "Name",
+		"email": "E-Mail-Adresse",
+		"emailVerified": "E-Mail-Adresse als bestätigt markieren",
+		"emailVerifiedDescription": "Anwendungen erhalten den Claim email_verified = true.",
+		"password": "Passwort",
+		"passwordDescription": "Teile das Passwort auf sicherem Weg mit der Person.",
+		"generate": "Generieren",
+		"generatedNotice": "Generiertes Passwort",
+		"status": "Status",
+		"enabled": "Konto aktiviert",
+		"enabledDescription": "Deaktivierte Konten können sich nicht anmelden.",
+		"submit": "Konto erstellen",
+		"generatedHint": "Kopiere es jetzt und übermittle es auf sicherem Weg – es wird nicht erneut angezeigt."
+	},
+	"userDetail": {
+		"back": "Benutzer",
+		"notFoundTitle": "Konto nicht gefunden",
+		"notFoundDescription": "Dieses Konto existiert nicht oder wurde gelöscht.",
+		"you": "Du",
+		"profile": "Profil",
+		"profileDescription": "Name und E-Mail-Adresse werden an Anwendungen übermittelt.",
+		"displayName": "Name",
+		"email": "E-Mail-Adresse",
+		"emailVerified": "E-Mail-Adresse bestätigt",
+		"emailVerifiedDescription": "Anwendungen erhalten den Claim email_verified.",
+		"role": "Rolle",
+		"roleDescription": "Benutzer melden sich an Anwendungen an. Admins verwalten zusätzlich Aegis und können sich überall anmelden.",
+		"roleChangeTitle": "Rolle wird geändert",
+		"roleChangeWarning": "Alle Sitzungen des Kontos werden beendet und erteilte Zugriffe widerrufen.",
+		"roleChangeSelfWarning": "Du wirst danach abgemeldet und kannst die Verwaltung nicht mehr öffnen.",
+		"save": "Änderungen speichern",
+		"saved": "Änderungen gespeichert.",
+		"status": "Status",
+		"statusEnabledDescription": "Das Konto kann sich anmelden.",
+		"statusDisabledDescription": "Das Konto kann sich nicht anmelden.",
+		"disable": "Deaktivieren",
+		"enable": "Aktivieren",
+		"disableTitle": "Konto deaktivieren?",
+		"disableDescription": "„{name}“ kann sich nicht mehr anmelden. Alle Sitzungen werden sofort beendet und erteilte Zugriffe widerrufen.",
+		"disableConfirm": "Deaktivieren",
+		"enableTitle": "Konto aktivieren?",
+		"enableDescription": "„{name}“ kann sich danach wieder anmelden.",
+		"disabledToast": "Konto deaktiviert.",
+		"enabledToast": "Konto aktiviert.",
+		"password": "Passwort",
+		"passwordDescription": "Zuletzt geändert {time}.",
+		"resetHint": "Setze ein neues Passwort, z. B. wenn es vergessen wurde. Alle Sitzungen werden dabei beendet.",
+		"resetPassword": "Passwort zurücksetzen",
+		"resetTitle": "Passwort zurücksetzen",
+		"resetDescription": "Alle Sitzungen von „{name}“ werden beendet und erteilte Zugriffe widerrufen.",
+		"resetModes": {
+			"generate": {
+				"title": "Zufälliges Passwort generieren",
+				"description": "Aegis erzeugt ein sicheres Passwort und zeigt es einmalig an."
+			},
+			"manual": {
+				"title": "Passwort selbst festlegen",
+				"description": "Mindestens {min} Zeichen."
+			}
+		},
+		"newPassword": "Neues Passwort",
+		"resetSubmit": "Zurücksetzen",
+		"resetDone": "Passwort zurückgesetzt.",
+		"generatedTitle": "Neues Passwort",
+		"generatedDescription": "Kopiere das Passwort jetzt und gib es sicher weiter. Es wird nicht erneut angezeigt.",
+		"sessions": "Sitzungen",
+		"activeSessions": "{count, plural, =0 {Keine aktive Sitzung} one {# aktive Sitzung} other {# aktive Sitzungen}}",
+		"danger": "Gefahrenzone",
+		"dangerDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
+		"deleteHint": "Löscht das Konto, seine Sitzungen und Zustimmungen dauerhaft. Einträge im Audit-Log bleiben erhalten.",
+		"delete": "Konto löschen",
+		"deleteTitle": "Konto löschen?",
+		"deleteDescription": "„{name}“ wird dauerhaft gelöscht.",
+		"deleteConfirm": "Endgültig löschen",
+		"deleted": "„{name}“ wurde gelöscht.",
+		"details": "Details",
+		"detailLabels": {
+			"role": "Rolle",
+			"emailVerified": "E-Mail bestätigt",
+			"sessions": "Aktive Sitzungen",
+			"createdAt": "Erstellt",
+			"lastSignIn": "Letzte Anmeldung",
+			"passwordChanged": "Passwort geändert",
+			"email": "E-Mail",
+			"updatedAt": "Zuletzt geändert",
+			"twoFactor": "Zwei-Faktor"
+		},
+		"yes": "Ja",
+		"no": "Nein",
+		"never": "Noch nie",
+		"generatedWarningTitle": "Wird nur einmal angezeigt",
+		"generatedWarning": "Kopiere das Passwort jetzt und übermittle es auf sicherem Weg. Später lässt es sich nicht erneut anzeigen.",
+		"tabs": {
+			"overview": "Übersicht",
+			"settings": "Einstellungen",
+			"applications": "Anwendungen",
+			"sessions": "Sitzungen"
+		},
+		"lastAdmin": {
+			"title": "Einziges aktives Admin-Konto",
+			"role": "Es muss immer mindestens ein Admin existieren. Lege zuerst ein weiteres Admin-Konto an, um die Rolle zu ändern.",
+			"disable": "Es muss immer mindestens ein aktiver Admin existieren. Lege zuerst ein weiteres Admin-Konto an, um dieses zu deaktivieren.",
+			"delete": "Das einzige aktive Admin-Konto kann nicht gelöscht werden. Lege zuerst ein weiteres Admin-Konto an."
+		},
+		"facts": {
+			"status": "Status",
+			"enabled": "Aktiv",
+			"disabled": "Deaktiviert"
+		},
+		"activity": "Letzte Aktivität",
+		"activityDescription": "Einträge im Audit-Log zu diesem Konto.",
+		"viewAudit": "Audit-Log",
+		"noActivity": "Noch keine Aktivität zu diesem Konto.",
+		"applications": "Angemeldet bei",
+		"noApplications": "Derzeit bei keiner Anwendung angemeldet.",
+		"changeRole": "Rolle ändern",
+		"statusDescription": "Deaktivierte Konten können sich nicht anmelden.",
+		"sessionsTab": {
+			"title": "Sitzungen",
+			"description": "Geräte, auf denen „{name}“ angemeldet ist.",
+			"revokeAll": "Alle beenden",
+			"revokeAllTitle": "Alle Sitzungen beenden?",
+			"revokeAllDescription": "Alle Sitzungen von „{name}“ werden beendet und erteilte Zugriffe widerrufen.",
+			"revokeAllConfirm": "Alle beenden",
+			"revokedAll": "{count, plural, =0 {Keine Sitzung beendet.} one {# Sitzung beendet.} other {# Sitzungen beendet.}}",
+			"searchPlaceholder": "Gerät, IP-Adresse oder Anwendung suchen…",
+			"emptyTitle": "Keine aktiven Sitzungen",
+			"emptyDescription": "Sobald sich das Konto anmeldet, erscheint die Sitzung hier."
+		},
+		"twoFactor": {
+			"title": "Zwei-Faktor-Authentifizierung",
+			"description": "Richtet jedes Konto selbst ein. Hat jemand keinen Zugriff mehr auf die App, kannst du sie hier zurücksetzen.",
+			"enabled": "Aktiv",
+			"disabled": "Nicht eingerichtet",
+			"enabledHint": "Jede Anmeldung verlangt zusätzlich einen Code aus der Authenticator-App.",
+			"disabledHint": "Das Konto meldet sich nur mit dem Passwort an.",
+			"disabledSelfHint": "Richte sie in deinen Kontoeinstellungen ein.",
+			"manageOwn": "In meinem Konto verwalten",
+			"reset": "Zurücksetzen",
+			"resetTitle": "Zwei-Faktor-Authentifizierung zurücksetzen?",
+			"resetDescription": "„{name}“ kann sich danach wieder nur mit dem Passwort anmelden. Die Wiederherstellungscodes werden gelöscht. Setze sie nur zurück, wenn du sicher bist, dass die Anfrage von der Person selbst stammt.",
+			"resetConfirm": "Zurücksetzen",
+			"resetDone": "Zwei-Faktor-Authentifizierung von {name} zurückgesetzt."
+		},
+		"copyId": "Benutzer-ID kopieren",
+		"idCopied": "Benutzer-ID kopiert"
+	},
+	"userApplications": {
+		"title": "Anwendungen",
+		"description": "Bei welchen Anwendungen sich „{name}“ anmelden darf.",
+		"adminNotice": "Admins können sich bei allen Anwendungen anmelden. Zuweisungen greifen erst, wenn das Konto die Rolle Benutzer hat.",
+		"columns": {
+			"application": "Anwendung",
+			"policy": "Zugriff",
+			"signIn": "Anmeldung",
+			"assigned": "Zugewiesen"
+		},
+		"policies": {
+			"everyone": "Alle Konten",
+			"assigned": "Nur zugewiesene"
+		},
+		"allowed": "Erlaubt",
+		"denied": "Kein Zugriff",
+		"notNeeded": "Nicht nötig",
+		"assign": "Zuweisung zu „{name}“",
+		"assignedToast": "„{name}“ zugewiesen.",
+		"unassignedToast": "Zuweisung zu „{name}“ entfernt.",
+		"searchPlaceholder": "Anwendung suchen…",
+		"emptyTitle": "Noch keine Anwendungen",
+		"emptyDescription": "Sobald du Anwendungen registrierst, erscheinen sie hier."
+	},
+	"sessions": {
+		"title": "Sitzungen",
+		"description": "Aktive Sitzungen aller Konten. Eine Anmeldung gilt für die Verwaltung und alle Anwendungen.",
+		"current": "Diese Sitzung",
+		"lastActive": "aktiv {time}",
+		"noApplications": "Noch keiner Anwendung",
+		"revoke": "Beenden",
+		"revokeTitle": "Sitzung beenden?",
+		"revokeDescription": "{name} wird in diesem Browser abgemeldet.",
+		"revokeCurrentDescription": "Du wirst in diesem Browser abgemeldet.",
+		"revokeConfirm": "Beenden",
+		"revoked": "Sitzung beendet.",
+		"revokeAll": "Alle beenden",
+		"revokeAllTitle": "Alle Sitzungen beenden?",
+		"revokeAllDescription": "Alle Sitzungen werden beendet und alle Zugriffe auf Anwendungen widerrufen – auch deine. Danach muss sich jeder neu anmelden, du ebenfalls.",
+		"revokeAllConfirm": "Alle beenden",
+		"searchPlaceholder": "Konto, Gerät oder IP-Adresse suchen…",
+		"emptyTitle": "Keine aktiven Sitzungen",
+		"emptyDescription": "Sobald sich jemand anmeldet, erscheint die Sitzung hier.",
+		"columns": {
+			"account": "Konto",
+			"role": "Rolle",
+			"device": "Gerät",
+			"applications": "Anwendungen",
+			"lastActive": "Zuletzt aktiv",
+			"signedInAt": "Angemeldet",
+			"expiresAt": "Läuft ab"
+		},
+		"secondFactor": "2FA",
+		"secondFactorHint": "Mit zweitem Faktor bestätigt"
+	},
+	"audit": {
+		"title": "Audit-Log",
+		"description": "Jede Anmeldung, jede Änderung und jede abgewiesene Anfrage landet hier.",
+		"filters": {
+			"severities": "Schweregrad",
+			"categories": "Bereich",
+			"outcomes": "Ergebnis",
+			"sources": "Quelle"
+		},
+		"emptyTitle": "Noch nichts protokolliert",
+		"emptyDescription": "Jede Anmeldung, jeder Zugriff und jede Änderung wird hier festgehalten.",
+		"unknownApplication": "unbekannte Anwendung",
+		"unknownAccount": "unbekanntes Konto",
+		"byActor": "durch {actor}",
+		"reasons": {
+			"throttled": "zu viele Versuche",
+			"unknown_email": "unbekannte E-Mail-Adresse",
+			"invalid_password": "falsches Passwort",
+			"account_disabled": "Konto deaktiviert",
+			"not_permitted": "keine Berechtigung",
+			"invalid_second_factor": "falscher Code"
+		},
+		"events": {
+			"setup": {
+				"completed": "Aegis eingerichtet"
+			},
+			"auth": {
+				"sign_in": {
+					"succeeded": "{subject} hat sich angemeldet",
+					"failed": "Anmeldung fehlgeschlagen"
+				},
+				"sign_out": "{subject} hat sich abgemeldet"
+			},
+			"user": {
+				"created": "Konto {subject} erstellt",
+				"updated": "Konto {subject} aktualisiert",
+				"enabled": "Konto {subject} aktiviert",
+				"disabled": "Konto {subject} deaktiviert",
+				"deleted": "Konto {subject} gelöscht",
+				"password_reset": "Passwort von {subject} zurückgesetzt",
+				"password_changed": "{subject} hat das Passwort geändert",
+				"role_changed": "Rolle von {subject} geändert",
+				"avatar_updated": "Profilbild von {subject} geändert",
+				"avatar_removed": "Profilbild von {subject} entfernt",
+				"two_factor_enabled": "{subject} hat die Zwei-Faktor-Authentifizierung aktiviert",
+				"two_factor_disabled": "{subject} hat die Zwei-Faktor-Authentifizierung deaktiviert",
+				"two_factor_reset": "Zwei-Faktor-Authentifizierung von {subject} zurückgesetzt",
+				"recovery_codes_regenerated": "{subject} hat neue Wiederherstellungscodes erstellt"
+			},
+			"session": {
+				"revoked": "Sitzung von {subject} beendet",
+				"all_revoked": "Alle Sitzungen beendet"
+			},
+			"client": {
+				"created": "Anwendung „{client}“ erstellt",
+				"updated": "Anwendung „{client}“ aktualisiert",
+				"deleted": "Anwendung „{client}“ gelöscht",
+				"secret_rotated": "Client-Secret von „{client}“ rotiert",
+				"sessions_revoked": "Zugriff von „{client}“ widerrufen",
+				"session_revoked": "Sitzung von {subject} bei „{client}“ beendet",
+				"logo_updated": "Logo von „{client}“ geändert",
+				"logo_removed": "Logo von „{client}“ entfernt",
+				"user_assigned": "{subject} „{client}“ zugewiesen",
+				"user_unassigned": "Zuweisung von {subject} zu „{client}“ entfernt"
+			},
+			"oidc": {
+				"authorization": {
+					"succeeded": "{subject} hat sich bei „{client}“ angemeldet",
+					"failed": "Anmeldeanfrage von „{client}“ abgelehnt",
+					"cancelled": "Anmeldung bei „{client}“ abgebrochen",
+					"denied": "Zugriff von {subject} auf „{client}“ verweigert"
+				},
+				"consent": {
+					"granted": "{subject} hat „{client}“ Zugriff erlaubt"
+				},
+				"token": {
+					"failed": "Token-Anfrage von „{client}“ fehlgeschlagen"
+				},
+				"sign_out": "{subject} hat sich über „{client}“ abgemeldet"
+			},
+			"settings": {
+				"updated": "Einstellungen geändert"
+			},
+			"signing_key": {
+				"rotated": "Signaturschlüssel rotiert"
+			}
+		},
+		"refresh": "Aktualisieren",
+		"searchPlaceholder": "Ereignis, Konto, Anwendung oder IP-Adresse suchen…",
+		"oldest": "Ältester Eintrag: {date}",
+		"summary": {
+			"entries": "{count, plural, one {Eintrag} other {Einträge}} im gewählten Zeitraum",
+			"hint": "Klicke auf einen Schweregrad, um danach zu filtern."
+		},
+		"columns": {
+			"event": "Ereignis",
+			"actor": "Ausgelöst von",
+			"origin": "Herkunft",
+			"occurredAt": "Zeitpunkt"
+		},
+		"categories": {
+			"authentication": "Anmeldung",
+			"users": "Benutzer",
+			"applications": "Anwendungen",
+			"system": "System"
+		},
+		"severities": {
+			"info": "Info",
+			"notice": "Hinweis",
+			"warning": "Warnung",
+			"error": "Fehler",
+			"critical": "Kritisch"
+		},
+		"outcomes": {
+			"success": "Erfolgreich",
+			"failure": "Fehlgeschlagen"
+		},
+		"sources": {
+			"admin": "Verwaltung",
+			"user": "Benutzer",
+			"application": "Anwendung",
+			"system": "System"
+		},
+		"targets": {
+			"account": "Konto",
+			"session": "Sitzung",
+			"application": "Anwendung",
+			"instance": "Instanz",
+			"signing_key": "Signaturschlüssel"
+		},
+		"range": {
+			"label": "Zeitraum",
+			"options": {
+				"0": "Alle",
+				"24": "24 Std.",
+				"168": "7 Tage",
+				"720": "30 Tage"
+			}
+		},
+		"retention": {
+			"title": "Einträge aufbewahren",
+			"label": "{days, plural, one {# Tag} other {# Tage}} Aufbewahrung",
+			"option": "{days, plural, one {# Tag} other {# Tage}}",
+			"saved": "Audit-Einträge werden jetzt {days} Tage aufbewahrt."
+		},
+		"details": {
+			"occurredAt": "Zeitstempel",
+			"severity": "Schweregrad",
+			"outcome": "Ergebnis",
+			"category": "Bereich",
+			"source": "Quelle",
+			"target": "Ziel",
+			"eventType": "Ereignistyp",
+			"actor": "Ausgelöst von",
+			"subject": "Betroffenes Konto",
+			"application": "Anwendung",
+			"ipAddress": "IP-Adresse",
+			"client": "Gerät",
+			"metadata": "Weitere Angaben",
+			"unknown": "Unbekannt",
+			"yes": "Ja",
+			"no": "Nein",
+			"event": "Ereignis",
+			"people": "Beteiligte",
+			"context": "Kontext"
+		},
+		"fields": {
+			"reason": "Grund",
+			"email": "E-Mail-Adresse",
+			"context": "Kontext",
+			"role": "Rolle",
+			"enabled": "Aktiviert",
+			"emailChanged": "E-Mail-Adresse geändert",
+			"sessions": "Beendete Sitzungen",
+			"instanceName": "Name der Instanz",
+			"sessionTtlDays": "Sitzungsdauer in Tagen",
+			"auditRetentionDays": "Aufbewahrung in Tagen",
+			"kid": "Schlüssel-ID",
+			"error": "Fehler",
+			"mode": "Modus",
+			"scopes": "Scopes",
+			"accessPolicy": "Zugriff",
+			"pkcePolicy": "PKCE",
+			"from": "Vorher",
+			"to": "Nachher",
+			"clientId": "Client-ID",
+			"name": "Name",
+			"type": "Typ",
+			"secondFactor": "Zweiter Faktor"
+		}
+	},
+	"settings": {
+		"title": "Einstellungen",
+		"description": "Instanz, dein Admin-Konto und Sicherheit.",
+		"tabs": {
+			"general": "Allgemein",
+			"account": "Mein Konto",
+			"security": "Sicherheit"
+		},
+		"save": "Speichern",
+		"instance": "Instanz",
+		"instanceDescription": "Allgemeine Einstellungen von Aegis.",
+		"instanceName": "Name der Instanz",
+		"instanceNameDescription": "Wird auf den Anmeldeseiten und im Menü angezeigt.",
+		"sessionTtl": "Sitzungsdauer",
+		"sessionTtlDescription": "Wie lange eine Anmeldung gültig bleibt ({min}–{max} Tage). Gilt für neue Anmeldungen.",
+		"days": "Tage",
+		"issuer": "Issuer",
+		"issuerDescription": "Wird über AEGIS_ISSUER konfiguriert.",
+		"instanceSaved": "Einstellungen gespeichert.",
+		"profile": "Profil",
+		"profileDescription": "Name und E-Mail-Adresse deines Admin-Kontos.",
+		"displayName": "Name",
+		"email": "E-Mail-Adresse",
+		"emailDescription": "Mit dieser Adresse meldest du dich an.",
+		"currentPassword": "Aktuelles Passwort",
+		"currentPasswordDescription": "Zum Ändern der E-Mail-Adresse erforderlich.",
+		"profileSaved": "Profil gespeichert.",
+		"password": "Passwort ändern",
+		"passwordDescription": "Danach werden alle anderen Sitzungen deines Kontos beendet.",
+		"newPassword": "Neues Passwort",
+		"confirmPassword": "Neues Passwort bestätigen",
+		"changePassword": "Passwort ändern",
+		"passwordChanged": "Passwort geändert. Alle anderen Sitzungen wurden beendet.",
+		"appearance": "Darstellung",
+		"appearanceDescription": "Gilt für diesen Browser.",
+		"language": "Sprache",
+		"languageDescription": "„System“ folgt der Spracheinstellung deines Browsers.",
+		"theme": "Farbschema",
+		"themeDescription": "„System“ folgt der Einstellung deines Betriebssystems.",
+		"keys": "Signaturschlüssel",
+		"keysDescription": "Mit diesem Schlüssel signiert Aegis ID-Tokens (RS256).",
+		"rotateKey": "Schlüssel rotieren",
+		"rotateKeyTitle": "Signaturschlüssel rotieren?",
+		"rotateKeyDescription": "Neue Tokens werden mit einem neuen Schlüssel signiert. Der bisherige Schlüssel bleibt vorerst veröffentlicht, damit ausgestellte Tokens gültig bleiben.",
+		"rotateKeyConfirm": "Rotieren",
+		"keyRotated": "Neuer Signaturschlüssel ist aktiv.",
+		"active": "Aktiv",
+		"retired": "Ausgemustert",
+		"createdAt": "Erstellt am {date}",
+		"retiredAt": "Ausgemustert am {date}",
+		"retention": "Ausgemusterte Schlüssel bleiben {days} Tage veröffentlicht und werden danach entfernt.",
+		"protections": "Schutzmaßnahmen",
+		"protectionsDescription": "Diese Regeln gelten immer und lassen sich nicht abschalten.",
+		"protectionItems": {
+			"roles": "Rollen sind hierarchisch: Benutzer melden sich nur an Anwendungen an, Admins verwalten zusätzlich Aegis. Jede Anfrage wird auf dem Server gegen die Berechtigungen der Rolle geprüft.",
+			"applicationAccess": "Anwendungen lassen sich auf zugewiesene Konten beschränken; wird Zugriff entzogen, enden Anmeldungen und Tokens sofort.",
+			"pkce": "PKCE nur mit S256 – Pflicht für öffentliche Anwendungen, für vertrauliche pro Anwendung festlegbar. Ein gesendeter code_challenge wird immer geprüft.",
+			"redirectUris": "Redirect-URIs werden exakt verglichen – ohne Platzhalter.",
+			"codeFlow": "Nur Authorization Code Flow – kein Implicit- oder Password-Grant.",
+			"argon2": "Passwörter als Argon2id-Hash ({memory} MiB, {iterations} Durchläufe, Parallelität {parallelism}).",
+			"encryption": "Signaturschlüssel und Client-Secrets sind mit AES-256-GCM verschlüsselt.",
+			"rateLimit": "Anmeldeversuche sind pro IP-Adresse begrenzt."
+		},
+		"auditRetention": "Aufbewahrung im Audit-Log",
+		"auditRetentionDescription": "Wie lange Audit-Einträge aufbewahrt werden ({min}–{max} Tage). Ältere Einträge werden automatisch entfernt.",
+		"copyUserId": "Benutzer-ID kopieren",
+		"userIdCopied": "Benutzer-ID kopiert",
+		"accountCreated": "Konto erstellt",
+		"lastSignIn": "Letzte Anmeldung",
+		"passwordChangedAt": "Passwort geändert",
+		"never": "Noch nie",
+		"languageSearch": "Sprache suchen…",
+		"languageEmpty": "Keine Sprache gefunden."
+	},
+	"password": {
+		"strength": "Stärke",
+		"levels": {
+			"weak": "Schwach",
+			"fair": "Ausreichend",
+			"good": "Gut",
+			"strong": "Stark"
+		},
+		"requirements": {
+			"length": "Mindestens {min} Zeichen",
+			"lowercase": "Mindestens ein Kleinbuchstabe",
+			"uppercase": "Mindestens ein Großbuchstabe",
+			"digit": "Mindestens eine Zahl",
+			"symbol": "Mindestens ein Sonderzeichen"
+		},
+		"met": "erfüllt",
+		"notMet": "nicht erfüllt"
+	},
+	"breadcrumbs": {
+		"newApplication": "Neue Anwendung",
+		"newUser": "Konto erstellen",
+		"account": "Mein Konto",
+		"security": "Sicherheit"
+	},
+	"table": {
+		"search": "Suchen",
+		"searchPlaceholder": "Suchen…",
+		"filters": "Filter",
+		"columns": "Spalten",
+		"columnsHint": "Angezeigte Spalten",
+		"reset": "Zurücksetzen",
+		"emptyTitle": "Keine Einträge",
+		"emptyDescription": "Hier gibt es noch nichts anzuzeigen.",
+		"noMatchesTitle": "Nichts gefunden",
+		"noMatchesDescription": "Kein Eintrag passt zu dieser Suche oder diesen Filtern.",
+		"range": "{first}–{last} von {total}",
+		"rowsPerPage": "Zeilen pro Seite",
+		"page": "Seite {page} von {pageCount}",
+		"firstPage": "Erste Seite",
+		"previousPage": "Vorherige Seite",
+		"nextPage": "Nächste Seite",
+		"lastPage": "Letzte Seite",
+		"open": "Öffnen"
+	},
+	"avatar": {
+		"change": "Profilbild ändern",
+		"upload": "Neues Bild hochladen",
+		"remove": "Profilbild entfernen",
+		"title": "Profilbild",
+		"description": "Wähle ein Bild aus. Du kannst den Ausschnitt danach anpassen.",
+		"cropDescription": "Verschiebe das Bild und zoome, bis der Ausschnitt passt.",
+		"dropTitle": "Bild hierher ziehen oder auswählen",
+		"dropHint": "PNG, JPEG oder WebP, bis {size} MB",
+		"cropArea": "Bildausschnitt – mit den Pfeiltasten verschieben, mit + und − zoomen",
+		"zoom": "Zoom",
+		"zoomIn": "Vergrößern",
+		"zoomOut": "Verkleinern",
+		"preview": "Vorschau",
+		"reset": "Zurücksetzen",
+		"chooseOther": "Anderes Bild",
+		"cancel": "Abbrechen",
+		"save": "Speichern",
+		"uploaded": "Profilbild aktualisiert.",
+		"removed": "Profilbild entfernt.",
+		"removeTitle": "Profilbild entfernen?",
+		"removeDescription": "Statt des Bildes werden wieder die Initialen angezeigt.",
+		"removeConfirm": "Entfernen",
+		"invalidType": "Bitte wähle ein PNG-, JPEG- oder WebP-Bild.",
+		"tooLarge": "Das Bild ist zu groß (maximal {size} MB).",
+		"loadFailed": "Das Bild konnte nicht geladen werden."
+	},
+	"applicationLogo": {
+		"change": "Logo ändern",
+		"upload": "Neues Logo hochladen",
+		"remove": "Logo entfernen",
+		"title": "Anwendungslogo",
+		"uploaded": "Logo aktualisiert.",
+		"removed": "Logo entfernt.",
+		"removeTitle": "Logo entfernen?",
+		"removeDescription": "Statt des Logos wird wieder das farbige Monogramm angezeigt.",
+		"removeConfirm": "Entfernen"
+	},
+	"twoFactor": {
+		"title": "Zwei-Faktor-Authentifizierung",
+		"description": "Schütze dein Konto zusätzlich zum Passwort mit einem Code aus einer Authenticator-App.",
+		"authenticator": "Authenticator-App",
+		"enabled": "Aktiv",
+		"disabled": "Nicht eingerichtet",
+		"enabledSince": "Seit {date} aktiv. Jede Anmeldung verlangt zusätzlich einen Code.",
+		"disabledHint": "Funktioniert mit jeder TOTP-App, z. B. 1Password, Google Authenticator oder Microsoft Authenticator.",
+		"step": "Schritt {step} von {total}",
+		"currentPassword": "Aktuelles Passwort",
+		"codeLabel": "Bestätigungscode",
+		"codeDescription": "Ein Code aus deiner Authenticator-App oder ein Wiederherstellungscode.",
+		"signIn": {
+			"title": "Anmeldung bestätigen",
+			"totpDescription": "Gib den 6-stelligen Code aus deiner Authenticator-App ein.",
+			"recoveryDescription": "Gib einen deiner Wiederherstellungscodes ein. Jeder Code funktioniert nur einmal.",
+			"codeLabel": "Code aus der Authenticator-App",
+			"recoveryLabel": "Wiederherstellungscode",
+			"submit": "Bestätigen",
+			"useRecoveryCode": "Wiederherstellungscode verwenden",
+			"useAuthenticator": "Code aus der App verwenden",
+			"notYou": "Anderes Konto",
+			"invalidCode": "Der Code stimmt nicht. Prüfe, ob die Uhrzeit deines Geräts stimmt, und versuche den aktuellen Code.",
+			"invalidRecoveryCode": "Dieser Wiederherstellungscode ist ungültig oder wurde bereits verwendet.",
+			"expired": "Die Anmeldung ist abgelaufen oder wurde zu oft versucht. Bitte melde dich erneut an."
+		},
+		"enable": {
+			"action": "Einrichten",
+			"continue": "Weiter",
+			"submit": "Aktivieren",
+			"done": "Zwei-Faktor-Authentifizierung aktiviert. Deine anderen Sitzungen wurden beendet.",
+			"qrLabel": "QR-Code für die Authenticator-App",
+			"scanTitle": "QR-Code scannen",
+			"scan": "Öffne deine Authenticator-App, z. B. Google Authenticator, Microsoft Authenticator oder 1Password, und füge ein neues Konto per QR-Code hinzu.",
+			"account": "Konto",
+			"issuer": "Aussteller",
+			"manualTitle": "Kein Scan möglich?",
+			"manual": "Gib stattdessen diesen Schlüssel in der App ein. Leerzeichen musst du nicht mit eingeben.",
+			"copyKey": "Schlüssel kopieren",
+			"labelTitle": "Namen festlegen",
+			"labelDescription": "Damit erkennst du die App später wieder, z. B. Bitwarden oder 1Password.",
+			"labelPlaceholder": "z. B. Bitwarden",
+			"codeLabel": "Bestätigungscode",
+			"codeDescription": "Gib den 6-stelligen Code ein, den die App jetzt anzeigt.",
+			"steps": {
+				"1": {
+					"title": "Passwort bestätigen",
+					"description": "Bevor du die Zwei-Faktor-Authentifizierung einrichtest, bestätige, dass du es bist."
+				},
+				"2": {
+					"title": "Authenticator-App verbinden",
+					"description": "Füge dein Konto in der App hinzu und bestätige mit dem ersten Code."
+				},
+				"3": {
+					"title": "Wiederherstellungscodes sichern",
+					"description": "Die Zwei-Faktor-Authentifizierung ist aktiv. Mit diesen Codes kommst du in dein Konto, falls du dein Gerät verlierst."
+				}
+			}
+		},
+		"disable": {
+			"action": "Deaktivieren",
+			"title": "Zwei-Faktor-Authentifizierung deaktivieren?",
+			"description": "Bestätige mit deinem Passwort und einem Code. Danach genügt wieder das Passwort zur Anmeldung.",
+			"submit": "Deaktivieren",
+			"done": "Zwei-Faktor-Authentifizierung deaktiviert.",
+			"warningTitle": "Dein Konto ist danach weniger geschützt",
+			"warning": "Die Wiederherstellungscodes werden gelöscht. Wer dein Passwort kennt, kann sich anmelden."
+		},
+		"regenerate": {
+			"action": "Neue Codes erstellen",
+			"title": "Neue Wiederherstellungscodes erstellen?",
+			"description": "Bestätige mit deinem Passwort und einem Code. Alle bisherigen Wiederherstellungscodes werden dabei ungültig.",
+			"submit": "Codes erstellen",
+			"done": "Neue Wiederherstellungscodes erstellt."
+		},
+		"recoveryCodes": {
+			"remaining": "{count} von {total} Wiederherstellungscodes übrig",
+			"low": "Erstelle rechtzeitig neue Codes.",
+			"copy": "Kopieren",
+			"download": "Herunterladen",
+			"warningTitle": "Nur jetzt sichtbar",
+			"warning": "Bewahre die Codes an einem sicheren Ort auf, z. B. in deinem Passwort-Manager. Jeder Code funktioniert genau einmal.",
+			"confirm": "Ich habe die Wiederherstellungscodes sicher aufbewahrt.",
+			"newTitle": "Neue Wiederherstellungscodes",
+			"newDescription": "Die bisherigen Codes sind ab sofort ungültig.",
+			"file": {
+				"heading": "Wiederherstellungscodes für {instance}",
+				"account": "Konto",
+				"origin": "Adresse",
+				"created": "Erstellt",
+				"usage": "Jeder Code kann einmal statt eines Codes aus der Authenticator-App verwendet werden."
+			}
+		}
+	}
+}

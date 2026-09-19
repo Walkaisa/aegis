@@ -1,0 +1,35 @@
+{
+	"$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+	"release-type": "node",
+	"include-component-in-tag": false,
+	"include-v-in-tag": true,
+	"draft": true,
+	"force-tag-creation": true,
+	"pull-request-title-pattern": "chore: release ${version}",
+	"pull-request-header": "Merging this pull request releases a new version of Aegis: the tag and a draft release are created, the Docker image is built, tested and pushed to GHCR, and then the release is published.",
+	"changelog-sections": [
+		{ "type": "feat", "section": "Features" },
+		{ "type": "fix", "section": "Bug Fixes" },
+		{ "type": "perf", "section": "Performance" },
+		{ "type": "revert", "section": "Reverts" },
+		{ "type": "docs", "section": "Documentation", "hidden": true },
+		{ "type": "refactor", "section": "Refactoring", "hidden": true },
+		{ "type": "test", "section": "Tests", "hidden": true },
+		{ "type": "build", "section": "Build", "hidden": true },
+		{ "type": "ci", "section": "CI", "hidden": true },
+		{ "type": "style", "section": "Style", "hidden": true },
+		{ "type": "chore", "section": "Miscellaneous", "hidden": true }
+	],
+	"packages": {
+		".": {
+			"changelog-path": "CHANGELOG.md",
+			"extra-files": [
+				{ "type": "json", "path": "apps/server/package.json", "jsonpath": "$.version" },
+				{ "type": "json", "path": "apps/web/package.json", "jsonpath": "$.version" },
+				{ "type": "json", "path": "packages/contracts/package.json", "jsonpath": "$.version" },
+				{ "type": "json", "path": "packages/db/package.json", "jsonpath": "$.version" },
+				"apps/server/src/version.ts"
+			]
+		}
+	}
+}

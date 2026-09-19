@@ -1,0 +1,38 @@
+name: PR title
+
+# Pull requests are squash-merged, so the title becomes the commit on main that release-please
+# reads. It has to follow Conventional Commits: `feat: …` adds a minor release, `fix: …` a patch
+# release, `feat!: …` or a `BREAKING CHANGE:` footer a major release.
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  conventional-title:
+    name: Conventional title
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          types: |
+            feat
+            fix
+            perf
+            revert
+            docs
+            refactor
+            test
+            build
+            ci
+            style
+            chore
+          subjectPattern: ^[a-z].+[^.]$
+          subjectPatternError: |
+            The subject "{subject}" should start with a lowercase letter and not end with a period,
+            for example "fix: keep the session after a password change".

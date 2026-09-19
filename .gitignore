@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment (secrets)
+.env
+.env.*
+!.env.example
+
+# Local runtime data
+data/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.vscode/
+.claude/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,38 @@
+{
+	"name": "@aegis/server",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Aegis server: Fastify, oidc-provider, PostgreSQL",
+	"type": "module",
+	"main": "dist/index.js",
+	"scripts": {
+		"dev": "tsx watch --clear-screen=false --env-file-if-exists=../../.env src/index.ts",
+		"build": "tsdown",
+		"start": "node --env-file-if-exists=../../.env dist/index.js",
+		"typecheck": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"@aegis/contracts": "workspace:*",
+		"@aegis/db": "workspace:*",
+		"@fastify/cookie": "^11.1.2",
+		"@fastify/helmet": "^13.1.1",
+		"@fastify/http-proxy": "^11.6.2",
+		"@fastify/rate-limit": "^11.2.0",
+		"@sapphire/snowflake": "^3.5.5",
+		"argon2": "^0.45.1",
+		"drizzle-orm": "^0.45.2",
+		"fastify": "^5.12.4",
+		"jose": "^6.2.12",
+		"oidc-provider": "^9.12.2",
+		"otpauth": "^9.5.2",
+		"sharp": "0.35.4",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"@types/node": "^24.13.4",
+		"@types/oidc-provider": "^9.12.1",
+		"tsdown": "^0.23.0",
+		"tsx": "^4.23.13",
+		"typescript": "~6.0.3"
+	}
+}

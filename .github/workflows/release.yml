@@ -1,0 +1,239 @@
+name: Release
+
+# Every push to main:
+#   1. release-please keeps the release pull request up to date (version bump + CHANGELOG.md).
+#   2. CI runs; nothing below is published unless it passes.
+#   3. The image is built natively for amd64 and arm64, signed and pushed to GHCR as `edge`.
+#
+# When the push is the merge of a release pull request, release-please also creates the tag and
+# a draft release. The same image then additionally gets the version tags (`1.4.2`, `1.4`, `1`,
+# `latest`), and only after the push succeeded is the release published. A release is therefore
+# never visible without its image.
+#
+# Manual run ("Run workflow", then pick a release tag under "Use workflow from"): publishes the
+# image and release for an existing tag. Used once to publish 1.0.0, and to recover a release
+# whose run could not be re-run.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/walkaisa/aegis
+
+jobs:
+  release-please:
+    name: Release pull request
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    outputs:
+      created: ${{ steps.release.outputs.release_created }}
+      tag: ${{ steps.release.outputs.tag_name }}
+      sha: ${{ steps.release.outputs.sha }}
+    steps:
+      # A GitHub App token instead of GITHUB_TOKEN, so the release pull request triggers CI.
+      - name: Create app token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+  plan:
+    name: Plan
+    needs: release-please
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-24.04
+    outputs:
+      release: ${{ steps.plan.outputs.release }}
+      edge: ${{ steps.plan.outputs.edge }}
+      tag: ${{ steps.plan.outputs.tag }}
+      version: ${{ steps.plan.outputs.version }}
+      prerelease: ${{ steps.plan.outputs.prerelease }}
+      latest: ${{ steps.plan.outputs.latest }}
+      major: ${{ steps.plan.outputs.major }}
+      minor: ${{ steps.plan.outputs.minor }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Decide what to publish
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          CREATED: ${{ needs.release-please.outputs.created }}
+          RELEASE_TAG: ${{ needs.release-please.outputs.tag }}
+          RELEASE_SHA: ${{ needs.release-please.outputs.sha }}
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            [[ "$GITHUB_REF" == refs/tags/v* ]] || fail "Run this workflow from a release tag (Use workflow from → Tags)."
+            tag="$GITHUB_REF_NAME"
+            edge=false
+          elif [ "$CREATED" = "true" ]; then
+            tag="$RELEASE_TAG"
+            edge=true
+            # The image is built from the commit that triggered this run, so it must be the
+            # release commit. Otherwise publish the tag with a manual run.
+            [ "$RELEASE_SHA" = "$GITHUB_SHA" ] || fail "$tag points to $RELEASE_SHA, but this run is for $GITHUB_SHA. Run this workflow manually from tag $tag."
+          else
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "edge=true" >> "$GITHUB_OUTPUT"
+            echo "No release in this push; publishing the edge image only."
+            exit 0
+          fi
+
+          version="${tag#v}"
+          [[ "$version" =~ ^([0-9]+)\.([0-9]+)\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || fail "$tag is not a semantic version tag."
+          major="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+
+          git merge-base --is-ancestor HEAD origin/main || fail "$tag does not point to a commit on main."
+          node scripts/version.mjs "$version" || fail "The versions in the code do not match $tag."
+
+          # Floating tags only move forward: republishing an older release never takes
+          # `latest`, `1` or `1.4` away from a newer one. Pre-releases get no floating tags.
+          newest() { git tag --list "$1" --sort=-version:refname | grep -v -- '-' | head -n 1; }
+          prerelease=false; is_latest=false; is_major=false; is_minor=false
+          if [[ "$version" == *-* ]]; then
+            prerelease=true
+          else
+            [ "$(newest 'v*')" = "$tag" ] && is_latest=true
+            [ "$(newest "v$major.*")" = "$tag" ] && is_major=true
+            [ "$(newest "v$major.$minor.*")" = "$tag" ] && is_minor=true
+          fi
+
+          {
+            echo "release=true"
+            echo "edge=$edge"
+            echo "tag=$tag"
+            echo "version=$version"
+            echo "prerelease=$prerelease"
+            echo "latest=$is_latest"
+            echo "major=$is_major"
+            echo "minor=$is_minor"
+          } | tee -a "$GITHUB_OUTPUT"
+
+  checks:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  image:
+    name: Image
+    needs: [plan, checks]
+    if: ${{ !failure() && !cancelled() && needs.plan.result == 'success' && needs.checks.result == 'success' }}
+    # Edge builds replace each other; a release build never waits behind or cancels one.
+    concurrency:
+      group: ${{ needs.plan.outputs.release == 'true' && format('image-{0}', needs.plan.outputs.tag) || 'image-edge' }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+      attestations: write
+    # Docker's official reusable builder: one native runner per platform, SLSA provenance and
+    # SBOM attestations signed with the workflow identity, multi-platform manifest at the end.
+    uses: docker/github-builder/.github/workflows/build.yml@58cb9f5b71b1836d6f690c1e95effdeb9b98cb8a # v1.17.0
+    with:
+      output: image
+      push: true
+      platforms: linux/amd64,linux/arm64
+      cache: true
+      cache-mode: max
+      sbom: true
+      meta-images: ghcr.io/walkaisa/aegis
+      meta-flavor: latest=false
+      meta-tags: |
+        type=edge,branch=main,enable=${{ needs.plan.outputs.edge == 'true' }}
+        type=semver,pattern={{version}},value=${{ needs.plan.outputs.tag }},enable=${{ needs.plan.outputs.release == 'true' }}
+        type=semver,pattern={{major}}.{{minor}},value=${{ needs.plan.outputs.tag }},enable=${{ needs.plan.outputs.minor == 'true' }}
+        type=semver,pattern={{major}},value=${{ needs.plan.outputs.tag }},enable=${{ needs.plan.outputs.major == 'true' }}
+        type=raw,value=latest,enable=${{ needs.plan.outputs.latest == 'true' }}
+      set-meta-labels: true
+      set-meta-annotations: true
+      meta-labels: |
+        org.opencontainers.image.title=Aegis
+        org.opencontainers.image.description=A simple, self-hosted OpenID Connect provider for your own applications.
+      meta-annotations: |
+        org.opencontainers.image.title=Aegis
+        org.opencontainers.image.description=A simple, self-hosted OpenID Connect provider for your own applications.
+    secrets:
+      registry-auths: |
+        - registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish release
+    needs: [plan, image]
+    if: ${{ !failure() && !cancelled() && needs.plan.outputs.release == 'true' && needs.image.result == 'success' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Publish the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.plan.outputs.tag }}
+          VERSION: ${{ needs.plan.outputs.version }}
+          PRERELEASE: ${{ needs.plan.outputs.prerelease }}
+          LATEST: ${{ needs.plan.outputs.latest }}
+          DIGEST: ${{ needs.image.outputs.digest }}
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+
+          # Only a manual run for a tag without a release (1.0.0) gets here without a draft.
+          # Its notes come from the matching CHANGELOG.md section.
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            awk -v heading="## [$VERSION]" '
+              index($0, heading) == 1 { found = 1; next }
+              !found { next }
+              /^## / { exit }
+              /^[[:space:]]*$/ { if (started) blank = blank "\n"; next }
+              { started = 1; printf "%s%s\n", blank, $0; blank = "" }
+            ' CHANGELOG.md > changelog-notes.md
+            grep -q '[^[:space:]]' changelog-notes.md || fail "CHANGELOG.md has no section for $VERSION."
+            gh release create "$TAG" --draft --verify-tag --title "$TAG" --notes-file changelog-notes.md
+          fi
+
+          if [ "$(gh release view "$TAG" --json isDraft --jq .isDraft)" != "true" ]; then
+            echo "::notice::$TAG is already published; the image tags were refreshed, the release is left as it is."
+            exit 0
+          fi
+
+          gh release view "$TAG" --json body --jq .body > notes.md
+          cat >> notes.md <<EOF
+
+          ### Docker image
+
+          \`\`\`bash
+          docker pull ${IMAGE}:${VERSION}
+          \`\`\`
+
+          Digest: \`${DIGEST}\`
+          EOF
+
+          flags=(--draft=false --title "$TAG" --notes-file notes.md)
+          if [ "$PRERELEASE" = "true" ]; then
+            flags+=(--prerelease)
+          else
+            flags+=(--latest="$LATEST")
+          fi
+          gh release edit "$TAG" "${flags[@]}"
