@@ -54,11 +54,15 @@ pre-release works the same way: `Release-As: 2.0.0-rc.1`.
 | `1` | with every minor and patch release of 1.x | the newest 1.x |
 | `latest` | with every stable release | the newest stable release |
 | `edge` | with every push to `main` | unreleased, for testing only |
+| `sha-4d886fc` | never | the build of exactly this commit on `main` |
 
-Floating tags only ever move forward: a patch for an older line (`1.3.5` after `1.4.0`) never
-takes `latest` or `1` away from the newer release. Pre-releases such as `2.0.0-rc.1` only get their
-exact tag. Every image carries the commit, version and source in its OCI labels, together with
-signed SLSA provenance and an SBOM.
+Moving tags only ever move forward. They are set after the build, based on the state at that
+moment: `edge` only while its commit is still the newest on `main`, `latest`, `1` and `1.4` only
+while the version is the newest stable one. A patch for an older line (`1.3.5` after `1.4.0`)
+therefore never takes `latest` or `1` away from the newer release, and a run that finishes late
+never moves a tag back to an older build. Pre-releases such as `2.0.0-rc.1` only get their exact
+tag. Every image carries the commit, version and source in its OCI labels, together with signed
+SLSA provenance and an SBOM.
 
 ## When something fails
 
