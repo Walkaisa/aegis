@@ -28,6 +28,7 @@ import { useTranslations } from "next-intl";
 import { type FormEvent, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { AppAvatar } from "@/components/app-avatar";
 import { AuthCard, AuthStatus } from "@/components/auth/auth-card";
+import { ForgotPasswordLink } from "@/components/auth/forgot-password-link";
 import { BrandMark } from "@/components/brand";
 import { FormField } from "@/components/form-field";
 import { PasswordInput } from "@/components/password-input";
@@ -330,6 +331,8 @@ function SignInPrompt({ context, basePath, onRedirect, onError }: PromptProps<Au
 							aria-invalid={errors.password ? true : undefined}
 						/>
 					</FormField>
+
+					{context.passwordResetEnabled ? <ForgotPasswordLink challenge={context.challenge} /> : null}
 
 					<div className="flex flex-col gap-2">
 						<Button type="submit" size="lg" className="w-full" disabled={busy}>

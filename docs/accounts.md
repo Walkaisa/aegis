@@ -33,6 +33,19 @@ and email addresses, reset passwords, upload profile pictures, disable and delet
 
 A disabled account can't sign in anymore, and all of its sessions end immediately.
 
+## Password reset and e-mail changes
+
+Once an e-mail server is set up under **Settings → Email**, both sign-in pages offer **Forgot your
+password?**. Aegis answers the same way whether or not an account exists and sends a link that works
+once and for one hour. Setting a new password ends every session of the account, and its owner is
+notified by e-mail, as after every password change in the account settings. Without an e-mail server,
+administrators set new passwords under **Users**.
+
+An administrator who changes the own e-mail address under **Settings → My account** confirms it from
+the new mailbox first. The current address is told about the change and keeps working until the link
+is clicked; the link is valid for 24 hours. Changing the password in the meantime cancels the pending
+change.
+
 ## Two-factor authentication
 
 Every account can protect its sign-in with a second factor: a six-digit code from an authenticator app

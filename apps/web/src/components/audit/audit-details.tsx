@@ -25,9 +25,11 @@ function Panel({ title, children, className }: { title: string; children: ReactN
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
 	return (
-		<div className="flex min-h-10 items-center justify-between gap-4 py-2">
-			<dt className="shrink-0 text-xs text-muted-foreground">{label}</dt>
-			<dd className="flex min-w-0 items-center justify-end gap-1.5 text-right text-sm wrap-break-word">{children}</dd>
+		<div className="grid min-h-10 grid-cols-[minmax(0,2fr)_minmax(0,3fr)] items-center gap-4 py-2">
+			<dt className="min-w-0 text-xs break-words text-muted-foreground">{label}</dt>
+			<dd className="flex min-w-0 items-center justify-end gap-1.5 text-right text-sm [overflow-wrap:anywhere] [&>svg]:shrink-0">
+				{children}
+			</dd>
 		</div>
 	);
 }
@@ -141,7 +143,9 @@ export function AuditDetails({ event }: { event: AuditEventDto }) {
 				<Row label={t("details.ipAddress")}>
 					{event.ipAddress ? (
 						<>
-							<code className="font-mono text-xs">{event.ipAddress}</code>
+							<code className="min-w-0 truncate font-mono text-xs" title={event.ipAddress}>
+								{event.ipAddress}
+							</code>
 							<CopyButton value={event.ipAddress} size="icon-xs" />
 						</>
 					) : (
@@ -161,8 +165,13 @@ export function AuditDetails({ event }: { event: AuditEventDto }) {
 							<span className="tabular-nums">{value}</span>
 						) : typeof value === "boolean" ? (
 							<span>{value ? t("details.yes") : t("details.no")}</span>
+						) : key === "template" && t.has(`templates.${value}`) ? (
+							// The identifier of an e-mail template reads as the message it stands for.
+							<span>{t(`templates.${value}`)}</span>
 						) : (
-							<code className="font-mono text-xs break-all">{Array.isArray(value) ? value.join(", ") : value}</code>
+							<code className="min-w-0 truncate font-mono text-xs" title={Array.isArray(value) ? value.join(", ") : value}>
+								{Array.isArray(value) ? value.join(", ") : value}
+							</code>
 						)}
 					</Row>
 				))}

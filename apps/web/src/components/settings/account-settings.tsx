@@ -1,21 +1,29 @@
 "use client";
 
-import { type AccountResponse, normalizeEmail, passwordChangeSchema, profileUpdateSchema, SUPPORTED_LOCALES } from "@aegis/contracts";
-import { CalendarDays, Check, KeyRound, LogIn, type LucideIcon, Monitor, Moon, Sun } from "lucide-react";
+import {
+	type AccountResponse,
+	normalizeEmail,
+	type PendingEmailChangeDto,
+	passwordChangeSchema,
+	profileUpdateSchema,
+	SUPPORTED_LOCALES,
+} from "@aegis/contracts";
+import { CalendarDays, Check, KeyRound, LogIn, type LucideIcon, MailClock, Monitor, Moon, Sun } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ActionsMenu, CopyMenuItem } from "@/components/actions-menu";
+import { CopyMenuItem } from "@/components/actions-menu";
 import { EditableAvatar } from "@/components/avatar-editor";
 import { useAccount } from "@/components/dashboard/account-context";
-import { Section } from "@/components/dashboard/page";
+import { HeroCard, Section } from "@/components/dashboard/page";
 import { FlagIcon, LOCALE_OPTIONS } from "@/components/flag-icon";
 import { FormField } from "@/components/form-field";
 import { type LocalePreference, useLocalePreference } from "@/components/locale-preference";
 import { PasswordInput } from "@/components/password-input";
 import { PasswordStrength } from "@/components/password-strength";
 import { SearchSelect, type SearchSelectOption } from "@/components/search-select";
+import { StatusMessage } from "@/components/status-message";
 import { TwoFactorSection } from "@/components/two-factor/two-factor-section";
 import { Button } from "@/components/ui/button";
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
@@ -23,6 +31,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Spinner } from "@/components/ui/spinner";
 import { RoleBadge } from "@/components/users/account-badges";
+import { useApiQuery } from "@/hooks/use-api-query";
 import { useErrorMessage } from "@/hooks/use-error-message";
 import { useFormErrors } from "@/hooks/use-form-errors";
 import { ApiRequestError, api } from "@/lib/api";
@@ -55,15 +64,7 @@ function AccountHero() {
 	];
 
 	return (
-		<section className="relative overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10">
-			{/* The accent fades out through a mask, so it melts into the card instead of ending in an edge. */}
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-linear-to-br from-primary/30 via-primary/12 to-transparent mask-[linear-gradient(to_bottom,black_0%,black_25%,transparent_85%)]"
-			/>
-			<ActionsMenu className="absolute top-3 right-3 z-10">
-				<CopyMenuItem value={account.id} label={t("copyUserId")} copiedMessage={t("userIdCopied")} />
-			</ActionsMenu>
+		<HeroCard menu={<CopyMenuItem value={account.id} label={t("copyUserId")} copiedMessage={t("userIdCopied")} />}>
 			<div className="relative flex flex-col gap-5 p-5 pt-8 sm:flex-row sm:items-end sm:justify-between">
 				<div className="flex min-w-0 items-center gap-4">
 					<EditableAvatar
@@ -103,7 +104,7 @@ function AccountHero() {
 					</div>
 				))}
 			</dl>
-		</section>
+		</HeroCard>
 	);
 }
 
@@ -114,6 +115,9 @@ function ProfileSection() {
 	const { errors, validate, applyApiError, setFieldError } = useFormErrors();
 	const [values, setValues] = useState({ displayName: me.account.displayName, email: me.account.email, currentPassword: "" });
 	const [submitting, setSubmitting] = useState(false);
+	// An e-mail server turns an address change into a two-step flow; without one it applies at once.
+	const { data: account, setData: setAccount } = useApiQuery<AccountResponse>("/account");
+	const pending = account?.pendingEmailChange ?? null;
 	const emailChanged = normalizeEmail(values.email) !== normalizeEmail(me.account.email);
 	const dirty = values.displayName !== me.account.displayName || emailChanged;
 
@@ -123,17 +127,19 @@ function ProfileSection() {
 		if (!input) {
 			return;
 		}
-		if (emailChanged && !values.currentPassword) {
-			setFieldError("currentPassword", "required");
-			return;
-		}
 
 		setSubmitting(true);
 		try {
 			const result = await api.put<AccountResponse>("/account", input);
 			update({ ...me, account: result.account });
+			setAccount(result);
+			// The field goes back to the address that is actually in use; the banner shows the pending one.
 			setValues({ displayName: result.account.displayName, email: result.account.email, currentPassword: "" });
-			toast.success(t("profileSaved"));
+			toast.success(
+				emailChanged && result.pendingEmailChange
+					? t("emailChangeStarted", { email: result.pendingEmailChange.email })
+					: t("profileSaved"),
+			);
 		} catch (error) {
 			if (applyApiError(error)) {
 				return;
@@ -142,8 +148,8 @@ function ProfileSection() {
 				setFieldError("currentPassword", "current_password_invalid");
 				return;
 			}
-			if (error instanceof ApiRequestError && error.code === "email_taken") {
-				setFieldError("email", "email_taken");
+			if (error instanceof ApiRequestError && (error.code === "email_taken" || error.code === "email_change_pending")) {
+				setFieldError("email", error.code);
 				return;
 			}
 			toast.error(errorMessage(error));
@@ -165,6 +171,7 @@ function ProfileSection() {
 				}
 			>
 				<FieldGroup>
+					{pending ? <PendingEmailChange pending={pending} onChanged={setAccount} /> : null}
 					<div className="grid gap-6 sm:grid-cols-2">
 						<FormField id="profile-name" label={t("displayName")} error={errors.displayName}>
 							<Input
@@ -207,6 +214,55 @@ function ProfileSection() {
 				</FieldGroup>
 			</Section>
 		</form>
+	);
+}
+
+/**
+ * An address change that has been requested but not confirmed yet. It sits above the form so the
+ * field showing the current address is never mistaken for the change having failed.
+ */
+function PendingEmailChange({ pending, onChanged }: { pending: PendingEmailChangeDto; onChanged: (account: AccountResponse) => void }) {
+	const t = useTranslations("settings");
+	const dates = useDateFormat();
+	const errorMessage = useErrorMessage();
+	const [busy, setBusy] = useState<"resend" | "cancel" | null>(null);
+
+	async function run(action: "resend" | "cancel") {
+		setBusy(action);
+		try {
+			onChanged(
+				action === "resend"
+					? await api.post<AccountResponse>("/account/email-change/resend")
+					: await api.delete<AccountResponse>("/account/email-change"),
+			);
+			toast.success(action === "resend" ? t("emailChangeResent") : t("emailChangeCancelled"));
+		} catch (error) {
+			toast.error(errorMessage(error));
+		} finally {
+			setBusy(null);
+		}
+	}
+
+	return (
+		<StatusMessage
+			tone="info"
+			icon={<MailClock />}
+			title={t("emailPending")}
+			action={
+				<>
+					<Button type="button" size="sm" variant="outline" disabled={busy !== null} onClick={() => void run("resend")}>
+						{busy === "resend" ? <Spinner /> : null}
+						{t("resendEmailChange")}
+					</Button>
+					<Button type="button" size="sm" variant="ghost" disabled={busy !== null} onClick={() => void run("cancel")}>
+						{busy === "cancel" ? <Spinner /> : null}
+						{t("cancelEmailChange")}
+					</Button>
+				</>
+			}
+		>
+			{t("emailPendingDescription", { email: pending.email })} {t("emailPendingExpires", { date: dates.dateTime(pending.expiresAt) })}
+		</StatusMessage>
 	);
 }
 

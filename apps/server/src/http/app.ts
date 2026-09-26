@@ -68,6 +68,7 @@ export async function buildApp(config: AppConfig): Promise<{ app: FastifyInstanc
 
 	const services = createServices(config, database, app.log);
 	await services.settings.refresh();
+	await services.emailSettings.refresh();
 	app.decorate("services", services);
 
 	// Only JSON bodies are accepted by Aegis' own endpoints.

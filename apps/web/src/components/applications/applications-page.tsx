@@ -10,9 +10,9 @@ import { Page, PageHeader } from "@/components/dashboard/page";
 import { ErrorState, LoadingState } from "@/components/dashboard/states";
 import { DataTable } from "@/components/data-table/data-table";
 import type { DataTableColumn, DataTableFilter } from "@/components/data-table/types";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccountStatus } from "@/components/users/account-badges";
 import { useApiQuery } from "@/hooks/use-api-query";
 import { APPLICATION_KINDS, applicationKindOf, KIND_ICONS } from "@/lib/applications";
 import { useDateFormat } from "@/lib/format";
@@ -28,6 +28,8 @@ export function ApplicationsPage() {
 		() => [
 			{
 				id: "application",
+				minWidth: 135,
+				priority: 0,
 				header: t("columns.application"),
 				locked: true,
 				flexible: true,
@@ -35,38 +37,47 @@ export function ApplicationsPage() {
 				cell: (client) => (
 					<div className="flex min-w-0 items-center gap-3">
 						<AppAvatar name={client.name} src={client.logoUrl} />
-						<div className="flex min-w-0 flex-col">
-							<span className="flex min-w-0 items-center gap-2">
-								<span className="truncate font-medium">{client.name}</span>
-								{client.enabled ? null : <Badge variant="secondary">{t("disabled")}</Badge>}
-							</span>
-							<span className="truncate text-xs text-muted-foreground">{tKinds(`${applicationKindOf(client)}.title`)}</span>
-						</div>
+						<span className="truncate font-medium" title={client.name}>
+							{client.name}
+						</span>
 					</div>
 				),
 			},
 			{
+				id: "status",
+				minWidth: 94,
+				priority: 1,
+				header: t("columns.status"),
+				value: (client) => client.enabled,
+				searchable: false,
+				cell: (client) => <AccountStatus enabled={client.enabled} />,
+			},
+			{
 				id: "clientId",
+				minWidth: 220,
+				priority: 8,
+				hiddenByDefault: true,
 				header: t("columns.clientId"),
 				value: (client) => client.id,
-				hideBelow: "lg",
 				cell: (client) => <code className="truncate font-mono text-xs text-muted-foreground">{client.id}</code>,
 			},
 			{
 				id: "kind",
+				minWidth: 160,
+				priority: 3,
 				header: t("columns.kind"),
 				value: (client) => tKinds(`${applicationKindOf(client)}.title`),
-				hiddenByDefault: true,
 				cell: (client) => <span className="text-sm">{tKinds(`${applicationKindOf(client)}.title`)}</span>,
 			},
 			{
 				id: "access",
+				minWidth: 170,
+				priority: 5,
 				header: t("columns.access"),
 				value: (client) => (client.accessPolicy === "everyone" ? -1 : client.assignedUserCount),
 				searchable: false,
-				hideBelow: "lg",
 				cell: (client) => (
-					<span className="text-sm text-muted-foreground">
+					<span className="block truncate text-sm text-muted-foreground">
 						{client.accessPolicy === "everyone"
 							? t("access.everyone")
 							: t("access.assigned", { count: client.assignedUserCount })}
@@ -75,32 +86,36 @@ export function ApplicationsPage() {
 			},
 			{
 				id: "sessions",
+				minWidth: 100,
+				priority: 2,
 				header: t("columns.sessions"),
 				value: (client) => client.activeSessionCount,
 				searchable: false,
 				align: "end",
-				hideBelow: "md",
 				cell: (client) => <span className="text-sm tabular-nums text-muted-foreground">{client.activeSessionCount}</span>,
 			},
 			{
 				id: "lastAuthorizedAt",
+				minWidth: 160,
+				priority: 4,
 				header: t("columns.lastUsedColumn"),
 				value: (client) => (client.lastAuthorizedAt ? new Date(client.lastAuthorizedAt) : null),
 				searchable: false,
-				hideBelow: "md",
 				cell: (client) => (
-					<span className="text-sm text-muted-foreground">
+					<span className="block truncate text-sm text-muted-foreground">
 						{client.lastAuthorizedAt ? dates.relative(client.lastAuthorizedAt) : t("neverUsed")}
 					</span>
 				),
 			},
 			{
 				id: "createdAt",
+				minWidth: 125,
+				priority: 6,
 				header: t("columns.createdAt"),
 				value: (client) => new Date(client.createdAt),
 				searchable: false,
 				hiddenByDefault: true,
-				cell: (client) => <span className="text-sm text-muted-foreground">{dates.date(client.createdAt)}</span>,
+				cell: (client) => <span className="block truncate text-sm text-muted-foreground">{dates.date(client.createdAt)}</span>,
 			},
 		],
 		[t, tKinds, dates],
@@ -152,6 +167,7 @@ export function ApplicationsPage() {
 				<EmptyApplications />
 			) : (
 				<DataTable
+					adaptive
 					label={t("title")}
 					columns={columns}
 					data={data.clients}
@@ -160,25 +176,6 @@ export function ApplicationsPage() {
 					searchPlaceholder={t("searchPlaceholder")}
 					rowHref={(client) => `/applications/${client.id}`}
 					defaultState={{ sort: { columnId: "application", direction: "asc" } }}
-					renderCard={(client) => (
-						<div className="flex min-w-0 items-center gap-3">
-							<AppAvatar name={client.name} src={client.logoUrl} />
-							<div className="flex min-w-0 flex-col gap-0.5">
-								<span className="flex min-w-0 items-center gap-2">
-									<span className="truncate font-medium">{client.name}</span>
-									{client.enabled ? null : <Badge variant="secondary">{t("disabled")}</Badge>}
-								</span>
-								<span className="truncate text-xs text-muted-foreground">
-									{tKinds(`${applicationKindOf(client)}.title`)}
-								</span>
-								<span className="truncate text-xs text-muted-foreground">
-									{client.lastAuthorizedAt
-										? t("lastUsed", { time: dates.relative(client.lastAuthorizedAt) })
-										: t("neverUsed")}
-								</span>
-							</div>
-						</div>
-					)}
 				/>
 			)}
 		</Page>

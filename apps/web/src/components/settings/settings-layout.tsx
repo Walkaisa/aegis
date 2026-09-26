@@ -16,6 +16,7 @@ export function SettingsLayout({ children }: { children: ReactNode }) {
 				items={[
 					{ href: "/settings", label: t("tabs.general") },
 					{ href: "/settings/account", label: t("tabs.account") },
+					{ href: "/settings/email", label: t("tabs.email") },
 					{ href: "/settings/security", label: t("tabs.security") },
 				]}
 			/>

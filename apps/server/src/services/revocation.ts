@@ -57,6 +57,17 @@ export class AccessRevoker {
 		});
 	}
 
+	/**
+	 * Removes everything a deleted application leaves behind in the provider: grants, codes, tokens,
+	 * sign-ins still in progress and its entry in every provider session.
+	 */
+	public removeClient(client: { id: string }): Promise<void> {
+		return this.database.transaction(async () => {
+			await this.oidcArtifacts.deleteByClient(client.id);
+			await this.oidcArtifacts.deleteClientReferences(client.id);
+		});
+	}
+
 	/** Ends the sign-ins of one account to an application and invalidates its grants and tokens there. */
 	public revokeClientAccount(client: { id: string }, userId: string): Promise<void> {
 		return this.database.transaction(async () => {

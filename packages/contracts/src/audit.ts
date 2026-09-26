@@ -14,10 +14,10 @@ export type AuditOutcome = (typeof AUDIT_OUTCOMES)[number];
 export const AUDIT_SOURCES = ["admin", "user", "application", "system"] as const;
 export type AuditSource = (typeof AUDIT_SOURCES)[number];
 
-export const AUDIT_CATEGORIES = ["authentication", "users", "applications", "system"] as const;
+export const AUDIT_CATEGORIES = ["authentication", "users", "applications", "email", "system"] as const;
 export type AuditCategory = (typeof AUDIT_CATEGORIES)[number];
 
-export const AUDIT_TARGET_TYPES = ["account", "session", "application", "instance", "signing_key"] as const;
+export const AUDIT_TARGET_TYPES = ["account", "session", "application", "instance", "signing_key", "message"] as const;
 export type AuditTargetType = (typeof AUDIT_TARGET_TYPES)[number];
 
 interface AuditEventSpec {
@@ -39,6 +39,29 @@ export const AUDIT_EVENTS = {
 	"auth.sign_in.succeeded": { category: "authentication", severity: "info", outcome: "success", source: "admin", target: "session" },
 	"auth.sign_in.failed": { category: "authentication", severity: "warning", outcome: "failure", source: "admin", target: "session" },
 	"auth.sign_out": { category: "authentication", severity: "info", outcome: "success", source: "admin", target: "session" },
+	/** Someone asked for a password reset link. Recorded even when no account matches the address. */
+	"auth.password_reset.requested": {
+		category: "authentication",
+		severity: "notice",
+		outcome: "success",
+		source: "user",
+		target: "account",
+	},
+	"auth.password_reset.completed": {
+		category: "authentication",
+		severity: "warning",
+		outcome: "success",
+		source: "user",
+		target: "account",
+	},
+	/** A reset link that was already used, has expired or never existed. */
+	"auth.password_reset.failed": {
+		category: "authentication",
+		severity: "warning",
+		outcome: "failure",
+		source: "user",
+		target: "account",
+	},
 
 	"user.created": { category: "users", severity: "notice", outcome: "success", source: "admin", target: "account" },
 	"user.updated": { category: "users", severity: "notice", outcome: "success", source: "admin", target: "account" },
@@ -55,6 +78,12 @@ export const AUDIT_EVENTS = {
 	/** An admin turned two-factor authentication off for another account, e.g. after a lost device. */
 	"user.two_factor_reset": { category: "users", severity: "warning", outcome: "success", source: "admin", target: "account" },
 	"user.recovery_codes_regenerated": { category: "users", severity: "notice", outcome: "success", source: "admin", target: "account" },
+	/** A new e-mail address was entered and a confirmation link sent to it. */
+	"user.email_change_requested": { category: "users", severity: "notice", outcome: "success", source: "admin", target: "account" },
+	"user.email_change_confirmed": { category: "users", severity: "notice", outcome: "success", source: "user", target: "account" },
+	"user.email_change_cancelled": { category: "users", severity: "info", outcome: "success", source: "admin", target: "account" },
+	/** A confirmation link that was already used, has expired or never existed. */
+	"user.email_change_failed": { category: "users", severity: "warning", outcome: "failure", source: "user", target: "account" },
 
 	"session.revoked": { category: "authentication", severity: "notice", outcome: "success", source: "admin", target: "session" },
 	/** An admin ended the sessions of all accounts, the own one included. */
@@ -103,6 +132,14 @@ export const AUDIT_EVENTS = {
 	"oidc.consent.granted": { category: "applications", severity: "notice", outcome: "success", source: "user", target: "application" },
 	"oidc.token.failed": { category: "applications", severity: "error", outcome: "failure", source: "application", target: "application" },
 	"oidc.sign_out": { category: "applications", severity: "info", outcome: "success", source: "user", target: "session" },
+
+	"email.sent": { category: "email", severity: "info", outcome: "success", source: "system", target: "message" },
+	"email.failed": { category: "email", severity: "error", outcome: "failure", source: "system", target: "message" },
+	"email.settings.updated": { category: "email", severity: "notice", outcome: "success", source: "admin", target: "instance" },
+	"email.settings.enabled": { category: "email", severity: "notice", outcome: "success", source: "admin", target: "instance" },
+	"email.settings.disabled": { category: "email", severity: "warning", outcome: "success", source: "admin", target: "instance" },
+	"email.connection.tested": { category: "email", severity: "info", outcome: "success", source: "admin", target: "instance" },
+	"email.connection.failed": { category: "email", severity: "warning", outcome: "failure", source: "admin", target: "instance" },
 
 	"settings.updated": { category: "system", severity: "notice", outcome: "success", source: "admin", target: "instance" },
 	"signing_key.rotated": { category: "system", severity: "warning", outcome: "success", source: "admin", target: "signing_key" },

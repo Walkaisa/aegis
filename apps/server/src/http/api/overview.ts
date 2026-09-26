@@ -59,7 +59,7 @@ export async function overviewRoutes(app: FastifyInstance): Promise<void> {
 			topApplications: topApplications.map((entry) => ({
 				id: entry.id,
 				name: entry.name,
-				logoUrl: entry.id ? applicationLogoUrl(entry.id, entry.logoHash) : null,
+				logoUrl: applicationLogoUrl(entry.id, entry.logoHash),
 				authorizations: entry.value,
 			})),
 			recentEvents,

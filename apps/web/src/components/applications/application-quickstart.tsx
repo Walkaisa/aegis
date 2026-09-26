@@ -1,7 +1,7 @@
 "use client";
 
 import type { ClientWithSecretResponse } from "@aegis/contracts";
-import { CircleCheck, CircleSlash, History, KeyRound, MonitorSmartphone, ShieldCheck } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -11,7 +11,7 @@ import { SecretDialog } from "@/components/applications/secret-dialog";
 import { CodeBlock } from "@/components/code-block";
 import { CopyField } from "@/components/copy-button";
 import { ConfirmDialog } from "@/components/dashboard/confirm-dialog";
-import { DetailRow, DetailsCard, FactGrid, Section } from "@/components/dashboard/page";
+import { DetailRow, DetailsCard, Section } from "@/components/dashboard/page";
 import { LoadingState } from "@/components/dashboard/states";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -34,7 +34,6 @@ interface DiscoveryDocument {
 export function ApplicationQuickstart() {
 	const t = useTranslations("quickstart");
 	const tClientForm = useTranslations("clientForm");
-	const tKinds = useTranslations("applicationKinds");
 	const dates = useDateFormat();
 	const { client, path, setClient } = useApplication();
 	const discovery = useJsonQuery<DiscoveryDocument>("/.well-known/openid-configuration");
@@ -66,34 +65,6 @@ export function ApplicationQuickstart() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<FactGrid
-				facts={[
-					{
-						icon: client.enabled ? <CircleCheck /> : <CircleSlash />,
-						label: t("facts.status"),
-						value: client.enabled ? t("facts.enabled") : t("facts.disabled"),
-						hint: client.enabled ? t("facts.enabledHint") : t("facts.disabledHint"),
-					},
-					{
-						icon: <ShieldCheck />,
-						label: t("detailLabels.type"),
-						value: tKinds(`${kind}.title`),
-						hint: confidential ? t("facts.confidential") : t("facts.public"),
-					},
-					{
-						icon: <MonitorSmartphone />,
-						label: t("facts.sessions"),
-						value: client.activeSessionCount,
-						hint: t("facts.sessionsHint", { count: client.activeSessionCount }),
-					},
-					{
-						icon: <History />,
-						label: t("detailLabels.lastUsed"),
-						value: client.lastAuthorizedAt ? dates.relative(client.lastAuthorizedAt) : t("neverUsed"),
-						hint: client.lastAuthorizedAt ? dates.dateTime(client.lastAuthorizedAt) : undefined,
-					},
-				]}
-			/>
 			<div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<div className="flex min-w-0 flex-col gap-6">
 					<Section title={t("credentials")} description={t("credentialsDescription")}>

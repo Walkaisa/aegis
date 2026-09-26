@@ -6,9 +6,13 @@ import { accountReference } from "../../../services/users.js";
 import { access } from "../../access.js";
 import { requestMeta, requireSettings } from "../../request-context.js";
 import { toInstanceSettingsDto } from "../dto.js";
+import { emailSettingsRoutes } from "./email.js";
 import { keysRoutes } from "./keys.js";
 
-/** `/api/settings`: settings of the instance. Its signing keys live below `/keys` (`keys.ts`). */
+/**
+ * `/api/settings`: settings of the instance. Its signing keys live below `/keys` (`keys.ts`) and
+ * the e-mail server below `/email` (`email.ts`).
+ */
 export async function settingsRoutes(app: FastifyInstance): Promise<void> {
 	const { services } = app;
 	const respond = (): InstanceSettingsDto => toInstanceSettingsDto(requireSettings(services), services.config.issuer);
@@ -50,4 +54,5 @@ export async function settingsRoutes(app: FastifyInstance): Promise<void> {
 	});
 
 	await app.register(keysRoutes, { prefix: "/keys" });
+	await app.register(emailSettingsRoutes, { prefix: "/email" });
 }

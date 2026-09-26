@@ -277,6 +277,7 @@ export function AuditPage() {
 								setFrom(rangeStart(hours));
 								setState((current) => ({ ...current, page: 1 }));
 							}}
+							className="max-sm:grid max-sm:min-w-0 max-sm:flex-1 max-sm:grid-cols-4 max-sm:*:h-9 max-sm:*:min-w-0 max-sm:*:px-1"
 							aria-label={t("range.label")}
 						>
 							{AUDIT_RANGE_HOURS.map((hours) => (
@@ -289,6 +290,7 @@ export function AuditPage() {
 							type="button"
 							variant="outline"
 							size="icon-sm"
+							className="max-sm:size-9"
 							aria-label={t("refresh")}
 							disabled={refreshing}
 							onClick={() => void load()}

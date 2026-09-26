@@ -7,15 +7,17 @@ import {
 	type ClientDto,
 	type ClientSessionDto,
 	type ClientUserDto,
+	type EmailSettingsDto,
 	type InstanceSettingsDto,
 	ROLE_PERMISSIONS,
 	type SessionDto,
 	type SigningKeyDto,
+	SMTP_DEFAULT_PORTS,
 	type SupportedScope,
 	type UserApplicationDto,
 	type UserDto,
 } from "@aegis/contracts";
-import type { OidcClientRecord, SessionRecord, SigningKeyRecord, SystemSettingsRecord, UserRecord } from "@aegis/db";
+import type { EmailSettingsRecord, OidcClientRecord, SessionRecord, SigningKeyRecord, SystemSettingsRecord, UserRecord } from "@aegis/db";
 import { SECOND_MS, toIso, toIsoOrNull } from "../../lib/time.js";
 import type { AssignedUserRow } from "../../repositories/client-assignments.js";
 import type { ClientSummary } from "../../repositories/clients.js";
@@ -183,5 +185,42 @@ export function toSigningKeyDto(key: SigningKeyRecord): SigningKeyDto {
 		status: key.status,
 		createdAt: toIso(key.createdAt),
 		retiredAt: toIsoOrNull(key.retiredAt),
+	};
+}
+
+/** The stored SMTP settings as the form reads them; the password is never part of it. */
+export function toEmailSettingsDto(record: EmailSettingsRecord | null, instanceName: string): EmailSettingsDto {
+	if (!record) {
+		return {
+			enabled: false,
+			configured: false,
+			host: "",
+			port: SMTP_DEFAULT_PORTS.starttls,
+			security: "starttls",
+			username: null,
+			hasPassword: false,
+			fromName: instanceName,
+			fromAddress: "",
+			replyTo: null,
+			allowInvalidCertificate: false,
+			lastVerifiedAt: null,
+			updatedAt: null,
+		};
+	}
+
+	return {
+		enabled: record.enabled,
+		configured: true,
+		host: record.host,
+		port: record.port,
+		security: record.security,
+		username: record.username,
+		hasPassword: record.passwordCiphertext !== null,
+		fromName: record.fromName,
+		fromAddress: record.fromAddress,
+		replyTo: record.replyTo,
+		allowInvalidCertificate: record.allowInvalidCertificate,
+		lastVerifiedAt: toIsoOrNull(record.lastVerifiedAt),
+		updatedAt: toIso(record.updatedAt),
 	};
 }

@@ -127,6 +127,7 @@ export async function authRequestRoutes(app: FastifyInstance): Promise<void> {
 				reauthenticationRequired: requiresReauthentication(interaction),
 				deniedAccount: current && !allowed ? toAuthRequestAccount(current.user) : null,
 				scopes: promptScopes(interaction, client),
+				passwordResetEnabled: services.email.isEnabled(),
 			};
 		}
 

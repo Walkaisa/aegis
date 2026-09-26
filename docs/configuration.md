@@ -8,7 +8,7 @@ Aegis is configured with environment variables. A commented template is in
 | Variable | Description |
 | --- | --- |
 | `AEGIS_ISSUER` | Public URL of Aegis, origin only, for example `https://auth.example.com`. Must use `https` in production, except for `localhost`. |
-| `AEGIS_ENCRYPTION_KEY` | 32 bytes as base64 or hex (`openssl rand -base64 32`). Encrypts signing keys, cookie keys and client secrets. Never change or lose it. |
+| `AEGIS_ENCRYPTION_KEY` | 32 bytes as base64 or hex (`openssl rand -base64 32`). Encrypts signing keys, cookie keys, client secrets and the SMTP password. Never change or lose it. |
 | `AEGIS_DATABASE_URL` | PostgreSQL connection URL. |
 
 ## Optional
@@ -30,3 +30,5 @@ Some settings live in the database and can be changed by administrators at any t
 
 - **Instance name** and **session lifetime** (30 days by default) under Settings.
 - **Audit log retention** directly on the audit log page.
+- **E-mail server** (SMTP) under Settings → Email. Aegis uses it for password resets, confirmations of new
+  e-mail addresses and notifications about password changes. Without it, these features stay hidden.

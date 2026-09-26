@@ -27,12 +27,12 @@ export function DataTablePagination({
 	const last = Math.min(page * pageSize, total);
 
 	return (
-		<div className="flex flex-col gap-3 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+		<div className="flex flex-col gap-3 border-t px-4 py-3 @min-[600px]/table:flex-row @min-[600px]/table:items-center @min-[600px]/table:justify-between">
 			<p className="text-xs text-muted-foreground tabular-nums">{t("range", { first, last, total })}</p>
 
-			<div className="flex items-center justify-between gap-4 sm:justify-end">
+			<div className="flex items-center justify-between gap-4 @min-[600px]/table:justify-end">
 				<div className="flex items-center gap-2">
-					<span className="hidden text-xs text-muted-foreground sm:inline">{t("rowsPerPage")}</span>
+					<span className="hidden text-xs text-muted-foreground @min-[600px]/table:inline">{t("rowsPerPage")}</span>
 					<Select value={String(pageSize)} onValueChange={(value) => onPageSize(Number(value))}>
 						<SelectTrigger size="sm" className="w-[4.5rem]" aria-label={t("rowsPerPage")}>
 							<SelectValue />
@@ -53,6 +53,7 @@ export function DataTablePagination({
 						type="button"
 						variant="outline"
 						size="icon-sm"
+						className="hidden @min-[600px]/table:inline-flex"
 						aria-label={t("firstPage")}
 						disabled={page <= 1}
 						onClick={() => onPage(1)}
@@ -83,6 +84,7 @@ export function DataTablePagination({
 						type="button"
 						variant="outline"
 						size="icon-sm"
+						className="hidden @min-[600px]/table:inline-flex"
 						aria-label={t("lastPage")}
 						disabled={page >= pageCount}
 						onClick={() => onPage(pageCount)}

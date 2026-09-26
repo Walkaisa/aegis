@@ -1,5 +1,14 @@
-/** Pages outside the administration UI: sign-in (admin and OIDC), consent, results and setup. */
-const AUTH_PAGES = new Set(["/sign-in", "/consent", "/error", "/signed-out", "/setup"]);
+/** Pages outside the administration UI: sign-in (admin and OIDC), consent, results, setup and the pages reached from an e-mail. */
+const AUTH_PAGES = new Set([
+	"/sign-in",
+	"/consent",
+	"/error",
+	"/signed-out",
+	"/setup",
+	"/forgot-password",
+	"/reset-password",
+	"/verify-email",
+]);
 
 export function isAuthPage(pathname: string): boolean {
 	return AUTH_PAGES.has(pathname);

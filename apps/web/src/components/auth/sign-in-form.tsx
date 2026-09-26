@@ -5,6 +5,7 @@ import { ArrowRight, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 import { AuthCard } from "@/components/auth/auth-card";
+import { ForgotPasswordLink } from "@/components/auth/forgot-password-link";
 import { FormField } from "@/components/form-field";
 import { IconInput } from "@/components/icon-input";
 import { PasswordInput } from "@/components/password-input";
@@ -129,6 +130,8 @@ export function SignInForm() {
 							aria-invalid={errors.password ? true : undefined}
 						/>
 					</FormField>
+
+					{instance?.passwordResetEnabled ? <ForgotPasswordLink /> : null}
 
 					<Button type="submit" size="lg" className="group/submit mt-1 h-10 w-full text-sm" disabled={submitting}>
 						{submitting ? <Spinner /> : null}

@@ -25,6 +25,8 @@ export function UsersPage() {
 		() => [
 			{
 				id: "name",
+				minWidth: 130,
+				priority: 0,
 				header: t("columns.name"),
 				locked: true,
 				flexible: true,
@@ -32,31 +34,46 @@ export function UsersPage() {
 				cell: (user) => (
 					<div className="flex min-w-0 items-center gap-3">
 						<UserAvatar name={user.displayName} src={user.avatarUrl} />
-						<div className="flex min-w-0 flex-col">
-							<span className="truncate font-medium">{user.displayName}</span>
-							<span className="truncate text-xs text-muted-foreground">{user.email}</span>
-						</div>
+						<span className="truncate font-medium" title={user.displayName}>
+							{user.displayName}
+						</span>
 					</div>
 				),
 			},
 			{
 				id: "role",
+				minWidth: 94,
+				priority: 2,
 				header: t("columns.role"),
 				value: (user) => user.role,
 				searchable: false,
-				hideBelow: "md",
 				cell: (user) => <RoleBadge role={user.role} />,
 			},
 			{
 				id: "status",
+				minWidth: 94,
+				priority: 1,
 				header: t("columns.status"),
 				value: (user) => user.enabled,
 				searchable: false,
-				hideBelow: "md",
 				cell: (user) => <AccountStatus enabled={user.enabled} />,
 			},
 			{
+				id: "email",
+				minWidth: 220,
+				priority: 4,
+				header: t("columns.email"),
+				value: (user) => user.email,
+				cell: (user) => (
+					<span className="block max-w-56 truncate text-muted-foreground" title={user.email}>
+						{user.email}
+					</span>
+				),
+			},
+			{
 				id: "sessions",
+				minWidth: 100,
+				priority: 5,
 				header: t("columns.sessions"),
 				value: (user) => user.activeSessionCount,
 				searchable: false,
@@ -66,20 +83,22 @@ export function UsersPage() {
 			},
 			{
 				id: "createdAt",
+				minWidth: 125,
+				priority: 6,
 				header: t("columns.createdAt"),
 				value: (user) => new Date(user.createdAt),
 				searchable: false,
-				hideBelow: "lg",
-				cell: (user) => <span className="text-sm text-muted-foreground">{dates.date(user.createdAt)}</span>,
+				cell: (user) => <span className="block truncate text-sm text-muted-foreground">{dates.date(user.createdAt)}</span>,
 			},
 			{
 				id: "lastSignIn",
+				minWidth: 155,
+				priority: 3,
 				header: t("columns.lastSignIn"),
 				value: (user) => (user.lastSignInAt ? new Date(user.lastSignInAt) : null),
 				searchable: false,
-				hideBelow: "lg",
 				cell: (user) => (
-					<span className="text-sm text-muted-foreground">
+					<span className="block truncate text-sm text-muted-foreground">
 						{user.lastSignInAt ? dates.relative(user.lastSignInAt) : t("neverSignedIn")}
 					</span>
 				),
@@ -128,6 +147,7 @@ export function UsersPage() {
 				<ErrorState error={error} onRetry={() => void reload()} />
 			) : (
 				<DataTable
+					adaptive
 					label={t("title")}
 					columns={columns}
 					data={data?.users ?? []}
@@ -139,19 +159,6 @@ export function UsersPage() {
 					defaultState={{ sort: { columnId: "name", direction: "asc" } }}
 					emptyTitle={t("emptyTitle")}
 					emptyDescription={t("emptyDescription")}
-					renderCard={(user) => (
-						<div className="flex min-w-0 items-center gap-3">
-							<UserAvatar name={user.displayName} src={user.avatarUrl} />
-							<div className="flex min-w-0 flex-col gap-1">
-								<span className="truncate font-medium">{user.displayName}</span>
-								<span className="truncate text-xs text-muted-foreground">{user.email}</span>
-								<span className="flex flex-wrap items-center gap-2 pt-0.5">
-									<RoleBadge role={user.role} />
-									<AccountStatus enabled={user.enabled} />
-								</span>
-							</div>
-						</div>
-					)}
 				/>
 			)}
 		</Page>

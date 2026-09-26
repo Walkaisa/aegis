@@ -1,5 +1,5 @@
 import { oidcArtifacts } from "@aegis/db";
-import { and, eq, gt, inArray, isNotNull, isNull, lte, notInArray, or, type SQL } from "drizzle-orm";
+import { and, eq, gt, inArray, isNotNull, isNull, lte, notInArray, or, type SQL, sql } from "drizzle-orm";
 import type { Database } from "../db/database.js";
 
 export type OidcPayload = Record<string, unknown>;
@@ -95,6 +95,23 @@ export class OidcArtifactRepository {
 	public async deleteByClient(clientId: string): Promise<number> {
 		const result = await this.database.db.delete(oidcArtifacts).where(eq(oidcArtifacts.clientId, clientId));
 		return result.rowCount ?? 0;
+	}
+
+	/**
+	 * Removes what refers to an application without carrying its `client_id` as a lookup column:
+	 * sign-ins still in progress and its entry in the provider sessions of every account.
+	 */
+	public async deleteClientReferences(clientId: string): Promise<void> {
+		const { db } = this.database;
+		await db
+			.delete(oidcArtifacts)
+			.where(and(eq(oidcArtifacts.model, "Interaction"), sql`${oidcArtifacts.payload} -> 'params' ->> 'client_id' = ${clientId}`));
+		await db
+			.update(oidcArtifacts)
+			.set({
+				payload: sql`jsonb_set(${oidcArtifacts.payload}, '{authorizations}', (${oidcArtifacts.payload} -> 'authorizations') - ${clientId}::text)`,
+			})
+			.where(and(eq(oidcArtifacts.model, "Session"), sql`${oidcArtifacts.payload} -> 'authorizations' ? ${clientId}::text`));
 	}
 
 	/** Invalidates the grants, codes and tokens one account holds for one application. */

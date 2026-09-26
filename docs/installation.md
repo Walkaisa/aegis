@@ -54,8 +54,8 @@ Then start Aegis:
 docker compose up -d
 ```
 
-Keep `AEGIS_ENCRYPTION_KEY` safe. It encrypts signing keys and client secrets, and Aegis cannot read
-them without it. See [Configuration](configuration.md) for all options.
+Keep `AEGIS_ENCRYPTION_KEY` safe. It encrypts signing keys, client secrets and the SMTP password, and
+Aegis cannot read them without it. See [Configuration](configuration.md) for all options.
 
 ## First start
 
@@ -110,8 +110,8 @@ be rolled back by starting an older image.
 
 ## Backup and restore
 
-Back up the database and `AEGIS_ENCRYPTION_KEY`. Without the key, signing keys and client secrets
-cannot be decrypted.
+Back up the database and `AEGIS_ENCRYPTION_KEY`. Without the key, signing keys, client secrets and the
+SMTP password cannot be decrypted.
 
 ```bash
 docker compose exec -T postgres pg_dump -U aegis -d aegis --format=custom > aegis.dump

@@ -6,24 +6,29 @@ import type { Database } from "../db/database.js";
 import { SecondFactorCookie } from "../http/second-factor-cookie.js";
 import { SessionCookie } from "../http/session-cookie.js";
 import { OidcRuntime } from "../oidc/runtime.js";
+import { AccountTokenRepository } from "../repositories/account-tokens.js";
 import { AuditLog } from "../repositories/audit.js";
 import { AvatarRepository } from "../repositories/avatars.js";
 import { ClientAssignmentRepository } from "../repositories/client-assignments.js";
 import { ClientLogoRepository } from "../repositories/client-logos.js";
 import { ClientRepository } from "../repositories/clients.js";
 import { ConsentRepository } from "../repositories/consents.js";
+import { EmailSettingsRepository } from "../repositories/email-settings.js";
 import { KeyRepository } from "../repositories/keys.js";
 import { OidcArtifactRepository } from "../repositories/oidc-artifacts.js";
 import { RecoveryCodeRepository } from "../repositories/recovery-codes.js";
 import { SessionRepository } from "../repositories/sessions.js";
 import { SettingsRepository } from "../repositories/settings.js";
 import { UserRepository } from "../repositories/users.js";
+import { AccountRecoveryService } from "./account-recovery.js";
 import { ApplicationAccess } from "./application-access.js";
 import { AuthService } from "./auth.js";
 import { AvatarService } from "./avatars.js";
 import { ClientLogoService } from "./client-logos.js";
 import { ClientService } from "./clients.js";
+import { EmailService } from "./email.js";
 import { KeyService } from "./keys.js";
+import { Mailer } from "./mailer.js";
 import { AccessRevoker } from "./revocation.js";
 import { SecondFactorChallenges } from "./second-factor-challenges.js";
 import { SetupService } from "./setup.js";
@@ -45,6 +50,8 @@ export interface AppServices {
 	keys: KeyRepository;
 	oidcArtifacts: OidcArtifactRepository;
 	audit: AuditLog;
+	emailSettings: EmailSettingsRepository;
+	accountTokens: AccountTokenRepository;
 	avatars: AvatarRepository;
 	clientLogos: ClientLogoRepository;
 	clientAssignments: ClientAssignmentRepository;
@@ -64,6 +71,9 @@ export interface AppServices {
 	clientService: ClientService;
 	avatarService: AvatarService;
 	clientLogoService: ClientLogoService;
+	email: EmailService;
+	/** Password resets and e-mail address confirmations. */
+	recovery: AccountRecoveryService;
 	oidc: OidcRuntime;
 	setup: SetupService;
 }
@@ -79,6 +89,8 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 	const keys = new KeyRepository(database);
 	const oidcArtifacts = new OidcArtifactRepository(database);
 	const audit = new AuditLog(database);
+	const emailSettings = new EmailSettingsRepository(database);
+	const accountTokens = new AccountTokenRepository(database);
 	const avatars = new AvatarRepository(database);
 	const clientLogos = new ClientLogoRepository(database);
 	const clientAssignments = new ClientAssignmentRepository(database);
@@ -92,7 +104,19 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 	const revoker = new AccessRevoker(database, { sessions, oidcArtifacts });
 	const twoFactor = new TwoFactorService({ database, users, recoveryCodes, passwords, encryptor, settings, revoker, audit });
 	const auth = new AuthService({ users, sessions, settings, passwords, audit, throttle, access: applicationAccess, twoFactor });
-	const userService = new UserService({ database, users, passwords, revoker, audit });
+	const mailer = new Mailer();
+	const email = new EmailService({ config, settings, emailSettings, encryptor, audit, mailer, log });
+	const recovery = new AccountRecoveryService({
+		database,
+		users,
+		tokens: accountTokens,
+		passwords,
+		revoker,
+		audit,
+		email,
+		issuer: config.issuer,
+	});
+	const userService = new UserService({ database, users, passwords, revoker, audit, recovery });
 	const clientService = new ClientService({
 		database,
 		clients,
@@ -150,6 +174,8 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 		keys,
 		oidcArtifacts,
 		audit,
+		emailSettings,
+		accountTokens,
 		avatars,
 		clientLogos,
 		clientAssignments,
@@ -167,6 +193,8 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 		clientService,
 		avatarService,
 		clientLogoService,
+		email,
+		recovery,
 		oidc,
 		setup,
 	};

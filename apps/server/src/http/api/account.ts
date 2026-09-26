@@ -14,11 +14,18 @@ import { notFound } from "../../lib/errors.js";
 import { parseInput } from "../../lib/validation.js";
 import { access } from "../access.js";
 import { rateLimits } from "../rate-limits.js";
-import { requestMeta } from "../request-context.js";
+import { requestLocale, requestMeta } from "../request-context.js";
 import { toUserDto } from "./dto.js";
 import { imageRoutes } from "./images.js";
 
-/** `/api/account`: profile, password, two-factor authentication and profile picture of the signed-in account. */
+/**
+ * `/api/account`: profile, password, two-factor authentication and profile picture of the
+ * signed-in account.
+ *
+ * While an e-mail server is configured, a new address is confirmed from that address before it
+ * takes effect; the pending change is part of every response here and is finished by the public
+ * route in `auth/recovery.ts`.
+ */
 export async function accountRoutes(app: FastifyInstance): Promise<void> {
 	const { services } = app;
 
@@ -27,21 +34,38 @@ export async function accountRoutes(app: FastifyInstance): Promise<void> {
 		if (!account) {
 			throw notFound("Account");
 		}
-		return { account: toUserDto(account) };
+		return { account: toUserDto(account), pendingEmailChange: await services.recovery.pendingEmailChange(id) };
 	};
 
-	/** Replaces display name and e-mail address; a new e-mail address requires the current password. */
+	app.get("/", access("console:access"), async (request): Promise<AccountResponse> => respond(request.auth.user.id));
+
+	/**
+	 * Replaces display name and e-mail address; a new e-mail address requires the current password.
+	 * With an e-mail server configured it is only applied once the new address confirms it.
+	 */
 	app.put("/", access("console:access", rateLimits.sensitive), async (request): Promise<AccountResponse> => {
 		const input = parseInput(profileUpdateSchema, request.body);
-		const updated = await services.userService.updateOwnProfile(request.auth.user, input, requestMeta(request));
+		const updated = await services.userService.updateOwnProfile(request.auth.user, input, requestLocale(request), requestMeta(request));
 		return respond(updated.id);
 	});
 
-	/** Changes the password and ends all other sessions of the account. */
+	/** Drops a pending e-mail change; the account keeps the address it signs in with. */
+	app.delete("/email-change", access("console:access"), async (request): Promise<AccountResponse> => {
+		await services.recovery.cancelEmailChange(request.auth.user, requestMeta(request));
+		return respond(request.auth.user.id);
+	});
+
+	/** Sends the confirmation link again, to the same address, with a fresh token. */
+	app.post("/email-change/resend", access("console:access", rateLimits.sensitive), async (request): Promise<AccountResponse> => {
+		await services.recovery.resendEmailChange(request.auth.user, requestLocale(request), requestMeta(request));
+		return respond(request.auth.user.id);
+	});
+
+	/** Changes the password, ends all other sessions of the account and tells its owner by e-mail. */
 	app.post("/password", access("console:access", rateLimits.sensitive), async (request, reply) => {
 		const { auth } = request;
 		const input = parseInput(passwordChangeSchema, request.body);
-		await services.userService.changeOwnPassword(auth.user, auth.session.id, input, requestMeta(request));
+		await services.userService.changeOwnPassword(auth.user, auth.session.id, input, requestLocale(request), requestMeta(request));
 		return reply.code(204).send();
 	});
 

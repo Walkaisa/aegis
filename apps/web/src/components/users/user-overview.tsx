@@ -1,13 +1,13 @@
 "use client";
 
 import type { AuditPageResponse, SessionApplicationDto, SessionListResponse } from "@aegis/contracts";
-import { ArrowRight, CircleCheck, CircleSlash, History, KeyRound, LogIn, MonitorSmartphone } from "lucide-react";
+import { ArrowRight, History } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { AppAvatar } from "@/components/app-avatar";
 import { EventList } from "@/components/dashboard/event-list";
-import { DetailRow, DetailsCard, FactGrid, Section } from "@/components/dashboard/page";
+import { DetailRow, DetailsCard, Section } from "@/components/dashboard/page";
 import { ErrorState, LoadingState } from "@/components/dashboard/states";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/components/users/user-layout";
@@ -29,35 +29,6 @@ export function UserOverview() {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<FactGrid
-				facts={[
-					{
-						icon: user.enabled ? <CircleCheck /> : <CircleSlash />,
-						label: t("facts.status"),
-						value: user.enabled ? t("facts.enabled") : t("facts.disabled"),
-						hint: user.enabled ? t("statusEnabledDescription") : t("statusDisabledDescription"),
-					},
-					{
-						icon: <LogIn />,
-						label: t("detailLabels.lastSignIn"),
-						value: user.lastSignInAt ? dates.relative(user.lastSignInAt) : t("never"),
-						hint: user.lastSignInAt ? dates.dateTime(user.lastSignInAt) : undefined,
-					},
-					{
-						icon: <MonitorSmartphone />,
-						label: t("detailLabels.sessions"),
-						value: user.activeSessionCount,
-						hint: t("activeSessions", { count: user.activeSessionCount }),
-					},
-					{
-						icon: <KeyRound />,
-						label: t("detailLabels.passwordChanged"),
-						value: dates.relative(user.passwordChangedAt),
-						hint: dates.dateTime(user.passwordChangedAt),
-					},
-				]}
-			/>
-
 			<div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
 				<Section
 					title={t("activity")}

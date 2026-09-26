@@ -52,60 +52,57 @@ export function SessionsPage() {
 		() => [
 			{
 				id: "account",
+				minWidth: 110,
+				priority: 0,
 				header: t("columns.account"),
 				locked: true,
 				flexible: true,
 				value: (session) => `${session.account.displayName} ${session.account.email}`,
 				cell: (session) => (
-					<div className="flex min-w-0 items-center gap-3">
-						<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground [&_svg]:size-4">
-							<DeviceIcon userAgent={session.userAgent} />
-						</span>
-						<div className="flex min-w-0 flex-col">
-							<span className="flex min-w-0 items-center gap-2">
-								<Link href={`/users/${session.account.id}`} className="truncate font-medium hover:underline">
-									{session.account.displayName}
-								</Link>
-								{session.current ? <Badge>{t("current")}</Badge> : null}
-								{session.secondFactor ? <SecondFactorBadge /> : null}
-							</span>
-							<span className="truncate text-xs text-muted-foreground">{session.account.email}</span>
-						</div>
-					</div>
+					<Link
+						href={`/users/${session.account.id}`}
+						className="block truncate font-medium hover:underline"
+						title={session.account.email}
+					>
+						{session.account.displayName}
+					</Link>
 				),
 			},
 			{
 				id: "role",
+				minWidth: 94,
+				priority: 4,
 				header: t("columns.role"),
 				value: (session) => session.account.role,
 				searchable: false,
-				hideBelow: "md",
 				cell: (session) => <RoleBadge role={session.account.role} />,
 			},
 			{
 				id: "device",
+				minWidth: 185,
+				priority: 2,
 				header: t("columns.device"),
 				value: (session) => deviceLabel(session.userAgent),
-				hideBelow: "lg",
 				cell: (session) => (
-					<div className="flex min-w-0 flex-col">
-						<span className="truncate text-sm">{deviceLabel(session.userAgent)}</span>
-						{session.ipAddress ? (
-							<span className="truncate font-mono text-xs text-muted-foreground">{session.ipAddress}</span>
-						) : null}
+					<div className="flex items-center gap-2 text-muted-foreground [&_svg]:size-4 [&_svg]:shrink-0">
+						<DeviceIcon userAgent={session.userAgent} />
+						<span className="min-w-0 truncate" title={deviceLabel(session.userAgent)}>
+							{deviceLabel(session.userAgent)}
+						</span>
 					</div>
 				),
 			},
 			{
 				id: "applications",
+				minWidth: 190,
+				priority: 7,
 				header: t("columns.applications"),
 				value: (session) => session.applications.map((application) => application.name).join(" "),
-				hideBelow: "xl",
 				cell: (session) =>
 					session.applications.length === 0 ? (
 						<span className="text-xs text-muted-foreground">{t("noApplications")}</span>
 					) : (
-						<div className="flex flex-wrap items-center gap-1">
+						<div className="flex min-w-0 flex-wrap items-center gap-1">
 							{session.applications.map((application) => (
 								<Badge key={application.id} variant="outline" asChild>
 									<Link href={`/applications/${application.id}`} title={dates.dateTime(application.lastAuthorizedAt)}>
@@ -128,34 +125,83 @@ export function SessionsPage() {
 			},
 			{
 				id: "lastSeenAt",
+				minWidth: 112,
+				priority: 1,
 				header: t("columns.lastActive"),
 				value: (session) => new Date(session.lastSeenAt),
 				searchable: false,
-				hideBelow: "md",
 				cell: (session) => (
-					<span className="text-sm text-muted-foreground" title={dates.dateTime(session.lastSeenAt)}>
+					<span className="block truncate text-sm text-muted-foreground" title={dates.dateTime(session.lastSeenAt)}>
 						{dates.relative(session.lastSeenAt)}
 					</span>
 				),
 			},
 			{
+				id: "email",
+				minWidth: 220,
+				priority: 8,
+				header: t("columns.email"),
+				value: (session) => session.account.email,
+				hiddenByDefault: true,
+				cell: (session) => (
+					<span className="block max-w-56 truncate text-muted-foreground" title={session.account.email}>
+						{session.account.email}
+					</span>
+				),
+			},
+			{
+				id: "ipAddress",
+				minWidth: 160,
+				priority: 6,
+				header: t("columns.ipAddress"),
+				value: (session) => session.ipAddress,
+				cell: (session) => (
+					<code className="block max-w-40 truncate text-xs text-muted-foreground" title={session.ipAddress ?? undefined}>
+						{session.ipAddress ?? "–"}
+					</code>
+				),
+			},
+			{
+				id: "status",
+				minWidth: 150,
+				priority: 3,
+				header: t("columns.status"),
+				sortable: false,
+				cell: (session) => (
+					<span className="flex items-center gap-2">
+						{session.current ? <Badge>{t("current")}</Badge> : <span className="text-muted-foreground">–</span>}
+						{session.secondFactor ? <SecondFactorBadge /> : null}
+					</span>
+				),
+			},
+			{
 				id: "authenticatedAt",
+				minWidth: 170,
+				priority: 8,
 				header: t("columns.signedInAt"),
 				value: (session) => new Date(session.authenticatedAt),
 				searchable: false,
 				hiddenByDefault: true,
-				cell: (session) => <span className="text-sm text-muted-foreground">{dates.dateTime(session.authenticatedAt)}</span>,
+				cell: (session) => (
+					<span className="block truncate text-sm text-muted-foreground">{dates.dateTime(session.authenticatedAt)}</span>
+				),
 			},
 			{
 				id: "expiresAt",
+				minWidth: 170,
+				priority: 8,
 				header: t("columns.expiresAt"),
 				value: (session) => new Date(session.expiresAt),
 				searchable: false,
 				hiddenByDefault: true,
-				cell: (session) => <span className="text-sm text-muted-foreground">{dates.dateTime(session.expiresAt)}</span>,
+				cell: (session) => (
+					<span className="block truncate text-sm text-muted-foreground">{dates.dateTime(session.expiresAt)}</span>
+				),
 			},
 			{
 				id: "actions",
+				minWidth: 88,
+				priority: 0,
 				header: <span className="sr-only">{t("revoke")}</span>,
 				sortable: false,
 				locked: true,
@@ -222,6 +268,7 @@ export function SessionsPage() {
 				<ErrorState error={error} onRetry={() => void reload()} />
 			) : (
 				<DataTable
+					adaptive
 					label={t("title")}
 					columns={columns}
 					data={sessions}
@@ -231,40 +278,6 @@ export function SessionsPage() {
 					searchPlaceholder={t("searchPlaceholder")}
 					emptyTitle={t("emptyTitle")}
 					emptyDescription={t("emptyDescription")}
-					renderCard={(session) => (
-						<div className="flex min-w-0 flex-col gap-1.5">
-							<span className="flex flex-wrap items-center gap-2">
-								<Link href={`/users/${session.account.id}`} className="font-medium hover:underline">
-									{session.account.displayName}
-								</Link>
-								<RoleBadge role={session.account.role} />
-								{session.current ? <Badge>{t("current")}</Badge> : null}
-								{session.secondFactor ? <SecondFactorBadge /> : null}
-							</span>
-							<span className="text-xs text-muted-foreground">
-								{[session.account.email, deviceLabel(session.userAgent), session.ipAddress].filter(Boolean).join(" · ")}
-							</span>
-							<span className="text-xs text-muted-foreground">
-								{t("lastActive", { time: dates.relative(session.lastSeenAt) })}
-							</span>
-							<ConfirmDialog
-								trigger={
-									<Button variant="destructive" size="sm" className="mt-1 w-fit">
-										{t("revoke")}
-									</Button>
-								}
-								title={t("revokeTitle")}
-								description={
-									session.current
-										? t("revokeCurrentDescription")
-										: t("revokeDescription", { name: session.account.displayName })
-								}
-								confirmLabel={t("revokeConfirm")}
-								destructive
-								onConfirm={() => revoke(session.id, session.current)}
-							/>
-						</div>
-					)}
 				/>
 			)}
 		</Page>

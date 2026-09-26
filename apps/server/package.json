@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@aegis/contracts": "workspace:*",
 		"@aegis/db": "workspace:*",
+		"@aegis/email": "workspace:*",
 		"@fastify/cookie": "^11.1.2",
 		"@fastify/helmet": "^13.1.1",
 		"@fastify/http-proxy": "^11.6.2",
@@ -23,6 +24,7 @@
 		"drizzle-orm": "^0.45.2",
 		"fastify": "^5.12.5",
 		"jose": "^6.2.12",
+		"nodemailer": "^10.0.10",
 		"oidc-provider": "^9.12.2",
 		"otpauth": "^9.5.2",
 		"sharp": "0.35.4",

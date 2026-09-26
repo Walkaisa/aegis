@@ -189,14 +189,13 @@ function TopApplications({ data }: { data: OverviewDto | undefined }) {
 			) : (
 				<ol className="flex flex-col gap-1">
 					{entries.map((entry, index) => {
-						const name = entry.name || t("deleted");
 						const body = (
 							<>
 								<span className="w-4 shrink-0 text-xs font-medium text-muted-foreground tabular-nums">{index + 1}</span>
-								<AppAvatar name={name} src={entry.logoUrl} size="sm" />
+								<AppAvatar name={entry.name} src={entry.logoUrl} size="sm" />
 								<div className="flex min-w-0 flex-1 flex-col gap-1.5">
 									<div className="flex items-baseline justify-between gap-2">
-										<span className="truncate text-sm font-medium">{name}</span>
+										<span className="truncate text-sm font-medium">{entry.name}</span>
 										<span className="shrink-0 text-xs text-muted-foreground tabular-nums">
 											{format.number(entry.authorizations)}
 										</span>
@@ -211,17 +210,13 @@ function TopApplications({ data }: { data: OverviewDto | undefined }) {
 							</>
 						);
 						return (
-							<li key={entry.id ?? `deleted-${index}`}>
-								{entry.id ? (
-									<Link
-										href={`/applications/${entry.id}`}
-										className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted/60"
-									>
-										{body}
-									</Link>
-								) : (
-									<div className="flex items-center gap-3 px-2 py-2">{body}</div>
-								)}
+							<li key={entry.id}>
+								<Link
+									href={`/applications/${entry.id}`}
+									className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-muted/60"
+								>
+									{body}
+								</Link>
 							</li>
 						);
 					})}
@@ -233,7 +228,7 @@ function TopApplications({ data }: { data: OverviewDto | undefined }) {
 
 /** A sign-in through a registered application has been recorded (last 30 days). */
 function hasApplicationSignIn(data: OverviewDto): boolean {
-	return data.topApplications.some((entry) => entry.id !== null && entry.authorizations > 0);
+	return data.topApplications.some((entry) => entry.authorizations > 0);
 }
 
 /** The checklist disappears once an application exists, has been signed in to and the own account is secured. */
