@@ -5,6 +5,13 @@ All notable changes to Aegis are documented here. Aegis follows
 [release-please](https://github.com/googleapis/release-please) from the
 [Conventional Commits](https://www.conventionalcommits.org) on `main`; see [Releasing](docs/releasing.md).
 
+## [1.2.0](https://github.com/Walkaisa/aegis/compare/v1.1.1...v1.2.0) (2026-09-26)
+
+
+### Features
+
+* add update check and side panels for sessions and audit log ([#15](https://github.com/Walkaisa/aegis/issues/15)) ([a875de1](https://github.com/Walkaisa/aegis/commit/a875de113c6d0b1c6db5e6d99dad9f9ce8347941))
+
 ## [1.1.1](https://github.com/Walkaisa/aegis/compare/v1.1.0...v1.1.1) (2026-09-26)
 
 
