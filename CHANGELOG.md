@@ -5,6 +5,18 @@ All notable changes to Aegis are documented here. Aegis follows
 [release-please](https://github.com/googleapis/release-please) from the
 [Conventional Commits](https://www.conventionalcommits.org) on `main`; see [Releasing](docs/releasing.md).
 
+## [1.1.0](https://github.com/Walkaisa/aegis/compare/v1.0.1...v1.1.0) (2026-09-26)
+
+
+### Features
+
+* add password reset and confirmed e-mail changes via SMTP ([#11](https://github.com/Walkaisa/aegis/issues/11)) ([18bf3e6](https://github.com/Walkaisa/aegis/commit/18bf3e6006b5f65bf6debd2b25cd7ad5d0629ad7))
+
+
+### Bug Fixes
+
+* **deps:** bump the production group across 1 directory with 5 updates ([#9](https://github.com/Walkaisa/aegis/issues/9)) ([39fc4c5](https://github.com/Walkaisa/aegis/commit/39fc4c5e5585cf0377f938c510c9910837c66fa5))
+
 ## [1.0.1](https://github.com/Walkaisa/aegis/compare/v1.0.0...v1.0.1) (2026-09-19)
 
 
