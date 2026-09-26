@@ -103,7 +103,13 @@ export function EmailLayout({
 									border={0}
 									width={CONTENT_WIDTH}
 									className={SURFACE.container}
-									style={{ width: `${CONTENT_WIDTH}px`, maxWidth: "100%", textAlign: "left" }}
+									style={{
+										width: `${CONTENT_WIDTH}px`,
+										maxWidth: "100%",
+										textAlign: "left",
+										// Collapsed borders ignore `border-radius`, which would leave the card with square borders.
+										borderCollapse: "separate",
+									}}
 								>
 									<tbody>
 										<tr>

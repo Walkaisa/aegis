@@ -34,6 +34,7 @@ async function main(): Promise<void> {
 
 	await services.oidc.reload();
 	const stopMaintenance = startMaintenance(services, log);
+	const stopUpdateChecks = services.updates.start();
 
 	let shuttingDown = false;
 	const shutdown = async (signal: NodeJS.Signals) => {
@@ -43,6 +44,7 @@ async function main(): Promise<void> {
 		shuttingDown = true;
 		log.info({ signal }, "Shutting down");
 		stopMaintenance();
+		stopUpdateChecks();
 		await app.close();
 		process.exit(0);
 	};

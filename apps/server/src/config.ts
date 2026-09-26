@@ -23,6 +23,8 @@ export interface AppConfig {
 	logLevel: "fatal" | "error" | "warn" | "info" | "debug" | "trace" | "silent";
 	argon2: Argon2Settings;
 	auditRetentionDays: number;
+	/** Whether Aegis looks for new releases on GitHub. */
+	updateCheck: boolean;
 }
 
 export class ConfigError extends Error {
@@ -48,6 +50,7 @@ const envSchema = z.object({
 	AEGIS_ARGON2_ITERATIONS: z.coerce.number().int().min(1).max(64).default(3),
 	AEGIS_ARGON2_PARALLELISM: z.coerce.number().int().min(1).max(64).default(4),
 	AEGIS_AUDIT_RETENTION_DAYS: z.coerce.number().int().min(1).max(3650).default(180),
+	AEGIS_UPDATE_CHECK: z.stringbool().default(true),
 });
 
 function parseIssuer(raw: string, isProduction: boolean): URL {
@@ -154,5 +157,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
 			parallelism: values.AEGIS_ARGON2_PARALLELISM,
 		},
 		auditRetentionDays: values.AEGIS_AUDIT_RETENTION_DAYS,
+		updateCheck: values.AEGIS_UPDATE_CHECK,
 	};
 }

@@ -16,5 +16,6 @@ export * from "./sessions";
 export * from "./settings";
 export * from "./snowflakes";
 export * from "./two-factor";
+export * from "./updates";
 export * from "./user-agent";
 export * from "./users";

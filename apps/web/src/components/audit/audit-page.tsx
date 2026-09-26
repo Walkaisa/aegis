@@ -15,9 +15,9 @@ import {
 import { RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AuditDetails } from "@/components/audit/audit-details";
 import { AuditActorAvatar, useAuditActor, useAuditText } from "@/components/audit/audit-event";
 import { AuditRetentionMenu } from "@/components/audit/audit-retention-menu";
+import { AuditSheet } from "@/components/audit/audit-sheet";
 import { AuditSummaryBar } from "@/components/audit/audit-summary-bar";
 import { SEVERITY_STYLES } from "@/components/audit/audit-tokens";
 import { useDeviceLabel } from "@/components/dashboard/device";
@@ -71,6 +71,8 @@ export function AuditPage() {
 	const [summary, setSummary] = useState<AuditSummaryResponse | undefined>(undefined);
 	const [error, setError] = useState<unknown>(null);
 	const [refreshing, setRefreshing] = useState(false);
+	/** The event shown in the side panel; kept as is, since events never change once recorded. */
+	const [openEvent, setOpenEvent] = useState<AuditEventDto | null>(null);
 
 	useEffect(() => {
 		const timer = setTimeout(() => setDebouncedSearch(state.search.trim()), SEARCH_DEBOUNCE_MS);
@@ -130,7 +132,7 @@ export function AuditPage() {
 				cell: (event) => {
 					const severity = SEVERITY_STYLES[event.severity];
 					return (
-						// One readable sentence, below it only severity and event type; the rest lives in the expanded row.
+						// One readable sentence, below it only severity and event type; the rest lives in the side panel.
 						<div className="flex min-w-0 items-stretch gap-3">
 							<span aria-hidden="true" className={cn("w-1 shrink-0 rounded-full", severity.fill)} />
 							<div className="flex min-w-0 flex-col gap-0.5 py-0.5">
@@ -257,7 +259,8 @@ export function AuditPage() {
 				filters={tableFilters}
 				searchPlaceholder={t("searchPlaceholder")}
 				pageSizeOptions={[...AUDIT_PAGE_SIZES]}
-				renderExpanded={(event) => <AuditDetails event={event} />}
+				onRowClick={setOpenEvent}
+				activeRowId={openEvent ? String(openEvent.id) : null}
 				emptyTitle={t("emptyTitle")}
 				emptyDescription={t("emptyDescription")}
 				header={<AuditSummaryBar summary={summary} selected={state.filters.severities ?? []} onToggle={toggleSeverity} />}
@@ -304,6 +307,8 @@ export function AuditPage() {
 			{summary?.oldestAt ? (
 				<p className="text-xs text-muted-foreground">{t("oldest", { date: dates.dateTime(summary.oldestAt) })}</p>
 			) : null}
+
+			<AuditSheet event={openEvent} onClose={() => setOpenEvent(null)} />
 		</Page>
 	);
 }

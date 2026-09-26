@@ -168,6 +168,18 @@ export function AuditEventIcon({ event, className }: { event: AuditEventDto; cla
 	);
 }
 
+/** Square icon for a severity: one fixed icon and colour per level. */
+export function SeverityIcon({ severity, className }: { severity: AuditSeverity; className?: string }) {
+	const style = SEVERITY_STYLES[severity];
+	const Icon = style.icon;
+
+	return (
+		<span aria-hidden="true" className={cn("flex shrink-0 items-center justify-center ring-1 ring-inset", style.surface, className)}>
+			<Icon className="size-[45%]" />
+		</span>
+	);
+}
+
 /** Pill with a coloured dot; routine severities stay muted. */
 export function SeverityBadge({ severity, className }: { severity: AuditSeverity; className?: string }) {
 	const t = useTranslations("audit");

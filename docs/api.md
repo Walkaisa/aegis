@@ -137,6 +137,8 @@ Public and cached for good: a new image always gets a new URL.
 | `GET` | `/api/settings/email` | `settings:read` | SMTP settings; the password is never returned |
 | `PUT` | `/api/settings/email` | `settings:manage` | Saves the SMTP settings; turning sending on verifies the connection first |
 | `POST` | `/api/settings/email/test` | `settings:manage` | Tests the entered settings without saving them, or sends a test message to the own address |
+| `GET` | `/api/settings/updates` | `settings:read` | Running version and the newest release from the last check |
+| `POST` | `/api/settings/updates/check` | `settings:manage` | Looks for a new release right away |
 
 ## Code layout
 
@@ -161,7 +163,7 @@ apps/server/src/http
     ├── applications/    /applications: index.ts, application.ts (/:id), users.ts, sessions.ts
     ├── sessions.ts      /sessions
     ├── audit.ts         /audit
-    └── settings/        /settings: index.ts, keys.ts, email.ts
+    └── settings/        /settings: index.ts, keys.ts, email.ts, updates.ts
 ```
 
 A route states who may call it next to its path, for example

@@ -184,6 +184,16 @@
 	}
 	html {
 		@apply font-sans;
+		/* The scrollbar always keeps its room, so content that grows past the fold never shifts the page. */
+		scrollbar-gutter: stable;
+	}
+	/*
+	 * Dialogs lock scrolling and add the scrollbar width as a margin; the stable gutter already keeps
+	 * that room, so the margin would count it twice. Important rules in a layer beat unlayered ones.
+	 */
+	body[data-scroll-locked] {
+		/* biome-ignore lint/complexity/noImportantStyles: only an important rule overrides the scroll lock's own */
+		margin-right: 0 !important;
 	}
 	::selection {
 		background-color: color-mix(in oklch, var(--primary) 25%, transparent);

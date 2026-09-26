@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDown, LogOut, Plus, UserRound } from "lucide-react";
+import { ChevronsUpDown, CircleArrowUp, LogOut, Plus, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -8,6 +8,7 @@ import { useState } from "react";
 import { BrandMark } from "@/components/brand";
 import { useAccount } from "@/components/dashboard/account-context";
 import { isNavItemActive, NAV_GROUPS } from "@/components/dashboard/navigation";
+import { useVersionStatus } from "@/components/dashboard/version-status";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -25,6 +26,7 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
+	SidebarMenuBadge,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
@@ -109,10 +111,42 @@ export function AppSidebar() {
 			</SidebarContent>
 
 			<SidebarFooter>
+				<UpdateNotice onNavigate={closeOnMobile} />
 				<AccountMenu onNavigate={closeOnMobile} />
 			</SidebarFooter>
 			<SidebarRail />
 		</Sidebar>
+	);
+}
+
+/** Points to the version details in the settings while a newer release is out. */
+function UpdateNotice({ onNavigate }: { onNavigate: () => void }) {
+	const t = useTranslations("nav");
+	const { status } = useVersionStatus();
+
+	if (!status?.updateAvailable || !status.latest) {
+		return null;
+	}
+	const label = t("updateAvailable", { version: status.latest.version });
+
+	return (
+		<SidebarMenu>
+			<SidebarMenuItem>
+				<SidebarMenuButton
+					asChild
+					tooltip={label}
+					className="bg-primary/8 font-medium text-primary hover:bg-primary/14 hover:text-primary active:bg-primary/20 active:text-primary"
+				>
+					<Link href="/settings#version" onClick={onNavigate}>
+						<CircleArrowUp />
+						<span>{t("update")}</span>
+					</Link>
+				</SidebarMenuButton>
+				<SidebarMenuBadge className="font-mono text-primary peer-hover/menu-button:text-primary">
+					{status.latest.version}
+				</SidebarMenuBadge>
+			</SidebarMenuItem>
+		</SidebarMenu>
 	);
 }
 

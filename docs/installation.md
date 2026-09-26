@@ -97,6 +97,10 @@ Aegis follows [Semantic Versioning](https://semver.org) and publishes these imag
 | `1.0.0` | nothing, always exactly this release |
 | `edge` | every change on `main`, unreleased and only for testing |
 
+Aegis looks for new releases on its own: Settings → General shows the running version, and a hint in the
+sidebar appears as soon as a newer release is out. It only asks GitHub's public API for the latest release;
+turn it off with `AEGIS_UPDATE_CHECK=false`.
+
 For production, pin the major version (`ghcr.io/walkaisa/aegis:1`) or an exact release and read the
 [changelog](../CHANGELOG.md) before upgrading to a new major version. Then update with:
 

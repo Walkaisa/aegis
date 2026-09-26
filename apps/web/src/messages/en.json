@@ -16,7 +16,8 @@
 		"discard": "Discard",
 		"saveChanges": "Save changes",
 		"securedBy": "Secured by Aegis · OpenID Connect",
-		"moreActions": "More actions"
+		"moreActions": "More actions",
+		"close": "Close"
 	},
 	"preferences": {
 		"language": "Language",
@@ -39,7 +40,9 @@
 		"groups": {
 			"manage": "Manage",
 			"system": "System"
-		}
+		},
+		"update": "Update available",
+		"updateAvailable": "Aegis {version} is available"
 	},
 	"devices": {
 		"browserOnOs": "{browser} on {os}",
@@ -919,9 +922,8 @@
 		"emptyTitle": "No active sessions",
 		"emptyDescription": "As soon as somebody signs in, their session shows up here.",
 		"columns": {
-			"email": "Email address",
 			"ipAddress": "IP address",
-			"status": "Status",
+			"signIn": "Sign-in",
 			"account": "Account",
 			"role": "Role",
 			"device": "Device",
@@ -931,7 +933,15 @@
 			"expiresAt": "Expires"
 		},
 		"secondFactor": "2FA",
-		"secondFactorHint": "Confirmed with a second factor"
+		"secondFactorHint": "Confirmed with a second factor",
+		"passwordOnly": "Password only",
+		"panel": {
+			"account": "Account",
+			"session": "Session",
+			"applications": "Applications ({count})",
+			"lastSignIn": "signed in {time}",
+			"revoke": "End session"
+		}
 	},
 	"audit": {
 		"title": "Audit log",
@@ -1254,7 +1264,32 @@
 		"cancelEmailChange": "Cancel",
 		"emailChangeResent": "Confirmation link sent again.",
 		"emailChangeCancelled": "The email change was cancelled.",
-		"emailChangeStarted": "Confirm the new address from the link sent to {email}."
+		"emailChangeStarted": "Confirm the new address from the link sent to {email}.",
+		"version": "Version",
+		"versionDescription": "Aegis looks for new releases on GitHub every ten minutes.",
+		"versionDescriptionOff": "The version of Aegis that is running.",
+		"checkForUpdates": "Check now",
+		"releaseNotes": "Release notes",
+		"upToDate": "Up to date",
+		"updateAvailable": "Update available",
+		"updateCheckOff": "Check off",
+		"updateCheckError": "Check failed",
+		"notCheckedYet": "Not checked yet",
+		"lastChecked": "Last checked {time}.",
+		"updateCheckPending": "The first check runs shortly after the start.",
+		"updateCheckDisabled": "Looking for new releases is turned off via AEGIS_UPDATE_CHECK.",
+		"updateCheckFailed": "GitHub could not be reached. Try again later.",
+		"updateCheckFailedSince": "The last check failed; the last successful one was {time}.",
+		"updateAvailableTitle": "Aegis {version} is available",
+		"updateAvailableDescription": "Read the release notes, back up the database and pull the new image.",
+		"viewRelease": "View release",
+		"updateGuide": "Update guide",
+		"updateFound": "Aegis {version} is available.",
+		"upToDateToast": "You are running the latest version.",
+		"installedVersion": "Installed",
+		"latestVersion": "Latest release",
+		"releasedOn": "Released on {date}",
+		"latestUnknown": "Not known yet"
 	},
 	"emailSettings": {
 		"optional": "(optional)",
@@ -1334,7 +1369,6 @@
 		"security": "Security"
 	},
 	"table": {
-		"details": "Toggle details",
 		"search": "Search",
 		"searchPlaceholder": "Search…",
 		"filters": "Filters",

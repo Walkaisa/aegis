@@ -23,6 +23,7 @@ Aegis is configured with environment variables. A commented template is in
 | `AEGIS_ARGON2_ITERATIONS` | `3` | Argon2id iterations. |
 | `AEGIS_ARGON2_PARALLELISM` | `4` | Argon2id parallelism. |
 | `AEGIS_AUDIT_RETENTION_DAYS` | `180` | Initial retention of audit log entries. |
+| `AEGIS_UPDATE_CHECK` | `true` | Look for new releases on GitHub every ten minutes and show them to admins. Set to `false` for instances without internet access. |
 
 ## Settings in the interface
 
