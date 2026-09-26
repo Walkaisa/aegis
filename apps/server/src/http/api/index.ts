@@ -20,7 +20,7 @@ import { usersRoutes } from "./users/index.js";
  *
  * - `/health`, `/instance`, `/setup` (`system.ts`)
  * - `/media` (`media.ts`)
- * - `/auth` (`auth/`)
+ * - `/auth`, including the password reset and e-mail confirmation links (`auth/`)
  * - `/account`, `/overview` (`account.ts`, `overview.ts`)
  * - `/users`, `/applications` (`users/`, `applications/`)
  * - `/sessions`, `/audit` (`sessions.ts`, `audit.ts`)

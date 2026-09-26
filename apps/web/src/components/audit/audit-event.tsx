@@ -13,8 +13,12 @@ import { CATEGORY_ICONS, CATEGORY_SURFACES, SEVERITY_STYLES, SOURCE_ICONS } from
  * The marker is a private-use character, which never occurs in a translated message or a name.
  */
 const MARK = String.fromCharCode(0xe000);
-const MARKERS = { client: `${MARK}client${MARK}`, subject: `${MARK}subject${MARK}` } as const;
-const MARKER_PATTERN = new RegExp(`${MARK}(client|subject)${MARK}`);
+const MARKERS = {
+	client: `${MARK}client${MARK}`,
+	subject: `${MARK}subject${MARK}`,
+	recipient: `${MARK}recipient${MARK}`,
+} as const;
+const MARKER_PATTERN = new RegExp(`${MARK}(client|subject|recipient)${MARK}`);
 
 /** Display name of an account or name of an application, falling back to the label stored with the event. */
 export function referenceName(reference: AuditReferenceDto | null): string | null {
@@ -28,6 +32,8 @@ function useEventNames() {
 		(event: AuditEventDto) => ({
 			client: referenceName(event.client) ?? t("unknownApplication"),
 			subject: referenceName(event.subject) ?? t("unknownAccount"),
+			// Messages are addressed to a mailbox, which may not belong to an account at all.
+			recipient: typeof event.metadata.recipient === "string" ? event.metadata.recipient : t("unknownRecipient"),
 		}),
 		[t],
 	);

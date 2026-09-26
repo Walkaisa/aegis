@@ -39,6 +39,11 @@ export const API_ERROR_CODES = [
 	"two_factor_already_enabled",
 	"two_factor_not_enabled",
 	"two_factor_setup_required",
+	"email_not_configured",
+	"email_delivery_failed",
+	"smtp_connection_failed",
+	"verification_token_invalid",
+	"email_change_pending",
 ] as const;
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[number];
@@ -79,6 +84,7 @@ export const VALIDATION_CODES = [
 	"too_many_items",
 	"out_of_range",
 	"totp_code_invalid",
+	"smtp_host_invalid",
 ] as const;
 
 export type ValidationCode = (typeof VALIDATION_CODES)[number];

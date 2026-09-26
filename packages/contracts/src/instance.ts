@@ -6,6 +6,8 @@ export interface InstanceInfo {
 	instanceName: string | null;
 	issuer: string;
 	version: string;
+	/** Whether the sign-in page offers a password reset; requires a working e-mail server. */
+	passwordResetEnabled: boolean;
 }
 
 /** Creates the initial admin account. Only possible once. */

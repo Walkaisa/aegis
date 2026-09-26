@@ -21,6 +21,8 @@ export async function systemRoutes(app: FastifyInstance): Promise<void> {
 			instanceName: settings?.instanceName ?? null,
 			issuer: services.config.issuer,
 			version: services.config.version,
+			// Without a working e-mail server there is nowhere to send a reset link.
+			passwordResetEnabled: services.email.isEnabled(),
 		};
 	});
 

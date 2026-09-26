@@ -184,7 +184,8 @@ export class ClientService {
 				client: clientReference(client),
 				meta,
 			});
-			await revoker.revokeClient(client);
+			// Assignments, consents, the logo and the sign-ins of sessions go with the row itself.
+			await revoker.removeClient(client);
 			await clients.delete(client.id);
 		});
 	}

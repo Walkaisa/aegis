@@ -11,6 +11,8 @@ for applications (`/.well-known/*`, `/oauth2/*`) are separate and follow the pro
   fields of a resource (or creates an assignment), `PATCH` changes individual fields and `DELETE`
   removes or ends something.
 - Bodies are JSON. The only exceptions are image uploads to `…/avatar` and `…/logo` (PNG, JPEG or WebP).
+- Links in e-mails carry their token in the URL fragment, which browsers never send to a server, and the
+  API only receives it in the request body, so tokens don't end up in logs.
 - Errors always look like `{ "error": { "code": "not_found", "message": "…", "issues": [] } }`, with
   `issues` only for `validation_failed`. Unknown paths below `/api` return `404 not_found`.
 - IDs are snowflakes, sent as strings.
@@ -40,7 +42,7 @@ applications may always sign in.
 | Method | Path | Permission | Purpose |
 | --- | --- | --- | --- |
 | `GET` | `/api/health` | public | Health check for containers |
-| `GET` | `/api/instance` | public | Instance name, setup state, issuer and version |
+| `GET` | `/api/instance` | public | Instance name, setup state, issuer, version and whether password resets are offered |
 | `POST` | `/api/setup` | public, once | Creates the first admin and signs it in |
 
 ### Media
@@ -65,12 +67,19 @@ Public and cached for good: a new image always gets a new URL.
 | `POST` | `/api/auth/requests/:challenge/second-factor` | public | Confirms the pending second factor and continues the request |
 | `POST` | `/api/auth/requests/:challenge/consent` | signed in | Grants the requested scopes |
 | `POST` | `/api/auth/requests/:challenge/cancel` | public | Cancels; the application receives `access_denied` |
+| `POST` | `/api/auth/password-reset` | public | Sends a reset link if the address belongs to an account; always `202`, whether or not it does |
+| `POST` | `/api/auth/password-reset/validate` | public | Checks a reset link and returns the account it belongs to, with a masked address |
+| `POST` | `/api/auth/password-reset/confirm` | public | Redeems the link, sets the new password and ends every session of the account |
+| `POST` | `/api/auth/email-change/confirm` | public | Redeems the link sent to a new address and applies it |
 
 ### Own account and dashboard
 
 | Method | Path | Permission | Purpose |
 | --- | --- | --- | --- |
-| `PUT` | `/api/account` | `console:access` | Changes the own display name and e-mail address |
+| `GET` | `/api/account` | `console:access` | The own account and an e-mail change waiting for confirmation |
+| `PUT` | `/api/account` | `console:access` | Changes the own display name and e-mail address; with an e-mail server, a new address is confirmed from its mailbox first |
+| `DELETE` | `/api/account/email-change` | `console:access` | Cancels the pending e-mail change |
+| `POST` | `/api/account/email-change/resend` | `console:access` | Sends the confirmation link of the pending change again |
 | `POST` | `/api/account/password` | `console:access` | Changes the own password |
 | `GET` | `/api/account/two-factor` | `console:access` | Whether two-factor authentication is on and how many recovery codes are left |
 | `POST`, `DELETE` | `/api/account/two-factor/setup` | `console:access` | Starts the setup with the password (returns the secret), or discards it |
@@ -125,6 +134,9 @@ Public and cached for good: a new image always gets a new URL.
 | `PATCH` | `/api/settings` | `settings:manage` | Changes individual instance settings |
 | `GET` | `/api/settings/keys` | `settings:read` | Signing keys and password hashing parameters |
 | `POST` | `/api/settings/keys/rotate` | `settings:manage` | Rotates the signing key |
+| `GET` | `/api/settings/email` | `settings:read` | SMTP settings; the password is never returned |
+| `PUT` | `/api/settings/email` | `settings:manage` | Saves the SMTP settings; turning sending on verifies the connection first |
+| `POST` | `/api/settings/email/test` | `settings:manage` | Tests the entered settings without saving them, or sends a test message to the own address |
 
 ## Code layout
 
@@ -142,14 +154,14 @@ apps/server/src/http
     ├── index.ts         /api: deny by default, CSRF check, response headers, 404 for unknown paths
     ├── system.ts        /health, /instance, /setup
     ├── media.ts         /media
-    ├── auth/            /auth: session.ts, requests.ts, sign-in.ts (steps both share)
+    ├── auth/            /auth: session.ts, requests.ts, sign-in.ts (steps both share), recovery.ts
     ├── account.ts       /account
     ├── overview.ts      /overview
     ├── users/           /users: index.ts, user.ts (/:id)
     ├── applications/    /applications: index.ts, application.ts (/:id), users.ts, sessions.ts
     ├── sessions.ts      /sessions
     ├── audit.ts         /audit
-    └── settings/        /settings: index.ts, keys.ts
+    └── settings/        /settings: index.ts, keys.ts, email.ts
 ```
 
 A route states who may call it next to its path, for example

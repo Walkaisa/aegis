@@ -3,12 +3,13 @@
 import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, ChevronsUpDown, SearchX } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Fragment, type ReactNode, useMemo, useState } from "react";
+import { type CSSProperties, Fragment, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { DataTablePagination } from "./data-table-pagination";
 import { activeFilterCount, DataTableToolbar } from "./data-table-toolbar";
+import { columnWidth, fitColumns } from "./fit-columns";
 import type { DataTableColumn, DataTableFilter, DataTableState, SortableValue } from "./types";
 
 export type { DataTableColumn, DataTableFilter, DataTableSort, DataTableState } from "./types";
@@ -71,6 +72,16 @@ function matchesSearch<T>(row: T, columns: DataTableColumn<T>[], term: string): 
 	});
 }
 
+function headerStyle<T>(column: DataTableColumn<T>, adaptive: boolean): CSSProperties | undefined {
+	if (column.flexible) {
+		return adaptive ? undefined : { width: "100%" };
+	}
+	if (adaptive) {
+		return { width: columnWidth(column) };
+	}
+	return column.width ? { width: column.width } : undefined;
+}
+
 function matchesFilters<T>(row: T, filters: DataTableFilter<T>[], selection: Record<string, string[]>): boolean {
 	return filters.every((filter) => {
 		const selected = selection[filter.id] ?? [];
@@ -116,6 +127,8 @@ export interface DataTableProps<T> {
 	/** Hides the pagination bar; useful for short, fixed lists. */
 	paginated?: boolean;
 	className?: string;
+	/** Fit columns to the available space and expose remaining fields in row details. */
+	adaptive?: boolean;
 	/** Accessible name of the table. */
 	label?: string;
 }
@@ -148,6 +161,7 @@ export function DataTable<T>({
 	pageSizeOptions = DEFAULT_PAGE_SIZES,
 	paginated = true,
 	className,
+	adaptive = false,
 	label,
 }: DataTableProps<T>) {
 	const t = useTranslations("table");
@@ -158,6 +172,23 @@ export function DataTable<T>({
 		}),
 	);
 	const [expanded, setExpanded] = useState<string | null>(null);
+	const frameRef = useRef<HTMLDivElement>(null);
+	const [width, setWidth] = useState<number | null>(null);
+
+	useLayoutEffect(() => {
+		const frame = frameRef.current;
+		if (!adaptive || !frame) {
+			return;
+		}
+		setWidth(frame.clientWidth);
+		const observer = new ResizeObserver(([entry]) => {
+			if (entry) {
+				setWidth(Math.floor(entry.contentRect.width));
+			}
+		});
+		observer.observe(frame);
+		return () => observer.disconnect();
+	}, [adaptive]);
 
 	const state = controlledState ?? internalState;
 	const setState = (next: Partial<DataTableState>) => {
@@ -174,6 +205,25 @@ export function DataTable<T>({
 		() => columns.filter((column) => column.locked || !state.hiddenColumns.includes(column.id)),
 		[columns, state.hiddenColumns],
 	);
+
+	const fitted = adaptive && width !== null ? fitColumns(visibleColumns, width) : { shown: visibleColumns, overflow: [] };
+	const canExpand = Boolean(renderExpanded) || fitted.overflow.length > 0;
+	const tableColumns = fitted.shown;
+	const expandedContent = (row: T) =>
+		renderExpanded ? (
+			renderExpanded(row)
+		) : (
+			<dl className="grid min-w-0 gap-x-6 gap-y-4 sm:grid-cols-2">
+				{fitted.overflow.map((column) => (
+					<div key={column.id} className="min-w-0">
+						<dt className="mb-1 text-xs text-muted-foreground">{column.header}</dt>
+						<dd className="min-w-0 text-sm [overflow-wrap:anywhere] [&_*]:max-w-full [&_span]:whitespace-normal">
+							{column.cell(row)}
+						</dd>
+					</div>
+				))}
+			</dl>
+		);
 
 	const processed = useMemo(() => {
 		if (manual) {
@@ -205,10 +255,10 @@ export function DataTable<T>({
 		setState({ sort: { columnId, direction }, page: 1 });
 	}
 
-	const columnCount = visibleColumns.length + (renderExpanded || rowHref ? 1 : 0);
+	const columnCount = tableColumns.length + (canExpand || rowHref ? 1 : 0);
 
 	return (
-		<div className={cn("flex flex-col gap-3", className)}>
+		<div className={cn("@container/table flex min-w-0 max-w-full flex-col gap-3", className)}>
 			{header}
 
 			{searchable || filters.length > 0 || toolbarActions || columns.some((column) => !column.locked) ? (
@@ -223,7 +273,7 @@ export function DataTable<T>({
 				/>
 			) : null}
 
-			<div className="overflow-hidden rounded-xl border bg-card">
+			<div ref={frameRef} className="overflow-hidden rounded-xl border bg-card">
 				{loading ? (
 					<div className="flex flex-col gap-2 p-4" aria-busy="true">
 						{["a", "b", "c", "d", "e"].map((key) => (
@@ -260,32 +310,31 @@ export function DataTable<T>({
 												/>
 											</Link>
 										) : (
-											<div className="px-4 py-3">{renderCard(row)}</div>
+											<div className="overflow-hidden px-3 py-3">{renderCard(row)}</div>
 										)}
 									</li>
 								))}
 							</ul>
 						) : null}
 
-						<Table className={cn(renderCard && "hidden md:table")} aria-label={label}>
+						<Table className={cn(renderCard && "hidden md:table", adaptive && "table-fixed")} aria-label={label}>
 							<TableHeader className="bg-muted/40">
 								<TableRow className="hover:bg-transparent">
-									{visibleColumns.map((column) => {
+									{tableColumns.map((column) => {
 										const sortable = column.sortable !== false && Boolean(column.value);
 										const active = state.sort?.columnId === column.id ? state.sort : null;
 										const Icon = !active ? ChevronsUpDown : active.direction === "asc" ? ArrowUp : ArrowDown;
 										return (
 											<TableHead
 												key={column.id}
-												style={
-													column.flexible ? { width: "100%" } : column.width ? { width: column.width } : undefined
-												}
+												style={headerStyle(column, adaptive)}
 												aria-sort={active ? (active.direction === "asc" ? "ascending" : "descending") : undefined}
 												className={cn(
-													"px-4 text-xs font-medium text-muted-foreground",
+													"px-3 text-xs font-medium text-muted-foreground",
 													column.flexible && "max-w-0",
+													adaptive && "overflow-hidden",
 													column.align === "end" && "text-right",
-													column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
+													!adaptive && column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
 													column.headerClassName,
 												)}
 											>
@@ -311,7 +360,7 @@ export function DataTable<T>({
 											</TableHead>
 										);
 									})}
-									{renderExpanded || rowHref ? <TableHead className="w-16 px-2" /> : null}
+									{canExpand || rowHref ? <TableHead className="w-10 px-2" /> : null}
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -321,23 +370,24 @@ export function DataTable<T>({
 									const open = expanded === id;
 
 									// With a row link every cell is its own link, so the whole row is clickable.
-									const cells = visibleColumns.map((column) => (
+									const cells = tableColumns.map((column) => (
 										<TableCell
 											key={column.id}
 											className={cn(
 												"p-0 align-middle",
 												column.flexible && "max-w-0",
+												adaptive && "overflow-hidden",
 												column.align === "end" && "text-right",
-												column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
+												!adaptive && column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
 												column.className,
 											)}
 										>
 											{href ? (
-												<Link href={href} className="block px-4 py-3 outline-none">
+												<Link href={href} className="block overflow-hidden px-3 py-3 outline-none">
 													{column.cell(row)}
 												</Link>
 											) : (
-												<div className="px-4 py-3">{column.cell(row)}</div>
+												<div className="overflow-hidden px-3 py-3">{column.cell(row)}</div>
 											)}
 										</TableCell>
 									));
@@ -348,30 +398,41 @@ export function DataTable<T>({
 												data-state={open ? "selected" : undefined}
 												className={cn(
 													"group/row",
-													(href || renderExpanded) && "cursor-pointer",
+													(href || canExpand) && "cursor-pointer",
 													open && "border-b-0 bg-muted/40",
 												)}
-												onClick={renderExpanded ? () => setExpanded(open ? null : id) : undefined}
+												onClick={
+													canExpand
+														? (event) => {
+																if (!(event.target as HTMLElement).closest("a, button, [role=button]")) {
+																	setExpanded(open ? null : id);
+																}
+															}
+														: undefined
+												}
 											>
 												{cells}
-												{renderExpanded ? (
-													<TableCell className="w-16 py-0 pr-5 pl-2 text-right">
-														<span
-															aria-hidden="true"
+												{canExpand ? (
+													<TableCell className="w-10 p-0 text-center">
+														<button
+															type="button"
+															aria-label={t("details")}
+															aria-expanded={open}
+															onClick={() => setExpanded(open ? null : id)}
 															className={cn(
-																"inline-flex size-6 items-center justify-center rounded-md text-muted-foreground transition-[color,rotate] duration-300 group-hover/row:text-foreground",
+																"inline-flex size-8 cursor-pointer items-center justify-center rounded-md focus-visible:ring-2 focus-visible:ring-ring text-muted-foreground transition-[color,rotate] duration-300 group-hover/row:text-foreground",
 																open && "rotate-180",
 															)}
 														>
 															<ChevronDown className="size-4" />
-														</span>
+														</button>
 													</TableCell>
 												) : href ? (
-													<TableCell className="w-16 p-0 text-right">
+													<TableCell className="w-10 p-0 text-right">
 														<Link
 															href={href}
 															aria-label={t("open")}
-															className="flex items-center justify-end py-3 pr-6 pl-2 text-muted-foreground/60 outline-none"
+															className="flex items-center justify-end py-3 px-3 text-muted-foreground/60 outline-none"
 														>
 															<ChevronRight
 																className="size-4 transition-[color,translate] duration-300 ease-out group-hover/row:translate-x-1 group-hover/row:text-foreground motion-reduce:transition-none"
@@ -381,10 +442,10 @@ export function DataTable<T>({
 													</TableCell>
 												) : null}
 											</TableRow>
-											{renderExpanded && open ? (
+											{canExpand && open ? (
 												<TableRow className="hover:bg-transparent">
 													<TableCell colSpan={columnCount} className="bg-muted/25 px-4 py-4 whitespace-normal">
-														{renderExpanded(row)}
+														{expandedContent(row)}
 													</TableCell>
 												</TableRow>
 											) : null}

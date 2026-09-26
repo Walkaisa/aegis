@@ -12,6 +12,9 @@
 		"loadFailed": "Could not load",
 		"retry": "Try again",
 		"done": "Done",
+		"unsavedChanges": "Unsaved changes",
+		"discard": "Discard",
+		"saveChanges": "Save changes",
 		"securedBy": "Secured by Aegis · OpenID Connect",
 		"moreActions": "More actions"
 	},
@@ -24,7 +27,6 @@
 	},
 	"nav": {
 		"tagline": "Administration",
-		"adminArea": "Administration area",
 		"newApplication": "New application",
 		"dashboard": "Dashboard",
 		"applications": "Applications",
@@ -56,7 +58,6 @@
 		"footer": "The setup can only be completed once. Add more users in the administration afterwards.",
 		"progress": "Step {current} of {total}",
 		"stepComplete": "complete",
-		"stepCurrent": "current step",
 		"instanceStep": "Instance",
 		"instanceTitle": "Welcome to Aegis",
 		"instanceDescription": "Start by naming your instance. You will create the admin account next.",
@@ -88,6 +89,49 @@
 		"submit": "Sign in",
 		"forbidden": "This account has no access to the administration. Sign in with an admin account.",
 		"footer": "Admin accounts only. To use your applications, sign in through the application itself."
+	},
+	"forgotPassword": {
+		"pageTitle": "Reset password",
+		"title": "Forgot your password?",
+		"description": "Enter your email address and we’ll send you a link to choose a new password.",
+		"email": "Email address",
+		"submit": "Send reset link",
+		"back": "Back to sign-in",
+		"sentTitle": "Check your inbox",
+		"sentDescription": "If an account exists for {email}, a reset link is on its way.",
+		"sentHint": "The link is valid for one hour. Nothing arrived? Check your spam folder or try again.",
+		"again": "Use a different address",
+		"footer": "For security, we answer the same way whether or not an account exists."
+	},
+	"resetPassword": {
+		"pageTitle": "Choose a new password",
+		"title": "Choose a new password",
+		"description": "for {email}",
+		"checking": "Checking the link…",
+		"newPassword": "New password",
+		"confirmPassword": "Confirm new password",
+		"submit": "Save password",
+		"expires": "This link expires on {date}.",
+		"invalidTitle": "This link no longer works",
+		"invalidDescription": "It may have expired or already been used. Request a new one.",
+		"request": "Request a new link",
+		"successTitle": "Your password has been changed",
+		"successDescription": "All sessions of your account were signed out. Sign in with your new password.",
+		"signIn": "Go to sign-in",
+		"footer": "Every other session of your account ends once the password changes."
+	},
+	"verifyEmail": {
+		"pageTitle": "Confirm email address",
+		"title": "Confirming your address",
+		"checking": "One moment…",
+		"successTitle": "Address confirmed",
+		"successDescription": "{email} is now the address you sign in with.",
+		"invalidTitle": "This link no longer works",
+		"invalidDescription": "It may have expired, already been used, or the change was cancelled.",
+		"missingTitle": "Nothing to confirm",
+		"missingDescription": "This page needs the confirmation link from the email we sent you.",
+		"signIn": "Go to sign-in",
+		"footer": "Your old address stays active until the new one is confirmed."
 	},
 	"signedOut": {
 		"title": "Signed out",
@@ -160,6 +204,7 @@
 		"too_long": "The value is too long.",
 		"email_invalid": "Please enter a valid email address.",
 		"email_taken": "This email address is already used by another account.",
+		"email_change_pending": "Another account is already waiting to move to this address.",
 		"password_too_short": "Use at least {min} characters.",
 		"password_too_long": "Use no more than {max} characters.",
 		"password_mismatch": "The passwords do not match.",
@@ -177,7 +222,8 @@
 		"too_many_items": "Too many entries.",
 		"out_of_range": "The value is outside the allowed range.",
 		"totp_code_invalid": "Enter the 6-digit code from your authenticator app.",
-		"second_factor_invalid": "The code is invalid or has already been used."
+		"second_factor_invalid": "The code is invalid or has already been used.",
+		"smtp_host_invalid": "Enter the host name only, without protocol or port."
 	},
 	"errors": {
 		"bad_request": "The request is invalid.",
@@ -207,7 +253,12 @@
 		"second_factor_expired": "The sign-in has expired. Please sign in again.",
 		"two_factor_already_enabled": "Two-factor authentication is already on.",
 		"two_factor_not_enabled": "Two-factor authentication is not on.",
-		"two_factor_setup_required": "The setup has expired. Please start it again."
+		"two_factor_setup_required": "The setup has expired. Please start it again.",
+		"email_not_configured": "No email server is configured, so this is not available.",
+		"email_delivery_failed": "The message could not be sent. Check the email settings.",
+		"smtp_connection_failed": "The email server could not be reached.",
+		"verification_token_invalid": "This link is no longer valid. Request a new one.",
+		"email_change_pending": "Another account is already waiting to move to this address."
 	},
 	"oidcError": {
 		"pageTitle": "Sign-in error",
@@ -317,8 +368,7 @@
 		"topApplications": {
 			"title": "Most used applications",
 			"description": "Sign-ins of the last 30 days.",
-			"empty": "No sign-ins to applications yet.",
-			"deleted": "Deleted application"
+			"empty": "No sign-ins to applications yet."
 		}
 	},
 	"applications": {
@@ -327,7 +377,6 @@
 		"new": "New application",
 		"emptyTitle": "Register your first application",
 		"emptyDescription": "Choose what kind of application you want to connect to Aegis.",
-		"disabled": "Disabled",
 		"columns": {
 			"application": "Application",
 			"clientId": "Client ID",
@@ -338,12 +387,10 @@
 			"lastUsedColumn": "Last used",
 			"createdAt": "Created"
 		},
-		"activeSessions": "{count, plural, =0 {No active session} one {# active session} other {# active sessions}}",
 		"access": {
 			"everyone": "All accounts",
 			"assigned": "{count, plural, =0 {Nobody assigned} one {# account} other {# accounts}}"
 		},
-		"lastUsed": "Last used {time}",
 		"neverUsed": "Never used",
 		"searchPlaceholder": "Search name or client ID…"
 	},
@@ -560,9 +607,6 @@
 		"status": "Status",
 		"enabled": "Application enabled",
 		"enabledDescription": "Disabled applications cannot start sign-ins; existing tokens are revoked.",
-		"unsavedChanges": "Unsaved changes",
-		"discard": "Discard",
-		"save": "Save changes",
 		"saved": "Changes saved.",
 		"danger": "Danger zone",
 		"dangerDescription": "This action cannot be undone.",
@@ -657,6 +701,7 @@
 		"description": "Accounts for signing in to applications and for managing Aegis.",
 		"create": "Create account",
 		"columns": {
+			"email": "Email address",
 			"name": "Name",
 			"role": "Role",
 			"status": "Status",
@@ -749,7 +794,6 @@
 		"resetDone": "Password reset.",
 		"generatedTitle": "New password",
 		"generatedDescription": "Copy the password now and share it securely. It will not be shown again.",
-		"sessions": "Sessions",
 		"activeSessions": "{count, plural, =0 {No active session} one {# active session} other {# active sessions}}",
 		"danger": "Danger zone",
 		"dangerDescription": "This action cannot be undone.",
@@ -875,6 +919,9 @@
 		"emptyTitle": "No active sessions",
 		"emptyDescription": "As soon as somebody signs in, their session shows up here.",
 		"columns": {
+			"email": "Email address",
+			"ipAddress": "IP address",
+			"status": "Status",
 			"account": "Account",
 			"role": "Role",
 			"device": "Device",
@@ -906,7 +953,12 @@
 			"invalid_password": "wrong password",
 			"account_disabled": "account disabled",
 			"not_permitted": "not permitted",
-			"invalid_second_factor": "wrong code"
+			"invalid_second_factor": "wrong code",
+			"invalid_token": "unknown link",
+			"expired": "link expired",
+			"already_used": "link already used",
+			"email_taken": "address already in use",
+			"delivery_failed": "message could not be sent"
 		},
 		"events": {
 			"setup": {
@@ -917,7 +969,12 @@
 					"succeeded": "{subject} signed in",
 					"failed": "Sign-in failed"
 				},
-				"sign_out": "{subject} signed out"
+				"sign_out": "{subject} signed out",
+				"password_reset": {
+					"requested": "Password reset requested",
+					"completed": "{subject} reset the password",
+					"failed": "Invalid password reset link"
+				}
 			},
 			"user": {
 				"created": "Account {subject} created",
@@ -933,7 +990,11 @@
 				"two_factor_enabled": "{subject} turned on two-factor authentication",
 				"two_factor_disabled": "{subject} turned off two-factor authentication",
 				"two_factor_reset": "Two-factor authentication of {subject} reset",
-				"recovery_codes_regenerated": "{subject} created new recovery codes"
+				"recovery_codes_regenerated": "{subject} created new recovery codes",
+				"email_change_requested": "{subject} requested a new email address",
+				"email_change_confirmed": "{subject} confirmed the new email address",
+				"email_change_cancelled": "{subject} cancelled the email change",
+				"email_change_failed": "Invalid confirmation link"
 			},
 			"session": {
 				"revoked": "Session of {subject} ended",
@@ -971,6 +1032,19 @@
 			},
 			"signing_key": {
 				"rotated": "Signing key rotated"
+			},
+			"email": {
+				"sent": "Email to {recipient} sent",
+				"failed": "Email to {recipient} could not be sent",
+				"settings": {
+					"updated": "Email settings changed",
+					"enabled": "Email sending turned on",
+					"disabled": "Email sending turned off"
+				},
+				"connection": {
+					"tested": "Email server reachable",
+					"failed": "Email server not reachable"
+				}
 			}
 		},
 		"refresh": "Refresh",
@@ -990,7 +1064,8 @@
 			"authentication": "Sign-in",
 			"users": "Users",
 			"applications": "Applications",
-			"system": "System"
+			"system": "System",
+			"email": "Email"
 		},
 		"severities": {
 			"info": "Info",
@@ -1014,7 +1089,8 @@
 			"session": "Session",
 			"application": "Application",
 			"instance": "Instance",
-			"signing_key": "Signing key"
+			"signing_key": "Signing key",
+			"message": "Message"
 		},
 		"range": {
 			"label": "Time range",
@@ -1044,7 +1120,6 @@
 			"application": "Application",
 			"ipAddress": "IP address",
 			"client": "Device",
-			"metadata": "Additional data",
 			"unknown": "Unknown",
 			"yes": "Yes",
 			"no": "No",
@@ -1074,8 +1149,29 @@
 			"clientId": "Client ID",
 			"name": "Name",
 			"type": "Type",
-			"secondFactor": "Second factor"
-		}
+			"secondFactor": "Second factor",
+			"template": "Message",
+			"recipient": "Recipient",
+			"subject": "Subject",
+			"messageId": "Message ID",
+			"durationMs": "Duration in ms",
+			"locale": "Language",
+			"delivered": "Delivered",
+			"host": "Host",
+			"port": "Port",
+			"security": "Encryption",
+			"fromAddress": "Sender address",
+			"authenticated": "With sign-in",
+			"allowInvalidCertificate": "Certificate check off"
+		},
+		"templates": {
+			"password_reset": "Password reset",
+			"password_changed": "Password changed",
+			"email_change_confirm": "Confirm new address",
+			"email_change_notice": "New address requested",
+			"email_test": "Test message"
+		},
+		"unknownRecipient": "unknown recipient"
 	},
 	"settings": {
 		"title": "Settings",
@@ -1083,6 +1179,7 @@
 		"tabs": {
 			"general": "General",
 			"account": "My account",
+			"email": "Email",
 			"security": "Security"
 		},
 		"save": "Save",
@@ -1120,8 +1217,8 @@
 		"keysDescription": "Aegis signs ID tokens with this key (RS256).",
 		"rotateKey": "Rotate key",
 		"rotateKeyTitle": "Rotate signing key?",
-		"rotateKeyDescription": "New tokens are signed with a new key. The previous key stays published for now so issued tokens remain valid.",
-		"rotateKeyConfirm": "Rotate",
+		"rotateKeyDescription": "New ID tokens are signed with a new key from now on. The previous key stays published for {days} days, so tokens it signed can still be verified; applications that use the published key set pick up the new key automatically.",
+		"rotateKeyConfirm": "Rotate key",
 		"keyRotated": "A new signing key is active.",
 		"active": "Active",
 		"retired": "Retired",
@@ -1149,7 +1246,68 @@
 		"passwordChangedAt": "Password changed",
 		"never": "Never",
 		"languageSearch": "Search language…",
-		"languageEmpty": "No language found."
+		"languageEmpty": "No language found.",
+		"emailPending": "Waiting for confirmation",
+		"emailPendingDescription": "A confirmation link was sent to {email}. You keep signing in with your current address until it is confirmed.",
+		"emailPendingExpires": "The link expires on {date}.",
+		"resendEmailChange": "Send again",
+		"cancelEmailChange": "Cancel",
+		"emailChangeResent": "Confirmation link sent again.",
+		"emailChangeCancelled": "The email change was cancelled.",
+		"emailChangeStarted": "Confirm the new address from the link sent to {email}."
+	},
+	"emailSettings": {
+		"optional": "(optional)",
+		"testMenuHint": "Tests your entries without saving them.",
+		"testActions": "Test",
+		"configuration": "Email delivery",
+		"configurationDescription": "Enable delivery and check the connection to your email server.",
+		"sendTestDescription": "Sends a test message to the email address of your signed-in account.",
+		"testDescription": "Checks that the server is reachable and sign-in works. Does not send an email.",
+		"saveHint": "Saving with sending enabled automatically checks the connection.",
+		"title": "Email",
+		"description": "Password resets and address confirmations for your accounts.",
+		"server": "SMTP server",
+		"serverDescription": "Connect Aegis to your email provider using the connection details they supply.",
+		"enabled": "Send email",
+		"enabledDescription": "Turn sending on or off, then save your changes.",
+		"host": "Host",
+		"hostPlaceholder": "smtp.example.com",
+		"port": "Port",
+		"security": "Encryption",
+		"securityModes": {
+			"starttls": "STARTTLS",
+			"tls": "TLS (implicit)",
+			"none": "None"
+		},
+		"securityHints": {
+			"starttls": "Connects in the clear and upgrades to TLS before signing in.",
+			"tls": "TLS from the first byte, usually on port 465.",
+			"none": "Unencrypted. Only use this for a relay on the same machine or network."
+		},
+		"credentials": "Credentials",
+		"credentialsDescription": "Sign in to your SMTP server. Leave both fields empty for a relay without authentication.",
+		"username": "User name",
+		"password": "Password",
+		"passwordKept": "Leave empty to keep the stored password.",
+		"passwordRequired": "Enter the password again: it is only sent to the server it was saved for.",
+		"passwordStored": "Stored encrypted and never shown again.",
+		"sender": "Sender",
+		"senderDescription": "How your messages appear in the recipient’s inbox.",
+		"fromName": "Sender name",
+		"fromAddress": "Sender address",
+		"fromAddressDescription": "Use an address approved by your email provider.",
+		"replyTo": "Reply-to address",
+		"replyToDescription": "Leave empty to receive replies at the sender address.",
+		"allowInvalidCertificate": "Accept an unverifiable certificate",
+		"allowInvalidCertificateDescription": "Only for an internal relay with a self-signed certificate. Leave off otherwise.",
+		"saved": "Email settings saved.",
+		"test": "Test connection",
+		"sendTest": "Send test email",
+		"testSucceeded": "Connection established in {ms} ms.",
+		"testDelivered": "Test message sent to {email}.",
+		"lastVerified": "Last successfully checked on save: {date}.",
+		"neverVerified": "No connection confirmed on save yet."
 	},
 	"password": {
 		"strength": "Strength",
@@ -1176,6 +1334,7 @@
 		"security": "Security"
 	},
 	"table": {
+		"details": "Toggle details",
 		"search": "Search",
 		"searchPlaceholder": "Search…",
 		"filters": "Filters",

@@ -19,6 +19,9 @@ pnpm dev
 web interface on port 3001. Always open <http://localhost:3000>; the server forwards everything that
 isn't an API or protocol route to the interface.
 
+To inspect the local database with Drizzle Studio, start PostgreSQL first and run `pnpm db:studio`.
+Studio uses the same `AEGIS_DATABASE_URL` as the server and is available at the URL printed by Drizzle Kit.
+
 ## Commands
 
 | Command | Purpose |
@@ -28,6 +31,7 @@ isn't an API or protocol route to the interface.
 | `pnpm check` | Lint and format check with Biome |
 | `pnpm check:fix` | Apply Biome fixes |
 | `pnpm db:generate` | Generate a migration from the database schema |
+| `pnpm db:studio` | Start Drizzle Studio for the configured PostgreSQL database |
 | `pnpm docker:up` | Build and start the Compose stack |
 | `pnpm --filter @aegis/web brand:generate` | Regenerate icons from `apps/web/public/brand/logo.svg` |
 
@@ -39,11 +43,11 @@ isn't an API or protocol route to the interface.
 | `apps/web` | Next.js interface with shadcn/ui |
 | `packages/contracts` | Shared schemas and types |
 | `packages/db` | Drizzle schema and SQL migrations |
+| `packages/email` | Transactional e-mails, written with React and rendered to HTML and plain text |
 
 ## Conventions
 
 - Pull request titles follow [Conventional Commits](https://www.conventionalcommits.org) (`feat: …`, `fix: …`); they decide the next release. See [Releasing](releasing.md).
-
 - Every class member has an explicit `public`, `private` or `protected` modifier.
 - The server runs as native ESM, so relative imports use the `.js` extension.
 - shadcn/ui components are added with `pnpm dlx shadcn@latest add <component>` in `apps/web`.

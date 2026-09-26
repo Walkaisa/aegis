@@ -11,8 +11,7 @@ export interface OverviewActivityDay {
 }
 
 export interface OverviewApplicationUsage {
-	/** `null` once the application has been deleted. */
-	id: Snowflake | null;
+	id: Snowflake;
 	name: string;
 	logoUrl: string | null;
 	authorizations: number;

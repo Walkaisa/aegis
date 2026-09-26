@@ -72,6 +72,8 @@ export interface AuthRequestSignInPrompt {
 	deniedAccount: AuthRequestAccount | null;
 	/** What the application asks for; shown before signing in, since trusted applications skip the consent step. */
 	scopes: SupportedScope[];
+	/** Whether the page offers a password reset; requires a working e-mail server. */
+	passwordResetEnabled: boolean;
 }
 
 export interface AuthRequestConsentPrompt {

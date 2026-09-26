@@ -1,0 +1,32 @@
+{
+	"name": "@aegis/email",
+	"version": "1.0.1",
+	"private": true,
+	"description": "Aegis transactional e-mail templates, rendered to HTML and plain text (React Email)",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"@aegis/contracts": "workspace:*",
+		"@react-email/render": "^2.1.0",
+		"react": "19.3.0",
+		"react-dom": "19.3.0"
+	},
+	"devDependencies": {
+		"@types/react": "^19.3.0",
+		"tsdown": "^0.23.0",
+		"typescript": "~7.0.2"
+	}
+}

@@ -6,8 +6,10 @@ import {
 	Info,
 	KeyRound,
 	type LucideIcon,
+	Mail,
 	MonitorSmartphone,
 	OctagonAlert,
+	Send,
 	Server,
 	Settings2,
 	ShieldCheck,
@@ -74,6 +76,7 @@ export const CATEGORY_ICONS: Record<AuditCategory, LucideIcon> = {
 	authentication: KeyRound,
 	users: UserRound,
 	applications: AppWindow,
+	email: Mail,
 	system: Settings2,
 };
 
@@ -82,6 +85,7 @@ export const CATEGORY_SURFACES: Record<AuditCategory, string> = {
 	authentication: "bg-indigo-500/10 text-indigo-600 ring-indigo-500/20 dark:text-indigo-300",
 	users: "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:text-sky-300",
 	applications: "bg-teal-500/10 text-teal-600 ring-teal-500/20 dark:text-teal-300",
+	email: "bg-violet-500/10 text-violet-600 ring-violet-500/20 dark:text-violet-300",
 	system: "bg-zinc-500/10 text-zinc-600 ring-zinc-500/20 dark:text-zinc-300",
 };
 
@@ -98,4 +102,5 @@ export const TARGET_ICONS: Record<AuditTargetType, LucideIcon> = {
 	application: AppWindow,
 	instance: Server,
 	signing_key: KeyRound,
+	message: Send,
 };

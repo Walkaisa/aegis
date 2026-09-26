@@ -34,9 +34,9 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { UnsavedChangesBar } from "@/components/unsaved-changes-bar";
 import { useErrorMessage } from "@/hooks/use-error-message";
 import { type FieldErrors, useFormErrors } from "@/hooks/use-form-errors";
 import { applicationKindOf, KIND_ICONS } from "@/lib/applications";
@@ -272,20 +272,7 @@ export function ClientForm({ client, onSubmit }: { client: ClientDto; onSubmit: 
 				</Field>
 			</Section>
 
-			{dirty ? (
-				<div className="sticky bottom-4 z-10 flex animate-in flex-col gap-3 rounded-xl border bg-card/95 p-3 pl-4 shadow-lg backdrop-blur fade-in slide-in-from-bottom-2 sm:flex-row sm:items-center sm:justify-between">
-					<span className="text-sm font-medium">{t("unsavedChanges")}</span>
-					<div className="flex gap-2 sm:justify-end">
-						<Button type="button" variant="ghost" disabled={submitting} onClick={reset}>
-							{t("discard")}
-						</Button>
-						<Button type="submit" disabled={submitting}>
-							{submitting ? <Spinner /> : null}
-							{t("save")}
-						</Button>
-					</div>
-				</div>
-			) : null}
+			{dirty ? <UnsavedChangesBar saving={submitting} onDiscard={reset} /> : null}
 		</form>
 	);
 }

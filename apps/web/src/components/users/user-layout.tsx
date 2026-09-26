@@ -1,16 +1,16 @@
 "use client";
 
 import type { UserDto, UserResponse } from "@aegis/contracts";
-import { SearchX } from "lucide-react";
+import { CircleCheck, CircleSlash, KeyRound, LogIn, MonitorSmartphone, SearchX } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createContext, type ReactNode, useContext, useMemo } from "react";
-import { ActionsMenu, CopyMenuItem } from "@/components/actions-menu";
+import { CopyMenuItem } from "@/components/actions-menu";
 import { EditableAvatar } from "@/components/avatar-editor";
 import { useAccount } from "@/components/dashboard/account-context";
 import { useBreadcrumbs } from "@/components/dashboard/breadcrumbs";
-import { BackLink, Page, PageHeader } from "@/components/dashboard/page";
+import { BackLink, FactGrid, HeroCard, Page, PageHeader } from "@/components/dashboard/page";
 import { ErrorState, LoadingState } from "@/components/dashboard/states";
 import { TabNav } from "@/components/dashboard/tab-nav";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { useApiQuery } from "@/hooks/use-api-query";
 import { api } from "@/lib/api";
+import { useDateFormat } from "@/lib/format";
 
 interface UserContextValue {
 	user: UserDto;
@@ -48,6 +49,7 @@ export function UserLayout({ id, children }: { id: string; children: ReactNode }
 	const { me, update: updateMe } = useAccount();
 	const path = `/users/${encodeURIComponent(id)}`;
 	const { data, error, reload, setData } = useApiQuery<UserResponse>(path);
+	const dates = useDateFormat();
 
 	// `Aegis › Users › <name> › Sessions`
 	const loaded = data?.user;
@@ -121,29 +123,57 @@ export function UserLayout({ id, children }: { id: string; children: ReactNode }
 	return (
 		<UserContext.Provider value={value}>
 			<Page className="gap-6">
-				<PageHeader
-					back={back}
-					media={
-						<EditableAvatar
-							name={user.displayName}
-							src={user.avatarUrl}
-							onUpload={async (image) => applyAvatar(await api.upload<UserResponse>(`${path}/avatar`, image))}
-							onRemove={async () => applyAvatar(await api.delete<UserResponse>(`${path}/avatar`))}
+				{back}
+				<HeroCard menu={<CopyMenuItem value={user.id} label={t("copyId")} copiedMessage={t("idCopied")} />}>
+					<div className="relative p-5 pt-8 pr-14 sm:p-6 sm:pr-16">
+						<PageHeader
+							media={
+								<EditableAvatar
+									name={user.displayName}
+									src={user.avatarUrl}
+									onUpload={async (image) => applyAvatar(await api.upload<UserResponse>(`${path}/avatar`, image))}
+									onRemove={async () => applyAvatar(await api.delete<UserResponse>(`${path}/avatar`))}
+								/>
+							}
+							title={
+								<span className="flex flex-wrap items-center gap-3">
+									{user.displayName}
+									{self ? <Badge variant="secondary">{t("you")}</Badge> : null}
+								</span>
+							}
+							description={user.email}
 						/>
-					}
-					title={
-						<span className="flex flex-wrap items-center gap-3">
-							{user.displayName}
-							{self ? <Badge variant="secondary">{t("you")}</Badge> : null}
-						</span>
-					}
-					description={user.email}
-					actions={
-						<ActionsMenu>
-							<CopyMenuItem value={user.id} label={t("copyId")} copiedMessage={t("idCopied")} />
-						</ActionsMenu>
-					}
-				/>
+					</div>
+					<FactGrid
+						integrated
+						facts={[
+							{
+								icon: user.enabled ? <CircleCheck /> : <CircleSlash />,
+								label: t("facts.status"),
+								value: user.enabled ? t("facts.enabled") : t("facts.disabled"),
+								hint: user.enabled ? t("statusEnabledDescription") : t("statusDisabledDescription"),
+							},
+							{
+								icon: <LogIn />,
+								label: t("detailLabels.lastSignIn"),
+								value: user.lastSignInAt ? dates.relative(user.lastSignInAt) : t("never"),
+								hint: user.lastSignInAt ? dates.dateTime(user.lastSignInAt) : undefined,
+							},
+							{
+								icon: <MonitorSmartphone />,
+								label: t("detailLabels.sessions"),
+								value: user.activeSessionCount,
+								hint: t("activeSessions", { count: user.activeSessionCount }),
+							},
+							{
+								icon: <KeyRound />,
+								label: t("detailLabels.passwordChanged"),
+								value: dates.relative(user.passwordChangedAt),
+								hint: dates.dateTime(user.passwordChangedAt),
+							},
+						]}
+					/>
+				</HeroCard>
 
 				<TabNav
 					label={user.displayName}

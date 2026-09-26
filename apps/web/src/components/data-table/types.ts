@@ -48,6 +48,10 @@ export interface DataTableColumn<T> {
 	headerClassName?: string;
 	/** A `width` style for the column, e.g. `"12rem"` or `"1%"` for a shrink-to-fit cell. */
 	width?: string;
+	/** Narrowest width in pixels at which an adaptive table still shows the column. */
+	minWidth?: number;
+	/** The order in which an adaptive table keeps its columns when space runs out; lower comes first. */
+	priority?: number;
 	/**
 	 * Absorbs the remaining width and truncates instead of widening the table. Exactly one column
 	 * per table should carry it — usually the one naming the row.

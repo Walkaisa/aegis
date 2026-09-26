@@ -14,6 +14,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { cn } from "@/lib/utils";
 import type { DataTableColumn, DataTableFilter, DataTableState } from "./types";
 
 function toggle(values: string[], value: string): string[] {
@@ -51,19 +52,25 @@ export function DataTableToolbar<T>({
 		<Button
 			type="button"
 			variant="ghost"
+			aria-label={t("reset")}
 			className="shrink-0 animate-in fade-in-0 slide-in-from-left-1 duration-200"
 			onClick={() => onState({ search: "", filters: {}, page: 1 })}
 		>
 			<RotateCcw />
-			<span className="hidden sm:inline">{t("reset")}</span>
+			<span className="hidden @min-[600px]/table:inline">{t("reset")}</span>
 		</Button>
 	) : null;
 
 	return (
-		<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+		<div className="flex min-w-0 flex-wrap items-center gap-2">
 			{searchable ? (
-				<div className="flex min-w-0 flex-1 items-center gap-2">
-					<InputGroup className="min-w-0 flex-1">
+				<div
+					className={cn(
+						"flex min-w-0 flex-1 items-center gap-2",
+						(filters.length > 0 || actions) && "basis-full @min-[600px]/table:basis-0",
+					)}
+				>
+					<InputGroup className="min-w-0 flex-1 @max-[600px]/table:h-9">
 						<InputGroupAddon>
 							<Search />
 						</InputGroupAddon>
@@ -81,13 +88,18 @@ export function DataTableToolbar<T>({
 				<div className="flex flex-1 items-center">{reset}</div>
 			)}
 
-			<div className="flex shrink-0 flex-wrap items-center gap-2">
-				{actions}
+			<div
+				className={cn(
+					"flex min-w-0 flex-wrap items-center gap-2 @min-[600px]/table:shrink-0",
+					(filters.length > 0 || actions) && "w-full @min-[600px]/table:w-auto",
+				)}
+			>
+				{actions ? <div className="flex w-full min-w-0 items-center gap-2 @min-[600px]/table:w-auto">{actions}</div> : null}
 
 				{filters.length > 0 ? (
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button type="button" variant="outline" size="sm">
+							<Button type="button" variant="outline" size="sm" className="@max-[600px]/table:h-9 @max-[600px]/table:flex-1">
 								<ListFilter />
 								{t("filters")}
 								{active > 0 ? (
@@ -130,9 +142,9 @@ export function DataTableToolbar<T>({
 				{hideable.length > 0 ? (
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button type="button" variant="outline" size="sm">
+							<Button type="button" variant="outline" size="sm" className="@max-[600px]/table:h-9 @max-[600px]/table:flex-1">
 								<Settings2 />
-								<span className="hidden sm:inline">{t("columns")}</span>
+								<span>{t("columns")}</span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end" className="max-h-96 w-52 overflow-y-auto">

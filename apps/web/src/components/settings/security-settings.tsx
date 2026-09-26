@@ -3,14 +3,13 @@
 import type { SecurityOverviewDto } from "@aegis/contracts";
 import { CircleCheck, KeyRound } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Fragment } from "react";
 import { toast } from "sonner";
+import { CopyButton } from "@/components/copy-button";
 import { ConfirmDialog } from "@/components/dashboard/confirm-dialog";
 import { Section } from "@/components/dashboard/page";
 import { ErrorState, LoadingState } from "@/components/dashboard/states";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemSeparator, ItemTitle } from "@/components/ui/item";
 import { useApiQuery } from "@/hooks/use-api-query";
 import { api } from "@/lib/api";
 import { useDateFormat } from "@/lib/format";
@@ -37,13 +36,14 @@ export function SecuritySettings() {
 					data ? (
 						<ConfirmDialog
 							trigger={
-								<Button variant="outline" size="sm">
+								<Button variant="destructive" size="sm">
 									{t("rotateKey")}
 								</Button>
 							}
 							title={t("rotateKeyTitle")}
-							description={t("rotateKeyDescription")}
+							description={t("rotateKeyDescription", { days: data.retiredKeyRetentionDays })}
 							confirmLabel={t("rotateKeyConfirm")}
+							destructive
 							onConfirm={rotate}
 						/>
 					) : undefined
@@ -54,32 +54,53 @@ export function SecuritySettings() {
 				) : !data ? (
 					<LoadingState rows={2} className="h-14" />
 				) : (
-					<div className="flex flex-col gap-4">
-						<ItemGroup>
-							{data.signingKeys.map((key, index) => (
-								<Fragment key={key.kid}>
-									{index > 0 ? <ItemSeparator /> : null}
-									<Item size="sm" className="px-0">
-										<ItemMedia variant="icon">
-											<KeyRound />
-										</ItemMedia>
-										<ItemContent className="min-w-0">
-											<ItemTitle className="flex-wrap">
-												<span className="truncate font-mono text-xs">{key.kid}</span>
-												<Badge variant="outline">{key.alg}</Badge>
-												<Badge variant={key.status === "active" ? "default" : "secondary"}>{t(key.status)}</Badge>
-											</ItemTitle>
-											<ItemDescription>
-												{key.retiredAt
-													? t("retiredAt", { date: dates.dateTime(key.retiredAt) })
-													: t("createdAt", { date: dates.dateTime(key.createdAt) })}
-											</ItemDescription>
-										</ItemContent>
-									</Item>
-								</Fragment>
+					<div className="space-y-4">
+						<div className="grid gap-3">
+							{data.signingKeys.map((key) => (
+								<article
+									key={key.kid}
+									className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm ring-1 ring-border/60"
+								>
+									<div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+										<div className="flex min-w-0 items-center gap-3">
+											<span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary/15 via-primary/10 to-transparent text-primary ring-1 ring-primary/20 ring-inset">
+												<KeyRound className="size-5" />
+											</span>
+											<div className="min-w-0">
+												<div className="flex flex-wrap items-center gap-2">
+													<Badge variant={key.status === "active" ? "default" : "secondary"}>
+														{t(key.status)}
+													</Badge>
+													<Badge variant="outline">{key.alg}</Badge>
+												</div>
+												<p className="mt-2 text-xs text-muted-foreground">
+													{key.retiredAt
+														? t("retiredAt", { date: dates.dateTime(key.retiredAt) })
+														: t("createdAt", { date: dates.dateTime(key.createdAt) })}
+												</p>
+											</div>
+										</div>
+									</div>
+
+									<div className="border-t border-border/60 bg-background/60 px-3 py-3 sm:px-4">
+										<div className="flex min-w-0 items-center gap-2 rounded-xl border border-border/70 bg-background/80 px-3 py-2">
+											<code
+												className="min-w-0 flex-1 break-all font-mono text-[11px] leading-relaxed text-foreground/90 sm:text-xs"
+												title={key.kid}
+											>
+												{key.kid}
+											</code>
+											<div className="shrink-0">
+												<CopyButton value={key.kid} size="icon-xs" />
+											</div>
+										</div>
+									</div>
+								</article>
 							))}
-						</ItemGroup>
-						<p className="text-xs text-muted-foreground">{t("retention", { days: data.retiredKeyRetentionDays })}</p>
+						</div>
+						<div className="rounded-xl border border-dashed border-border/80 bg-muted/20 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
+							{t("retention", { days: data.retiredKeyRetentionDays })}
+						</div>
 					</div>
 				)}
 			</Section>

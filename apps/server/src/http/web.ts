@@ -16,8 +16,12 @@ declare module "fastify" {
 const PASSTHROUGH_PATTERN =
 	/^\/(?:_next\/|__nextjs|brand\/|icons\/|favicon\.ico$|apple-touch-icon\.png$|manifest\.webmanifest$|robots\.txt$)/;
 
-/** Pages outside the administration: sign-in (administration and applications), consent and results. */
-const PUBLIC_PAGES = new Set(["/sign-in", "/consent", "/error", "/signed-out"]);
+/**
+ * Pages outside the administration: sign-in (administration and applications), consent, results,
+ * and the pages reached from a link in an e-mail. The latter must stay reachable without a
+ * session — a confirmation link is usually opened wherever the mailbox is.
+ */
+const PUBLIC_PAGES = new Set(["/sign-in", "/consent", "/error", "/signed-out", "/forgot-password", "/reset-password", "/verify-email"]);
 
 /** Post sign-in destinations: pages of the administration UI only, never external URLs. */
 export function safeReturnPath(value: string | null | undefined): string {

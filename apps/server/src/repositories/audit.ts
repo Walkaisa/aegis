@@ -21,7 +21,7 @@ import {
 	type Role,
 } from "@aegis/contracts";
 import { auditEvents, oidcClients, users } from "@aegis/db";
-import { and, asc, count, desc, eq, gte, ilike, inArray, lte, max, min, or, type SQL, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, max, min, or, type SQL, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import type { Database } from "../db/database.js";
 import { newId } from "../lib/snowflakes.js";
@@ -145,7 +145,6 @@ function conditions(
 	return clauses.length > 0 ? and(...clauses) : undefined;
 }
 
-/** Append-only audit trail. */
 /**
  * Sign-in activity: signing in to Aegis itself and to applications, including single sign-on with an
  * existing session. A password sign-in on the way to an application is followed by its authorization,
@@ -157,6 +156,10 @@ const signInActivity = or(
 	inArray(auditEvents.eventType, ["auth.sign_in.failed", "oidc.authorization.succeeded", "oidc.authorization.denied"]),
 );
 
+/** Leaves out events of applications that have been deleted since; the audit log itself keeps them. */
+const withoutDeletedClients = or(isNotNull(auditEvents.clientId), isNull(auditEvents.clientLabel));
+
+/** Append-only audit trail. */
 export class AuditLog {
 	private readonly database: Database;
 
@@ -258,7 +261,7 @@ export class AuditLog {
 		const [row] = await this.database.db
 			.select({ value: count() })
 			.from(auditEvents)
-			.where(and(signInActivity, eq(auditEvents.outcome, outcome), gte(auditEvents.occurredAt, since)));
+			.where(and(signInActivity, withoutDeletedClients, eq(auditEvents.outcome, outcome), gte(auditEvents.occurredAt, since)));
 		return row?.value ?? 0;
 	}
 
@@ -268,26 +271,22 @@ export class AuditLog {
 		const rows = await this.database.db
 			.select({ day, outcome: auditEvents.outcome, value: count() })
 			.from(auditEvents)
-			.where(and(signInActivity, gte(auditEvents.occurredAt, since)))
+			.where(and(signInActivity, withoutDeletedClients, gte(auditEvents.occurredAt, since)))
 			.groupBy(day, auditEvents.outcome);
 		return rows.map((row) => ({ day: row.day, outcome: row.outcome as AuditOutcome, value: row.value }));
 	}
 
-	/** Applications with the most successful authorizations since `since`. */
-	public async topClients(
-		since: Date,
-		limit: number,
-	): Promise<{ id: string | null; name: string; logoHash: string | null; value: number }[]> {
+	/** Existing applications with the most successful authorizations since `since`, under their current name. */
+	public async topClients(since: Date, limit: number): Promise<{ id: string; name: string; logoHash: string | null; value: number }[]> {
 		const value = count();
-		const rows = await this.database.db
-			.select({ id: auditEvents.clientId, name: max(auditEvents.clientLabel), logoHash: oidcClients.logoHash, value })
+		return this.database.db
+			.select({ id: oidcClients.id, name: oidcClients.name, logoHash: oidcClients.logoHash, value })
 			.from(auditEvents)
-			.leftJoin(oidcClients, eq(oidcClients.id, auditEvents.clientId))
+			.innerJoin(oidcClients, eq(oidcClients.id, auditEvents.clientId))
 			.where(and(eq(auditEvents.eventType, "oidc.authorization.succeeded"), gte(auditEvents.occurredAt, since)))
-			.groupBy(auditEvents.clientId, oidcClients.logoHash)
-			.orderBy(desc(value))
+			.groupBy(oidcClients.id, oidcClients.name, oidcClients.logoHash)
+			.orderBy(desc(value), oidcClients.name)
 			.limit(limit);
-		return rows.map((row) => ({ id: row.id, name: row.name ?? "", logoHash: row.logoHash, value: row.value }));
 	}
 
 	public async deleteOlderThan(cutoff: Date): Promise<number> {

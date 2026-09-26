@@ -23,6 +23,7 @@ FROM base AS manifests
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/contracts/package.json packages/contracts/
 COPY packages/db/package.json packages/db/
+COPY packages/email/package.json packages/email/
 COPY apps/server/package.json apps/server/
 COPY apps/web/package.json apps/web/
 
@@ -34,7 +35,8 @@ FROM deps AS packages
 COPY tsconfig.base.json ./
 COPY packages/contracts packages/contracts
 COPY packages/db packages/db
-RUN pnpm --filter @aegis/contracts --filter @aegis/db build
+COPY packages/email packages/email
+RUN pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build
 
 # ---------------------------------------------------------------------------
 # Server and web UI builds
@@ -66,12 +68,15 @@ WORKDIR /app
 COPY --from=server-prod-deps --chown=node:node /repo/node_modules ./server/node_modules
 COPY --from=server-prod-deps --chown=node:node /repo/packages/contracts/node_modules ./server/packages/contracts/node_modules
 COPY --from=server-prod-deps --chown=node:node /repo/packages/db/node_modules ./server/packages/db/node_modules
+COPY --from=server-prod-deps --chown=node:node /repo/packages/email/node_modules ./server/packages/email/node_modules
 COPY --from=server-prod-deps --chown=node:node /repo/apps/server/node_modules ./server/apps/server/node_modules
 COPY --from=packages --chown=node:node /repo/packages/contracts/package.json ./server/packages/contracts/package.json
 COPY --from=packages --chown=node:node /repo/packages/contracts/dist ./server/packages/contracts/dist
 COPY --from=packages --chown=node:node /repo/packages/db/package.json ./server/packages/db/package.json
 COPY --from=packages --chown=node:node /repo/packages/db/dist ./server/packages/db/dist
 COPY --from=packages --chown=node:node /repo/packages/db/migrations ./server/packages/db/migrations
+COPY --from=packages --chown=node:node /repo/packages/email/package.json ./server/packages/email/package.json
+COPY --from=packages --chown=node:node /repo/packages/email/dist ./server/packages/email/dist
 COPY --from=server-build --chown=node:node /repo/apps/server/package.json ./server/apps/server/package.json
 COPY --from=server-build --chown=node:node /repo/apps/server/dist ./server/apps/server/dist
 

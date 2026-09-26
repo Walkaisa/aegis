@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ActionsMenu } from "@/components/actions-menu";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -56,6 +57,21 @@ export function SectionHeader({ title, description, actions }: { title: ReactNod
 	);
 }
 
+/** The card at the top of a detail page: an accent behind the header, a menu in the corner and key facts below. */
+export function HeroCard({ menu, children }: { menu: ReactNode; children: ReactNode }) {
+	return (
+		<section className="relative overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10">
+			{/* The accent fades out through a mask, so it melts into the card instead of ending in an edge. */}
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-linear-to-br from-primary/30 via-primary/12 to-transparent mask-[linear-gradient(to_bottom,black_0%,black_25%,transparent_85%)]"
+			/>
+			<ActionsMenu className="absolute top-3 right-3 z-10">{menu}</ActionsMenu>
+			{children}
+		</section>
+	);
+}
+
 export function BackLink({ href, children }: { href: string; children: ReactNode }) {
 	return (
 		<Link
@@ -89,10 +105,12 @@ export function Section({
 	return (
 		<Card className={cn("gap-0 py-0", className)}>
 			{title || action ? (
-				<CardHeader className="border-b pt-4">
-					{title ? <CardTitle className="font-semibold">{title}</CardTitle> : null}
-					{description ? <CardDescription>{description}</CardDescription> : null}
-					{action ? <CardAction>{action}</CardAction> : null}
+				<CardHeader className="flex flex-wrap items-start justify-between gap-x-5 gap-y-3 border-b pt-4">
+					<div className="min-w-0 flex-1 basis-56 space-y-1">
+						{title ? <CardTitle className="font-semibold">{title}</CardTitle> : null}
+						{description ? <CardDescription>{description}</CardDescription> : null}
+					</div>
+					{action ? <CardAction className="shrink-0">{action}</CardAction> : null}
 				</CardHeader>
 			) : null}
 			<CardContent className={cn("py-5", contentClassName)}>{children}</CardContent>
@@ -155,19 +173,31 @@ export interface Fact {
 }
 
 /** A row of key facts at the top of a detail page. */
-export function FactGrid({ facts, className }: { facts: Fact[]; className?: string }) {
+export function FactGrid({ facts, className, integrated = false }: { facts: Fact[]; className?: string; integrated?: boolean }) {
 	return (
-		<dl className={cn("grid gap-3 sm:grid-cols-2 xl:grid-cols-4", className)}>
+		<dl className={cn("grid sm:grid-cols-2 xl:grid-cols-4", integrated ? "relative border-t" : "gap-3", className)}>
 			{facts.map((fact, index) => (
-				// biome-ignore lint/suspicious/noArrayIndexKey: the facts are a fixed list per page
-				<div key={index} className="flex items-center gap-3 rounded-xl bg-card p-4 ring-1 ring-foreground/10">
+				<div
+					// biome-ignore lint/suspicious/noArrayIndexKey: the facts are a fixed list per page
+					key={index}
+					className={cn(
+						"flex min-w-0 items-start gap-3 p-4",
+						integrated ? "px-5 sm:px-6" : "rounded-xl bg-card ring-1 ring-foreground/10",
+						integrated && index > 0 && "border-t sm:border-t-0",
+						integrated && index >= 2 && "sm:border-t xl:border-t-0",
+						integrated && index % 2 === 1 && "sm:border-l",
+						integrated && index === 2 && "xl:border-l",
+					)}
+				>
 					<span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/15 ring-inset [&_svg]:size-4.5">
 						{fact.icon}
 					</span>
 					<div className="flex min-w-0 flex-col">
 						<dt className="truncate text-xs text-muted-foreground">{fact.label}</dt>
-						<dd className="truncate text-sm font-semibold">{fact.value}</dd>
-						{fact.hint ? <dd className="truncate text-xs text-muted-foreground">{fact.hint}</dd> : null}
+						<dd className={cn("text-sm font-semibold", integrated ? "break-words" : "truncate")}>{fact.value}</dd>
+						{fact.hint ? (
+							<dd className={cn("text-xs text-muted-foreground", integrated ? "text-pretty" : "truncate")}>{fact.hint}</dd>
+						) : null}
 					</div>
 				</div>
 			))}

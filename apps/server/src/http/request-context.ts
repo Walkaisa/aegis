@@ -1,4 +1,4 @@
-import { idParamSchema } from "@aegis/contracts";
+import { idParamSchema, LOCALE_COOKIE, type Locale, resolveLocale } from "@aegis/contracts";
 import type { SystemSettingsRecord } from "@aegis/db";
 import type { FastifyRequest } from "fastify";
 import { ApiError } from "../lib/errors.js";
@@ -22,6 +22,15 @@ export function requestMeta(request: FastifyRequest): RequestMeta {
 		ip: request.ip || null,
 		userAgent: typeof userAgent === "string" ? userAgent.slice(0, MAX_USER_AGENT_LENGTH) : null,
 	};
+}
+
+/**
+ * The language of the browser making the request: an explicit choice from the preference cookie,
+ * otherwise `Accept-Language`. E-mails triggered by a request are written in it, so a message
+ * arrives in the language the page that caused it was read in.
+ */
+export function requestLocale(request: FastifyRequest): Locale {
+	return resolveLocale(request.cookies[LOCALE_COOKIE], request.headers["accept-language"]);
 }
 
 /** The snowflake in the `:id` path parameter; `validation_failed` for anything else. */

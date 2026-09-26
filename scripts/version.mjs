@@ -14,6 +14,7 @@ const MANIFESTS = [
 	"apps/web/package.json",
 	"packages/contracts/package.json",
 	"packages/db/package.json",
+	"packages/email/package.json",
 ];
 const VERSION_MODULE = "apps/server/src/version.ts";
 const VERSION_EXPORT = /export const AEGIS_VERSION = "([^"]+)";/;

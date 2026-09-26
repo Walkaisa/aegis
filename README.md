@@ -35,6 +35,7 @@ standards-compliant OpenID Connect provider underneath.
 - **Applications** with logos, exact redirect URIs, scopes per app and secrets you can rotate.
 - **Accounts** for your team with profile pictures, sessions you can see and end at any time.
 - **Two-factor authentication** with an authenticator app and recovery codes, for the administration and every application.
+- **Password reset by e-mail** through your own SMTP server, with confirmed address changes and security notifications.
 - **Audit log** of every sign-in and every change, searchable and easy to read.
 - **Secure by default** with PKCE (S256) for every public client and configurable per web app, Argon2id and encrypted secrets at rest.
 - **Light and dark mode**, English and German, fully responsive.

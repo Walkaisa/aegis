@@ -18,7 +18,8 @@
 		"build": "tsdown",
 		"dev": "tsdown --watch",
 		"typecheck": "tsc -p tsconfig.json",
-		"db:generate": "drizzle-kit generate"
+		"db:generate": "drizzle-kit generate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.45.2",

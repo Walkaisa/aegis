@@ -78,6 +78,10 @@ function ClientSessions({ client, path, onRevoked }: { client: ClientDto; path: 
 								{session.account.displayName}
 							</Link>
 							<span className="truncate text-xs text-muted-foreground">{session.account.email}</span>
+							<span className="truncate text-xs text-muted-foreground md:hidden">{deviceLabel(session.userAgent)}</span>
+							<span className="truncate text-xs text-muted-foreground md:hidden">
+								{dates.relative(session.lastAuthorizedAt)}
+							</span>
 						</div>
 					</div>
 				),
@@ -176,23 +180,6 @@ function ClientSessions({ client, path, onRevoked }: { client: ClientDto; path: 
 						emptyDescription={t("emptyDescription")}
 						defaultState={{ sort: { columnId: "lastAuthorizedAt", direction: "desc" }, pageSize: 10 }}
 						pageSizeOptions={[10, 25, 50]}
-						renderCard={(session) => (
-							<div className="flex min-w-0 flex-col gap-1">
-								<Link href={`/users/${session.account.id}`} className="truncate font-medium hover:underline">
-									{session.account.displayName}
-								</Link>
-								<span className="truncate text-xs text-muted-foreground">{session.account.email}</span>
-								<span className="truncate text-xs text-muted-foreground">
-									{[deviceLabel(session.userAgent), dates.relative(session.lastAuthorizedAt)].join(" · ")}
-								</span>
-								{revokeDialog(
-									session,
-									<Button variant="destructive" size="sm" className="mt-1 w-fit">
-										{t("revoke")}
-									</Button>,
-								)}
-							</div>
-						)}
 					/>
 					<p className="text-xs text-muted-foreground">{t("notice")}</p>
 				</div>
