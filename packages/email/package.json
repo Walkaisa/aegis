@@ -1,6 +1,6 @@
 {
 	"name": "@aegis/email",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"private": true,
 	"description": "Aegis transactional e-mail templates, rendered to HTML and plain text (React Email)",
 	"type": "module",

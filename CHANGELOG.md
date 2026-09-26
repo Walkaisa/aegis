@@ -5,6 +5,13 @@ All notable changes to Aegis are documented here. Aegis follows
 [release-please](https://github.com/googleapis/release-please) from the
 [Conventional Commits](https://www.conventionalcommits.org) on `main`; see [Releasing](docs/releasing.md).
 
+## [1.1.1](https://github.com/Walkaisa/aegis/compare/v1.1.0...v1.1.1) (2026-09-26)
+
+
+### Bug Fixes
+
+* let mail clients load the logo in e-mails ([#13](https://github.com/Walkaisa/aegis/issues/13)) ([37aad48](https://github.com/Walkaisa/aegis/commit/37aad489f0c4c7ebe5d6cf4368406540bb2c70fe))
+
 ## [1.1.0](https://github.com/Walkaisa/aegis/compare/v1.0.1...v1.1.0) (2026-09-26)
 
 
