@@ -16,6 +16,9 @@ declare module "fastify" {
 const PASSTHROUGH_PATTERN =
 	/^\/(?:_next\/|__nextjs|brand\/|icons\/|favicon\.ico$|apple-touch-icon\.png$|manifest\.webmanifest$|robots\.txt$)/;
 
+/** Brand images that other sites embed, above all the logo in every e-mail Aegis sends. */
+const EMBEDDABLE_PATTERN = /^\/(?:brand|icons)\//;
+
 /**
  * Pages outside the administration: sign-in (administration and applications), consent, results,
  * and the pages reached from a link in an e-mail. The latter must stay reachable without a
@@ -112,11 +115,13 @@ export async function webRoutes(app: FastifyInstance): Promise<void> {
 					"content-security-policy": buildPageContentSecurityPolicy(nonce, config),
 				};
 			},
-			rewriteHeaders: (headers, request) => {
+			rewriteHeaders: (headers, raw) => {
+				const request = raw as FastifyRequest;
 				const { "x-powered-by": _poweredBy, ...rest } = headers;
 				return {
 					...rest,
-					"content-security-policy": buildPageContentSecurityPolicy((request as FastifyRequest).cspNonce, config),
+					"content-security-policy": buildPageContentSecurityPolicy(request.cspNonce, config),
+					...(EMBEDDABLE_PATTERN.test(request.url) ? { "cross-origin-resource-policy": "cross-origin" } : {}),
 				};
 			},
 		},
