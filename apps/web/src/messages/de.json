@@ -16,7 +16,8 @@
 		"discard": "Verwerfen",
 		"saveChanges": "Änderungen speichern",
 		"securedBy": "Geschützt durch Aegis · OpenID Connect",
-		"moreActions": "Weitere Aktionen"
+		"moreActions": "Weitere Aktionen",
+		"close": "Schließen"
 	},
 	"preferences": {
 		"language": "Sprache",
@@ -39,7 +40,9 @@
 		"groups": {
 			"manage": "Verwalten",
 			"system": "System"
-		}
+		},
+		"update": "Update verfügbar",
+		"updateAvailable": "Aegis {version} ist verfügbar"
 	},
 	"devices": {
 		"browserOnOs": "{browser} auf {os}",
@@ -904,7 +907,7 @@
 		"description": "Aktive Sitzungen aller Konten. Eine Anmeldung gilt für die Verwaltung und alle Anwendungen.",
 		"current": "Diese Sitzung",
 		"lastActive": "aktiv {time}",
-		"noApplications": "Noch keiner Anwendung",
+		"noApplications": "Noch keine Anwendung",
 		"revoke": "Beenden",
 		"revokeTitle": "Sitzung beenden?",
 		"revokeDescription": "{name} wird in diesem Browser abgemeldet.",
@@ -919,9 +922,8 @@
 		"emptyTitle": "Keine aktiven Sitzungen",
 		"emptyDescription": "Sobald sich jemand anmeldet, erscheint die Sitzung hier.",
 		"columns": {
-			"email": "E-Mail-Adresse",
 			"ipAddress": "IP-Adresse",
-			"status": "Status",
+			"signIn": "Anmeldung",
 			"account": "Konto",
 			"role": "Rolle",
 			"device": "Gerät",
@@ -931,7 +933,15 @@
 			"expiresAt": "Läuft ab"
 		},
 		"secondFactor": "2FA",
-		"secondFactorHint": "Mit zweitem Faktor bestätigt"
+		"secondFactorHint": "Mit zweitem Faktor bestätigt",
+		"passwordOnly": "Nur Passwort",
+		"panel": {
+			"account": "Konto",
+			"session": "Sitzung",
+			"applications": "Anwendungen ({count})",
+			"lastSignIn": "angemeldet {time}",
+			"revoke": "Sitzung beenden"
+		}
 	},
 	"audit": {
 		"title": "Audit-Log",
@@ -1254,7 +1264,32 @@
 		"cancelEmailChange": "Abbrechen",
 		"emailChangeResent": "Bestätigungslink erneut gesendet.",
 		"emailChangeCancelled": "Die Änderung der E-Mail-Adresse wurde abgebrochen.",
-		"emailChangeStarted": "Bestätige die neue Adresse über den Link an {email}."
+		"emailChangeStarted": "Bestätige die neue Adresse über den Link an {email}.",
+		"version": "Version",
+		"versionDescription": "Aegis sucht alle zehn Minuten auf GitHub nach neuen Versionen.",
+		"versionDescriptionOff": "Die Version von Aegis, die gerade läuft.",
+		"checkForUpdates": "Jetzt prüfen",
+		"releaseNotes": "Versionshinweise",
+		"upToDate": "Aktuell",
+		"updateAvailable": "Update verfügbar",
+		"updateCheckOff": "Prüfung aus",
+		"updateCheckError": "Prüfung fehlgeschlagen",
+		"notCheckedYet": "Noch nicht geprüft",
+		"lastChecked": "Zuletzt geprüft {time}.",
+		"updateCheckPending": "Die erste Prüfung läuft kurz nach dem Start.",
+		"updateCheckDisabled": "Die Suche nach neuen Versionen ist über AEGIS_UPDATE_CHECK ausgeschaltet.",
+		"updateCheckFailed": "GitHub ist nicht erreichbar. Versuch es später noch einmal.",
+		"updateCheckFailedSince": "Die letzte Prüfung ist fehlgeschlagen; die letzte erfolgreiche war {time}.",
+		"updateAvailableTitle": "Aegis {version} ist verfügbar",
+		"updateAvailableDescription": "Lies die Versionshinweise, sichere die Datenbank und lade das neue Image.",
+		"viewRelease": "Release ansehen",
+		"updateGuide": "Update-Anleitung",
+		"updateFound": "Aegis {version} ist verfügbar.",
+		"upToDateToast": "Du nutzt die neueste Version.",
+		"installedVersion": "Installiert",
+		"latestVersion": "Neueste Version",
+		"releasedOn": "Veröffentlicht am {date}",
+		"latestUnknown": "Noch nicht bekannt"
 	},
 	"emailSettings": {
 		"optional": "(optional)",
@@ -1334,7 +1369,6 @@
 		"security": "Sicherheit"
 	},
 	"table": {
-		"details": "Details ein-/ausblenden",
 		"search": "Suchen",
 		"searchPlaceholder": "Suchen…",
 		"filters": "Filter",

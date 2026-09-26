@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, ChevronsUpDown, SearchX } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronRight, ChevronsUpDown, SearchX } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { type CSSProperties, Fragment, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,19 @@ import type { DataTableColumn, DataTableFilter, DataTableState, SortableValue } 
 export type { DataTableColumn, DataTableFilter, DataTableSort, DataTableState } from "./types";
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
+
+/** The chevron column at the end of rows that open something (`w-10`). */
+const TRAILING_COLUMN_WIDTH = 40;
+
+/** The chevron of a row that opens something; it nudges forward while the row is hovered. */
+function RowChevron() {
+	return (
+		<ChevronRight
+			className="size-4 transition-[color,translate] duration-300 ease-out group-hover/row:translate-x-1 group-hover/row:text-foreground motion-reduce:transition-none"
+			aria-hidden="true"
+		/>
+	);
+}
 
 export const EMPTY_TABLE_STATE: DataTableState = {
 	search: "",
@@ -117,8 +130,10 @@ export interface DataTableProps<T> {
 	header?: ReactNode;
 	/** Makes each row a link to its detail page. */
 	rowHref?: (row: T) => string;
-	/** Details revealed when a row is clicked; mutually exclusive with `rowHref`. */
-	renderExpanded?: (row: T) => ReactNode;
+	/** Makes each row open in place, e.g. in a side panel; mutually exclusive with `rowHref`. */
+	onRowClick?: (row: T) => void;
+	/** The row whose panel is open; it stays highlighted while the panel shows it. */
+	activeRowId?: string | null;
 	/** Replaces the table with a card list below `md`. */
 	renderCard?: (row: T) => ReactNode;
 	emptyTitle?: ReactNode;
@@ -127,7 +142,10 @@ export interface DataTableProps<T> {
 	/** Hides the pagination bar; useful for short, fixed lists. */
 	paginated?: boolean;
 	className?: string;
-	/** Fit columns to the available space and expose remaining fields in row details. */
+	/**
+	 * Fits the columns to the available space by priority. Columns that do not fit are left out; the
+	 * page or panel a row opens (`rowHref`, `onRowClick`) is where every field can be seen.
+	 */
 	adaptive?: boolean;
 	/** Accessible name of the table. */
 	label?: string;
@@ -154,7 +172,8 @@ export function DataTable<T>({
 	toolbarActions,
 	header,
 	rowHref,
-	renderExpanded,
+	onRowClick,
+	activeRowId = null,
 	renderCard,
 	emptyTitle,
 	emptyDescription,
@@ -171,7 +190,6 @@ export function DataTable<T>({
 			...defaultState,
 		}),
 	);
-	const [expanded, setExpanded] = useState<string | null>(null);
 	const frameRef = useRef<HTMLDivElement>(null);
 	const [width, setWidth] = useState<number | null>(null);
 
@@ -206,24 +224,9 @@ export function DataTable<T>({
 		[columns, state.hiddenColumns],
 	);
 
-	const fitted = adaptive && width !== null ? fitColumns(visibleColumns, width) : { shown: visibleColumns, overflow: [] };
-	const canExpand = Boolean(renderExpanded) || fitted.overflow.length > 0;
-	const tableColumns = fitted.shown;
-	const expandedContent = (row: T) =>
-		renderExpanded ? (
-			renderExpanded(row)
-		) : (
-			<dl className="grid min-w-0 gap-x-6 gap-y-4 sm:grid-cols-2">
-				{fitted.overflow.map((column) => (
-					<div key={column.id} className="min-w-0">
-						<dt className="mb-1 text-xs text-muted-foreground">{column.header}</dt>
-						<dd className="min-w-0 text-sm [overflow-wrap:anywhere] [&_*]:max-w-full [&_span]:whitespace-normal">
-							{column.cell(row)}
-						</dd>
-					</div>
-				))}
-			</dl>
-		);
+	const hasTrailingColumn = Boolean(rowHref) || Boolean(onRowClick);
+	const tableColumns =
+		adaptive && width !== null ? fitColumns(visibleColumns, width - (hasTrailingColumn ? TRAILING_COLUMN_WIDTH : 0)) : visibleColumns;
 
 	const processed = useMemo(() => {
 		if (manual) {
@@ -254,8 +257,6 @@ export function DataTable<T>({
 		const direction = current?.columnId === columnId && current.direction === "asc" ? "desc" : "asc";
 		setState({ sort: { columnId, direction }, page: 1 });
 	}
-
-	const columnCount = tableColumns.length + (canExpand || rowHref ? 1 : 0);
 
 	return (
 		<div className={cn("@container/table flex min-w-0 max-w-full flex-col gap-3", className)}>
@@ -360,14 +361,13 @@ export function DataTable<T>({
 											</TableHead>
 										);
 									})}
-									{canExpand || rowHref ? <TableHead className="w-10 px-2" /> : null}
+									{hasTrailingColumn ? <TableHead className="w-10 px-2" /> : null}
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								{rows.map((row) => {
 									const id = getRowId(row);
 									const href = rowHref?.(row);
-									const open = expanded === id;
 
 									// With a row link every cell is its own link, so the whole row is clickable.
 									const cells = tableColumns.map((column) => (
@@ -393,63 +393,50 @@ export function DataTable<T>({
 									));
 
 									return (
-										<Fragment key={id}>
-											<TableRow
-												data-state={open ? "selected" : undefined}
-												className={cn(
-													"group/row",
-													(href || canExpand) && "cursor-pointer",
-													open && "border-b-0 bg-muted/40",
-												)}
-												onClick={
-													canExpand
-														? (event) => {
-																if (!(event.target as HTMLElement).closest("a, button, [role=button]")) {
-																	setExpanded(open ? null : id);
-																}
+										<TableRow
+											key={id}
+											data-state={activeRowId === id ? "selected" : undefined}
+											className={cn("group/row", (href || onRowClick) && "cursor-pointer")}
+											onClick={
+												onRowClick
+													? (event) => {
+															const target = event.target as HTMLElement;
+															// Dialogs render in portals, whose clicks still bubble here; links and buttons act on their own.
+															if (
+																!event.currentTarget.contains(target) ||
+																target.closest("a, button, [role=button]")
+															) {
+																return;
 															}
-														: undefined
-												}
-											>
-												{cells}
-												{canExpand ? (
-													<TableCell className="w-10 p-0 text-center">
-														<button
-															type="button"
-															aria-label={t("details")}
-															aria-expanded={open}
-															onClick={() => setExpanded(open ? null : id)}
-															className={cn(
-																"inline-flex size-8 cursor-pointer items-center justify-center rounded-md focus-visible:ring-2 focus-visible:ring-ring text-muted-foreground transition-[color,rotate] duration-300 group-hover/row:text-foreground",
-																open && "rotate-180",
-															)}
-														>
-															<ChevronDown className="size-4" />
-														</button>
-													</TableCell>
-												) : href ? (
-													<TableCell className="w-10 p-0 text-right">
+															onRowClick(row);
+														}
+													: undefined
+											}
+										>
+											{cells}
+											{hasTrailingColumn ? (
+												<TableCell className="w-10 p-0 text-right">
+													{href ? (
 														<Link
 															href={href}
 															aria-label={t("open")}
-															className="flex items-center justify-end py-3 px-3 text-muted-foreground/60 outline-none"
+															className="flex items-center justify-end px-3 py-3 text-muted-foreground/60 outline-none"
 														>
-															<ChevronRight
-																className="size-4 transition-[color,translate] duration-300 ease-out group-hover/row:translate-x-1 group-hover/row:text-foreground motion-reduce:transition-none"
-																aria-hidden="true"
-															/>
+															<RowChevron />
 														</Link>
-													</TableCell>
-												) : null}
-											</TableRow>
-											{canExpand && open ? (
-												<TableRow className="hover:bg-transparent">
-													<TableCell colSpan={columnCount} className="bg-muted/25 px-4 py-4 whitespace-normal">
-														{expandedContent(row)}
-													</TableCell>
-												</TableRow>
+													) : (
+														<button
+															type="button"
+															aria-label={t("open")}
+															onClick={() => onRowClick?.(row)}
+															className="flex w-full cursor-pointer items-center justify-end rounded-md px-3 py-3 text-muted-foreground/60 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+														>
+															<RowChevron />
+														</button>
+													)}
+												</TableCell>
 											) : null}
-										</Fragment>
+										</TableRow>
 									);
 								})}
 							</TableBody>

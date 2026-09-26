@@ -27,12 +27,14 @@
 		"nodemailer": "^10.0.10",
 		"oidc-provider": "^9.12.2",
 		"otpauth": "^9.5.2",
+		"semver": "^7.8.5",
 		"sharp": "0.35.4",
 		"zod": "^4.6.5"
 	},
 	"devDependencies": {
 		"@types/node": "^24.13.6",
 		"@types/oidc-provider": "^9.12.1",
+		"@types/semver": "^7.8.0",
 		"tsdown": "^0.23.0",
 		"tsx": "^4.23.15",
 		"typescript": "~7.0.2"

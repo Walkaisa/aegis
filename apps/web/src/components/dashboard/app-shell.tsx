@@ -5,7 +5,9 @@ import { type ReactNode, useMemo } from "react";
 import { AccountProvider } from "@/components/dashboard/account-context";
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
 import { BreadcrumbsProvider, HeaderBreadcrumbs } from "@/components/dashboard/breadcrumbs";
+import { HashTarget } from "@/components/dashboard/hash-target";
 import { ErrorState } from "@/components/dashboard/states";
+import { VersionStatusProvider } from "@/components/dashboard/version-status";
 import { PreferencesMenu } from "@/components/preferences-menu";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -34,24 +36,27 @@ export function AppShell({ defaultOpen, children }: { defaultOpen: boolean; chil
 
 	return (
 		<AccountProvider value={account}>
-			<BreadcrumbsProvider>
-				<SidebarProvider defaultOpen={defaultOpen}>
-					<AppSidebar />
-					<SidebarInset className="min-w-0">
-						<header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-3 border-b bg-background/80 px-4 backdrop-blur md:rounded-t-xl md:px-6">
-							<div className="flex min-w-0 flex-1 items-center gap-2">
-								<SidebarTrigger className="-ml-2.5" />
-								<Separator orientation="vertical" className="mr-2 h-4 mt-1.5 self-center" />
-								<HeaderBreadcrumbs />
-							</div>
-							<PreferencesMenu />
-						</header>
-						<main className="min-w-0 flex-1 px-4 py-6 sm:px-6 md:px-10 md:py-10">
-							<div className="mx-auto w-full max-w-6xl">{children}</div>
-						</main>
-					</SidebarInset>
-				</SidebarProvider>
-			</BreadcrumbsProvider>
+			<VersionStatusProvider>
+				<BreadcrumbsProvider>
+					<SidebarProvider defaultOpen={defaultOpen}>
+						<AppSidebar />
+						<SidebarInset className="min-w-0">
+							<header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between gap-3 border-b bg-background/80 px-4 backdrop-blur md:rounded-t-xl md:px-6">
+								<div className="flex min-w-0 flex-1 items-center gap-2">
+									<SidebarTrigger className="-ml-2.5" />
+									<Separator orientation="vertical" className="mr-2 h-4 mt-1.5 self-center" />
+									<HeaderBreadcrumbs />
+								</div>
+								<PreferencesMenu />
+							</header>
+							<main className="min-w-0 flex-1 px-4 py-6 sm:px-6 md:px-10 md:py-10">
+								<div className="mx-auto w-full max-w-6xl">{children}</div>
+								<HashTarget />
+							</main>
+						</SidebarInset>
+					</SidebarProvider>
+				</BreadcrumbsProvider>
+			</VersionStatusProvider>
 		</AccountProvider>
 	);
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { GeneralSettings } from "@/components/settings/general-settings";
+import { VersionSettings } from "@/components/settings/version-settings";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations("settings");
@@ -8,5 +9,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-	return <GeneralSettings />;
+	return (
+		<>
+			<GeneralSettings />
+			<VersionSettings />
+		</>
+	);
 }

@@ -86,6 +86,7 @@ export function BackLink({ href, children }: { href: string; children: ReactNode
 
 /** A titled card section; the building block of settings-style pages. */
 export function Section({
+	id,
 	title,
 	description,
 	action,
@@ -94,6 +95,8 @@ export function Section({
 	className,
 	contentClassName,
 }: {
+	/** Anchor for links to the section; it stops below the sticky header. */
+	id?: string;
 	title?: ReactNode;
 	description?: ReactNode;
 	action?: ReactNode;
@@ -103,7 +106,7 @@ export function Section({
 	contentClassName?: string;
 }) {
 	return (
-		<Card className={cn("gap-0 py-0", className)}>
+		<Card id={id} className={cn("scroll-mt-20 gap-0 py-0", className)}>
 			{title || action ? (
 				<CardHeader className="flex flex-wrap items-start justify-between gap-x-5 gap-y-3 border-b pt-4">
 					<div className="min-w-0 flex-1 basis-56 space-y-1">

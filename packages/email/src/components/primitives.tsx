@@ -135,7 +135,15 @@ export function LinkFallback({ label, href }: { label: string; href: string }) {
 /** A boxed aside: what happens next, or what to do if the message was unexpected. */
 export function Panel({ title, children }: { title?: ReactNode; children: ReactNode }) {
 	return (
-		<table role="presentation" cellPadding={0} cellSpacing={0} border={0} width="100%" style={{ margin: "0 0 20px" }}>
+		<table
+			role="presentation"
+			cellPadding={0}
+			cellSpacing={0}
+			border={0}
+			width="100%"
+			// Separate borders, so the rounded corners apply to the border as well.
+			style={{ margin: "0 0 20px", borderCollapse: "separate" }}
+		>
 			<tbody>
 				<tr>
 					<td

@@ -34,6 +34,7 @@ import { SecondFactorChallenges } from "./second-factor-challenges.js";
 import { SetupService } from "./setup.js";
 import { SignInThrottle } from "./sign-in-throttle.js";
 import { TwoFactorService } from "./two-factor.js";
+import { UpdateChecker } from "./updates.js";
 import { UserService } from "./users.js";
 
 export interface AppServices {
@@ -76,6 +77,8 @@ export interface AppServices {
 	recovery: AccountRecoveryService;
 	oidc: OidcRuntime;
 	setup: SetupService;
+	/** The running version and the newest release on GitHub. */
+	updates: UpdateChecker;
 }
 
 export function createServices(config: AppConfig, database: Database, log: FastifyBaseLogger): AppServices {
@@ -159,6 +162,7 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 		log,
 		auditRetentionDays: config.auditRetentionDays,
 	});
+	const updates = new UpdateChecker({ currentVersion: config.version, enabled: config.updateCheck, log });
 
 	return {
 		config,
@@ -197,5 +201,6 @@ export function createServices(config: AppConfig, database: Database, log: Fasti
 		recovery,
 		oidc,
 		setup,
+		updates,
 	};
 }

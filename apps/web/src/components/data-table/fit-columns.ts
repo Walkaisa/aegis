@@ -3,10 +3,7 @@ import type { DataTableColumn } from "./types";
 /** Width of a column that does not declare a `minWidth`, in pixels. */
 const DEFAULT_COLUMN_WIDTH = 140;
 
-/** The control at the end of each row that reveals the columns that did not fit. */
-const DETAILS_CONTROL_WIDTH = 40;
-
-/** Columns without a `priority` are the first to move into the row details. */
+/** Columns without a `priority` are the first to be left out. */
 const LOWEST_PRIORITY = Number.MAX_SAFE_INTEGER;
 
 export function columnWidth<T>(column: DataTableColumn<T>): number {
@@ -14,15 +11,11 @@ export function columnWidth<T>(column: DataTableColumn<T>): number {
 }
 
 /**
- * Splits the columns of an adaptive table into those that fit the available width and those shown
- * in the row details instead. Locked columns always stay; the others are kept by priority, and
- * both groups keep the order of `columns`.
+ * The columns of an adaptive table that fit the available width. Locked columns always stay; the
+ * others are kept by priority, in the order of `columns`.
  */
-export function fitColumns<T>(
-	columns: DataTableColumn<T>[],
-	width: number,
-): { shown: DataTableColumn<T>[]; overflow: DataTableColumn<T>[] } {
-	let remaining = width - DETAILS_CONTROL_WIDTH;
+export function fitColumns<T>(columns: DataTableColumn<T>[], width: number): DataTableColumn<T>[] {
+	let remaining = width;
 	const kept = new Set<string>();
 
 	for (const column of columns.filter((column) => column.locked)) {
@@ -40,8 +33,5 @@ export function fitColumns<T>(
 		}
 	}
 
-	return {
-		shown: columns.filter((column) => kept.has(column.id)),
-		overflow: columns.filter((column) => !kept.has(column.id)),
-	};
+	return columns.filter((column) => kept.has(column.id));
 }
