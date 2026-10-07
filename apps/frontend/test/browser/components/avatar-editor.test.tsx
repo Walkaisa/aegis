@@ -188,6 +188,8 @@ describe("EditableAvatar", () => {
 		await choose(await imageFile());
 
 		await page.getByRole("button", { name: t.save }).click();
+		// The picture is encoded before the upload starts; `finish` only resolves it once it has.
+		await vi.waitFor(() => expect(onUpload).toHaveBeenCalledOnce());
 		await userEvent.keyboard("{Escape}");
 		await expect.element(page.getByRole("dialog")).toBeVisible();
 		finish();
