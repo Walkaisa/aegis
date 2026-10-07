@@ -1,22 +1,44 @@
+# Installed and built inside the image
 **/node_modules
 **/dist
 **/.next
+**/out
 **/*.tsbuildinfo
 **/next-env.d.ts
+
+# Local state and secrets
 **/data
 **/*.log
-.git
-.vscode
+**/coverage
 .env
 .env.*
 !.env.example
+
+# Not needed to build the image
+.git
+.github
+.vscode
+.idea
+.claude
+**/*.md
+docs
+scripts
+apps/frontend/scripts
 Dockerfile
 compose*.yaml
-README.md
-PROMPT.md
-CHANGELOG.md
+biome.json
 release-please-config.json
 .release-please-manifest.json
-docs
-.github
-.claude
+.editorconfig
+.gitattributes
+.nvmrc
+
+# Tests run in CI against the image, never inside it
+**/test
+e2e
+test-results
+playwright-report
+vitest.config.ts
+playwright.config.ts
+tsconfig.json
+codecov.yml

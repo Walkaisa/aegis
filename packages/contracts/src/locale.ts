@@ -10,6 +10,12 @@ export function isLocale(value: unknown): value is Locale {
 	return value === "de" || value === "en";
 }
 
+/** The part of `value` before the first `separator`, or all of it. */
+function before(value: string, separator: string): string {
+	const end = value.indexOf(separator);
+	return end === -1 ? value : value.slice(0, end);
+}
+
 /**
  * Resolves the UI language from an explicit preference cookie or, failing that,
  * from the browser's Accept-Language header.
@@ -23,10 +29,14 @@ export function resolveLocale(preference: string | null | undefined, acceptLangu
 		const ranked = acceptLanguage
 			.split(",")
 			.map((part, index) => {
-				const [tag = "", ...params] = part.trim().split(";");
-				const quality = params.map((param) => param.trim()).find((param) => param.startsWith("q="));
+				const quality = part
+					.split(";")
+					.slice(1)
+					.map((param) => param.trim())
+					.find((param) => param.startsWith("q="));
 				return {
-					language: tag.trim().toLowerCase().split("-")[0] ?? "",
+					// `de-AT;q=0.8` → `de`
+					language: before(before(part, ";").trim().toLowerCase(), "-"),
 					quality: quality ? Number(quality.slice(2)) : 1,
 					index,
 				};

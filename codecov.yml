@@ -1,0 +1,14 @@
+# Every line, branch and function is covered; Vitest already fails below 100 %, and these checks
+# make a drop visible on the pull request as well.
+coverage:
+  status:
+    project:
+      default:
+        target: 100%
+    patch:
+      default:
+        target: 100%
+
+comment:
+  layout: "condensed_header, diff, flags, files"
+  require_changes: true

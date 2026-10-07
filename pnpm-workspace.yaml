@@ -2,16 +2,17 @@ packages:
   - apps/*
   - packages/*
 
+# Runs package scripts through pnpm's portable shell, so `NODE_ENV=production node …` works on
+# Windows as well.
+shellEmulator: true
+
 allowBuilds:
   '@parcel/watcher': false
   '@swc/core': false
   argon2: false
+  cpu-features: false
   esbuild: false
+  protobufjs: false
   sharp: false
+  ssh2: false
   unrs-resolver: false
-
-minimumReleaseAgeExclude:
-  - icu-minify@4.14.5
-  - next-intl-swc-plugin-extractor@4.14.5
-  - next-intl@4.14.5
-  - use-intl@4.14.5

@@ -24,12 +24,12 @@
 		".": {
 			"changelog-path": "CHANGELOG.md",
 			"extra-files": [
-				{ "type": "json", "path": "apps/server/package.json", "jsonpath": "$.version" },
-				{ "type": "json", "path": "apps/web/package.json", "jsonpath": "$.version" },
+				{ "type": "json", "path": "apps/backend/package.json", "jsonpath": "$.version" },
+				{ "type": "json", "path": "apps/frontend/package.json", "jsonpath": "$.version" },
 				{ "type": "json", "path": "packages/contracts/package.json", "jsonpath": "$.version" },
 				{ "type": "json", "path": "packages/db/package.json", "jsonpath": "$.version" },
 				{ "type": "json", "path": "packages/email/package.json", "jsonpath": "$.version" },
-				"apps/server/src/version.ts"
+				"apps/backend/src/version.ts"
 			]
 		}
 	}

@@ -13,8 +13,11 @@
 		"dev": "pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build && pnpm --recursive --parallel --stream dev",
 		"dev:db": "docker compose -f compose.dev.yaml up -d",
 		"build": "pnpm --recursive build",
-		"start": "pnpm --recursive --parallel --stream --filter \"./apps/*\" start",
-		"typecheck": "pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build && pnpm --recursive typecheck",
+		"start": "pnpm --filter @aegis/backend start",
+		"typecheck": "pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build && pnpm --recursive typecheck && tsc -p tsconfig.json",
+		"test": "vitest run --configLoader runner --coverage",
+		"test:watch": "vitest --configLoader runner",
+		"test:e2e": "playwright test",
 		"check": "biome check .",
 		"check:fix": "biome check --write .",
 		"docker:up": "docker compose up -d --build",
@@ -24,7 +27,21 @@
 		"version:check": "node scripts/version.mjs"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.14",
-		"typescript": "~7.0.2"
+		"@biomejs/biome": "2.5.15",
+		"@playwright/test": "^1.63.0",
+		"@testcontainers/postgresql": "^12.2.0",
+		"@types/mailparser": "^3.9.0",
+		"@types/node": "^24.19.1",
+		"@types/smtp-server": "^3.5.13",
+		"@vitejs/plugin-react": "^6.1.2",
+		"@vitest/browser-playwright": "^5.0.3",
+		"@vitest/coverage-v8": "^5.0.3",
+		"mailparser": "^3.9.36",
+		"playwright": "^1.63.0",
+		"smtp-server": "^3.19.17",
+		"testcontainers": "^12.2.0",
+		"typescript": "~7.0.2",
+		"vitest": "^5.0.3",
+		"vitest-browser-react": "^2.3.0"
 	}
 }

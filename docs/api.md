@@ -142,16 +142,16 @@ Public and cached for good: a new image always gets a new URL.
 
 ## Code layout
 
-The server mounts the API once at `/api` (`API_PREFIX` in `@aegis/contracts`). Below that, the folders in
-`apps/server/src/http/api` mirror the paths: every file is a Fastify plugin that registers its routes
+The backend mounts the API once at `/api` (`API_PREFIX` in `@aegis/contracts`). Below that, the folders in
+`apps/backend/src/http/api` mirror the paths: every file is a Fastify plugin that registers its routes
 relative to its own prefix and mounts the plugins nested below it.
 
 ```text
-apps/server/src/http
-├── app.ts               three areas: /api, the OIDC protocol, the web interface
+apps/backend/src/http
+├── app.ts               three areas: /api, the OIDC protocol, the frontend
 ├── access.ts            session of a request, access(...) declarations, authorization
 ├── oidc.ts              /.well-known/*, /oauth2/*
-├── web.ts               everything else, proxied to Next.js; pages require console:access
+├── frontend/            everything else: the frontend's pages and files; pages require console:access
 └── api
     ├── index.ts         /api: deny by default, CSRF check, response headers, 404 for unknown paths
     ├── system.ts        /health, /instance, /setup
@@ -169,7 +169,7 @@ apps/server/src/http
 A route states who may call it next to its path, for example
 `app.post("/", access("users:manage", rateLimits.sensitive), handler)`. Roles and their permissions are
 defined in `packages/contracts/src/roles.ts`; who may sign in to which application is decided by
-`ApplicationAccess` in `apps/server/src/services/application-access.ts`.
+`ApplicationAccess` in `apps/backend/src/services/application-access.ts`.
 
-In the web interface, `api` and `useApiQuery` from `apps/web/src/lib/api.ts` and
-`apps/web/src/hooks/use-api-query.ts` add the prefix, so calls use paths like `api.get("/users")`.
+In the frontend, `api` and `useApiQuery` from `apps/frontend/src/lib/api.ts` and
+`apps/frontend/src/hooks/use-api-query.ts` add the prefix, so calls use paths like `api.get("/users")`.

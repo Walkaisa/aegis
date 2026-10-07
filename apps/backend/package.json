@@ -1,0 +1,43 @@
+{
+	"name": "@aegis/backend",
+	"version": "1.2.0",
+	"private": true,
+	"description": "Aegis backend: Fastify, oidc-provider, PostgreSQL; serves the exported frontend",
+	"type": "module",
+	"main": "dist/index.js",
+	"scripts": {
+		"dev": "tsx watch --clear-screen=false --env-file-if-exists=../../.env src/index.ts",
+		"build": "tsdown",
+		"start": "NODE_ENV=production node --env-file-if-exists=../../.env dist/index.js",
+		"typecheck": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"@aegis/contracts": "workspace:*",
+		"@aegis/db": "workspace:*",
+		"@aegis/email": "workspace:*",
+		"@fastify/cookie": "^11.1.2",
+		"@fastify/helmet": "^13.1.1",
+		"@fastify/rate-limit": "^11.2.0",
+		"@fastify/static": "^10.1.5",
+		"@sapphire/snowflake": "^3.5.5",
+		"argon2": "^0.45.1",
+		"drizzle-orm": "^0.45.3",
+		"fastify": "^5.12.5",
+		"jose": "^6.2.12",
+		"nodemailer": "^10.0.15",
+		"oidc-provider": "^9.12.2",
+		"otpauth": "^9.5.2",
+		"semver": "^7.8.5",
+		"sharp": "0.35.5",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"@fastify/http-proxy": "^11.6.4",
+		"@types/node": "^24.19.1",
+		"@types/oidc-provider": "^9.12.1",
+		"@types/semver": "^7.8.0",
+		"tsdown": "^0.23.0",
+		"tsx": "^4.23.15",
+		"typescript": "~7.0.2"
+	}
+}

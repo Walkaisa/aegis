@@ -75,8 +75,9 @@ export function classifyRedirectUri(value: string): { ok: true; kind: RedirectUr
 		return { ok: false, code: "redirect_uri_credentials" };
 	}
 
+	// The URL standard gives every https URL a host, so there is nothing left to check.
 	if (url.protocol === "https:") {
-		return url.hostname ? { ok: true, kind: "https" } : { ok: false, code: "redirect_uri_invalid" };
+		return { ok: true, kind: "https" };
 	}
 
 	if (url.protocol === "http:") {

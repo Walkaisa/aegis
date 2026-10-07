@@ -9,6 +9,7 @@ export * from "./identity";
 export * from "./instance";
 export * from "./locale";
 export * from "./media";
+export * from "./navigation";
 export * from "./overview";
 export * from "./recovery";
 export * from "./roles";
