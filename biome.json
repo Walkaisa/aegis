@@ -12,10 +12,11 @@
 			"!**/node_modules",
 			"!**/dist",
 			"!**/.next",
+			"!**/out",
 			"!**/next-env.d.ts",
 			"!**/pnpm-lock.yaml",
-			"!apps/web/src/components/ui",
-			"!apps/web/src/hooks/use-mobile.ts"
+			"!apps/frontend/src/components/ui",
+			"!apps/frontend/src/hooks/use-mobile.ts"
 		]
 	},
 	"formatter": {

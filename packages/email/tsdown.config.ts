@@ -1,10 +1,10 @@
 import { defineConfig } from "tsdown";
 
 /**
- * Bundles the templates into `dist`. The output runs inside `apps/server`, so React and the
+ * Bundles the templates into `dist`. The output runs inside `apps/backend`, so React and the
  * React Email components stay external and are resolved from `node_modules` at runtime.
  *
- * Like `@aegis/contracts`, the watch mode never empties the output directory: the server runs
+ * Like `@aegis/contracts`, the watch mode never empties the output directory: the backend runs
  * from `dist` while this watcher is live.
  */
 export default defineConfig(({ watch }) => ({

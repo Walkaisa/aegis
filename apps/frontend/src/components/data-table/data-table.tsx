@@ -1,0 +1,462 @@
+"use client";
+
+import { ArrowDown, ArrowUp, ChevronRight, ChevronsUpDown, SearchX } from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { type CSSProperties, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { DataTablePagination } from "./data-table-pagination";
+import { activeFilterCount, DataTableToolbar } from "./data-table-toolbar";
+import { columnWidth, fitColumns } from "./fit-columns";
+import type { DataTableColumn, DataTableFilter, DataTableState, SortableValue } from "./types";
+
+export type { DataTableColumn, DataTableFilter, DataTableSort, DataTableState } from "./types";
+
+const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
+
+/** The chevron column at the end of rows that open something (`w-10`). */
+const TRAILING_COLUMN_WIDTH = 40;
+
+/** The chevron of a row that opens something; it nudges forward while the row is hovered. */
+function RowChevron() {
+	return (
+		<ChevronRight
+			className="size-4 transition-[color,translate] duration-300 ease-out group-hover/row:translate-x-1 group-hover/row:text-foreground motion-reduce:transition-none"
+			aria-hidden="true"
+		/>
+	);
+}
+
+export const EMPTY_TABLE_STATE: DataTableState = {
+	search: "",
+	sort: null,
+	filters: {},
+	page: 1,
+	pageSize: 25,
+	hiddenColumns: [],
+};
+
+export function createTableState(overrides: Partial<DataTableState> = {}): DataTableState {
+	return { ...EMPTY_TABLE_STATE, ...overrides };
+}
+
+const HIDE_BELOW_CLASS = {
+	sm: "hidden sm:table-cell",
+	md: "hidden md:table-cell",
+	lg: "hidden lg:table-cell",
+	xl: "hidden xl:table-cell",
+} as const;
+
+function comparable(value: SortableValue): string | number {
+	if (value === null || value === undefined) {
+		return "";
+	}
+	if (value instanceof Date) {
+		return value.getTime();
+	}
+	if (typeof value === "boolean") {
+		return value ? 1 : 0;
+	}
+	return value;
+}
+
+function compare(left: SortableValue, right: SortableValue): number {
+	const a = comparable(left);
+	const b = comparable(right);
+	if (typeof a === "number" && typeof b === "number") {
+		return a - b;
+	}
+	return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: "base" });
+}
+
+function matchesSearch<T>(row: T, columns: DataTableColumn<T>[], term: string): boolean {
+	const needle = term.trim().toLocaleLowerCase();
+	if (needle.length === 0) {
+		return true;
+	}
+	return columns.some((column) => {
+		if (!column.value || column.searchable === false) {
+			return false;
+		}
+		const value = column.value(row);
+		return value !== null && value !== undefined && String(comparable(value)).toLocaleLowerCase().includes(needle);
+	});
+}
+
+function headerStyle<T>(column: DataTableColumn<T>, adaptive: boolean): CSSProperties | undefined {
+	if (column.flexible) {
+		return adaptive ? undefined : { width: "100%" };
+	}
+	if (adaptive) {
+		return { width: columnWidth(column) };
+	}
+	return column.width ? { width: column.width } : undefined;
+}
+
+function matchesFilters<T>(row: T, filters: DataTableFilter<T>[], selection: Record<string, string[]>): boolean {
+	return filters.every((filter) => {
+		const selected = selection[filter.id] ?? [];
+		if (selected.length === 0 || !filter.value) {
+			return true;
+		}
+		const value = filter.value(row);
+		return Array.isArray(value) ? value.some((entry) => selected.includes(entry)) : selected.includes(value);
+	});
+}
+
+export interface DataTableProps<T> {
+	columns: DataTableColumn<T>[];
+	data: T[];
+	getRowId: (row: T) => string;
+	/** Controlled state; without it the table keeps its own. */
+	state?: DataTableState;
+	onStateChange?: (state: DataTableState) => void;
+	defaultState?: Partial<DataTableState>;
+	/**
+	 * The rows are already searched, filtered, sorted and paged by the server. `total` is then
+	 * the number of matches across all pages.
+	 */
+	manual?: boolean;
+	total?: number;
+	loading?: boolean;
+	filters?: DataTableFilter<T>[];
+	searchable?: boolean;
+	searchPlaceholder?: string;
+	/** Extra controls in the toolbar, e.g. a refresh button. */
+	toolbarActions?: ReactNode;
+	/** Content above the toolbar, e.g. the severity bar of the audit log. */
+	header?: ReactNode;
+	/** Makes each row a link to its detail page. */
+	rowHref?: (row: T) => string;
+	/** Makes each row open in place, e.g. in a side panel; mutually exclusive with `rowHref`. */
+	onRowClick?: (row: T) => void;
+	/** The row whose panel is open; it stays highlighted while the panel shows it. */
+	activeRowId?: string | null;
+	/** Replaces the table with a card list below `md`. */
+	renderCard?: (row: T) => ReactNode;
+	emptyTitle?: ReactNode;
+	emptyDescription?: ReactNode;
+	pageSizeOptions?: number[];
+	/** Hides the pagination bar; useful for short, fixed lists. */
+	paginated?: boolean;
+	className?: string;
+	/**
+	 * Fits the columns to the available space by priority. Columns that do not fit are left out; the
+	 * page or panel a row opens (`rowHref`, `onRowClick`) is where every field can be seen.
+	 */
+	adaptive?: boolean;
+	/** Accessible name of the table. */
+	label?: string;
+}
+
+/**
+ * The table used for every list in the administration UI: search, sorting, filters, pagination
+ * and a column menu, with the same look everywhere. Works on data that is already in the browser
+ * (`manual` off) and on server-driven pages (`manual` on).
+ */
+export function DataTable<T>({
+	columns,
+	data,
+	getRowId,
+	state: controlledState,
+	onStateChange,
+	defaultState,
+	manual = false,
+	total,
+	loading = false,
+	filters = [],
+	searchable = true,
+	searchPlaceholder,
+	toolbarActions,
+	header,
+	rowHref,
+	onRowClick,
+	activeRowId = null,
+	renderCard,
+	emptyTitle,
+	emptyDescription,
+	pageSizeOptions = DEFAULT_PAGE_SIZES,
+	paginated = true,
+	className,
+	adaptive = false,
+	label,
+}: DataTableProps<T>) {
+	const t = useTranslations("table");
+	const [internalState, setInternalState] = useState<DataTableState>(() =>
+		createTableState({
+			hiddenColumns: columns.filter((column) => column.hiddenByDefault && !column.locked).map((column) => column.id),
+			...defaultState,
+		}),
+	);
+	const frameRef = useRef<HTMLDivElement>(null);
+	const [width, setWidth] = useState<number | null>(null);
+
+	useLayoutEffect(() => {
+		const frame = frameRef.current;
+		if (!adaptive || !frame) {
+			return;
+		}
+		setWidth(frame.clientWidth);
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				setWidth(Math.floor(entry.contentRect.width));
+			}
+		});
+		observer.observe(frame);
+		return () => observer.disconnect();
+	}, [adaptive]);
+
+	const state = controlledState ?? internalState;
+	const setState = (next: Partial<DataTableState>) => {
+		const merged = { ...state, ...next };
+		if (onStateChange) {
+			onStateChange(merged);
+		}
+		if (!controlledState) {
+			setInternalState(merged);
+		}
+	};
+
+	const visibleColumns = useMemo(
+		() => columns.filter((column) => column.locked || !state.hiddenColumns.includes(column.id)),
+		[columns, state.hiddenColumns],
+	);
+
+	const hasTrailingColumn = Boolean(rowHref) || Boolean(onRowClick);
+	const tableColumns =
+		adaptive && width !== null ? fitColumns(visibleColumns, width - (hasTrailingColumn ? TRAILING_COLUMN_WIDTH : 0)) : visibleColumns;
+
+	const processed = useMemo(() => {
+		if (manual) {
+			return data;
+		}
+		let rows = data.filter((row) => matchesSearch(row, columns, state.search) && matchesFilters(row, filters, state.filters));
+		const sort = state.sort;
+		if (sort) {
+			const column = columns.find((entry) => entry.id === sort.columnId);
+			if (column?.value) {
+				const accessor = column.value;
+				rows = [...rows].sort((a, b) => compare(accessor(a), accessor(b)) * (sort.direction === "asc" ? 1 : -1));
+			}
+		}
+		return rows;
+	}, [manual, data, columns, filters, state.search, state.filters, state.sort]);
+
+	const rowTotal = manual ? (total ?? data.length) : processed.length;
+	const pageCount = Math.max(1, Math.ceil(rowTotal / state.pageSize));
+	const page = Math.min(state.page, pageCount);
+	const rows = manual || !paginated ? processed : processed.slice((page - 1) * state.pageSize, page * state.pageSize);
+
+	const filtered = state.search.length > 0 || activeFilterCount(state.filters) > 0;
+
+	/** A first click sorts ascending, every further click on the same column flips the direction. */
+	function toggleSort(columnId: string) {
+		const current = state.sort;
+		const direction = current?.columnId === columnId && current.direction === "asc" ? "desc" : "asc";
+		setState({ sort: { columnId, direction }, page: 1 });
+	}
+
+	return (
+		<div className={cn("@container/table flex min-w-0 max-w-full flex-col gap-3", className)}>
+			{header}
+
+			{searchable || filters.length > 0 || toolbarActions || columns.some((column) => !column.locked) ? (
+				<DataTableToolbar
+					state={state}
+					onState={setState}
+					columns={columns}
+					filters={filters}
+					searchable={searchable}
+					searchPlaceholder={searchPlaceholder}
+					actions={toolbarActions}
+				/>
+			) : null}
+
+			<div ref={frameRef} className="overflow-hidden rounded-xl border bg-card">
+				{loading ? (
+					<div className="flex flex-col gap-2 p-4" aria-busy="true">
+						{["a", "b", "c", "d", "e"].map((key) => (
+							<Skeleton key={key} className="h-10 w-full rounded-lg" />
+						))}
+					</div>
+				) : rows.length === 0 ? (
+					<div className="flex flex-col items-center justify-center gap-3 px-6 py-14 text-center">
+						<span className="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
+							<SearchX className="size-5" />
+						</span>
+						<div className="flex flex-col gap-1">
+							<p className="font-medium">{filtered ? t("noMatchesTitle") : (emptyTitle ?? t("emptyTitle"))}</p>
+							<p className="max-w-sm text-sm text-muted-foreground">
+								{filtered ? t("noMatchesDescription") : (emptyDescription ?? t("emptyDescription"))}
+							</p>
+						</div>
+					</div>
+				) : (
+					<>
+						{renderCard ? (
+							<ul className="divide-y md:hidden">
+								{rows.map((row) => (
+									<li key={getRowId(row)}>
+										{rowHref ? (
+											<Link
+												href={rowHref(row)}
+												className="group/row flex items-center gap-3 py-3 pr-5 pl-4 transition-colors hover:bg-muted/40"
+											>
+												<div className="min-w-0 flex-1">{renderCard(row)}</div>
+												<ChevronRight
+													className="size-4 shrink-0 text-muted-foreground/60 transition-[color,translate] duration-300 ease-out group-hover/row:translate-x-1 group-hover/row:text-foreground motion-reduce:transition-none"
+													aria-hidden="true"
+												/>
+											</Link>
+										) : (
+											<div className="overflow-hidden px-3 py-3">{renderCard(row)}</div>
+										)}
+									</li>
+								))}
+							</ul>
+						) : null}
+
+						<Table className={cn(renderCard && "hidden md:table", adaptive && "table-fixed")} aria-label={label}>
+							<TableHeader className="bg-muted/40">
+								<TableRow className="hover:bg-transparent">
+									{tableColumns.map((column) => {
+										const sortable = manual
+											? column.sortable === true
+											: column.sortable !== false && Boolean(column.value);
+										const active = state.sort?.columnId === column.id ? state.sort : null;
+										const Icon = !active ? ChevronsUpDown : active.direction === "asc" ? ArrowUp : ArrowDown;
+										return (
+											<TableHead
+												key={column.id}
+												style={headerStyle(column, adaptive)}
+												aria-sort={active ? (active.direction === "asc" ? "ascending" : "descending") : undefined}
+												className={cn(
+													"px-3 text-xs font-medium text-muted-foreground",
+													column.flexible && "max-w-0",
+													adaptive && "overflow-hidden",
+													column.align === "end" && "text-right",
+													!adaptive && column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
+													column.headerClassName,
+												)}
+											>
+												{sortable ? (
+													<button
+														type="button"
+														onClick={() => toggleSort(column.id)}
+														className={cn(
+															"-mx-1.5 inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+															active && "text-foreground",
+															column.align === "end" && "flex-row-reverse",
+														)}
+													>
+														{column.header}
+														<Icon
+															className={cn("size-3.5 shrink-0", !active && "opacity-50")}
+															aria-hidden="true"
+														/>
+													</button>
+												) : (
+													column.header
+												)}
+											</TableHead>
+										);
+									})}
+									{hasTrailingColumn ? <TableHead className="w-10 px-2" /> : null}
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{rows.map((row) => {
+									const id = getRowId(row);
+									const href = rowHref?.(row);
+
+									// With a row link every cell is its own link, so the whole row is clickable.
+									const cells = tableColumns.map((column) => (
+										<TableCell
+											key={column.id}
+											className={cn(
+												"p-0 align-middle",
+												column.flexible && "max-w-0",
+												adaptive && "overflow-hidden",
+												column.align === "end" && "text-right",
+												!adaptive && column.hideBelow && HIDE_BELOW_CLASS[column.hideBelow],
+												column.className,
+											)}
+										>
+											{href ? (
+												<Link href={href} className="block overflow-hidden px-3 py-3 outline-none">
+													{column.cell(row)}
+												</Link>
+											) : (
+												<div className="overflow-hidden px-3 py-3">{column.cell(row)}</div>
+											)}
+										</TableCell>
+									));
+
+									return (
+										<TableRow
+											key={id}
+											data-state={activeRowId === id ? "selected" : undefined}
+											className={cn("group/row", (href || onRowClick) && "cursor-pointer")}
+											onClick={
+												onRowClick
+													? (event) => {
+															const target = event.target as HTMLElement;
+															// Dialogs render in portals, whose clicks still bubble here; links and buttons act on their own.
+															if (
+																!event.currentTarget.contains(target) ||
+																target.closest("a, button, [role=button]")
+															) {
+																return;
+															}
+															onRowClick(row);
+														}
+													: undefined
+											}
+										>
+											{cells}
+											{hasTrailingColumn ? (
+												<TableCell className="w-10 p-0 text-right">
+													{href ? (
+														<Link
+															href={href}
+															aria-label={t("open")}
+															className="flex items-center justify-end px-3 py-3 text-muted-foreground/60 outline-none"
+														>
+															<RowChevron />
+														</Link>
+													) : (
+														<button
+															type="button"
+															aria-label={t("open")}
+															onClick={() => onRowClick?.(row)}
+															className="flex w-full cursor-pointer items-center justify-end rounded-md px-3 py-3 text-muted-foreground/60 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+														>
+															<RowChevron />
+														</button>
+													)}
+												</TableCell>
+											) : null}
+										</TableRow>
+									);
+								})}
+							</TableBody>
+						</Table>
+					</>
+				)}
+
+				{paginated && !loading && rowTotal > 0 ? (
+					<DataTablePagination
+						page={page}
+						pageSize={state.pageSize}
+						pageSizeOptions={pageSizeOptions}
+						total={rowTotal}
+						onPage={(next) => setState({ page: next })}
+						onPageSize={(next) => setState({ pageSize: next, page: 1 })}
+					/>
+				) : null}
+			</div>
+		</div>
+	);
+}

@@ -1,5 +1,5 @@
 /**
- * The e-mail palette, mirroring the web UI's tokens (`apps/web/src/app/globals.css`) converted to
+ * The e-mail palette, mirroring the frontend's tokens (`apps/frontend/src/app/globals.css`) converted to
  * hex: e-mail clients understand neither `oklch()` nor CSS variables, so every colour is written
  * out. Light values are inlined on the elements, dark values are applied through the class names
  * below in a `prefers-color-scheme` block — the only dark-mode mechanism most clients support.

@@ -54,6 +54,7 @@ Claims are included in the ID token and returned by the UserInfo endpoint.
 - `sub` is the account ID and never changes, even when the email address does.
 - `picture` is a public URL of the profile picture. A new picture gets a new URL, so it can be cached
   forever. The claim is left out while an account has no picture.
+- The ID token also carries `auth_time`, `amr` and `acr`: when and how the user signed in (see below).
 
 ## Two-factor authentication
 

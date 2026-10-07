@@ -1,4 +1,4 @@
-// Verifies that every package.json and apps/server/src/version.ts carry the same version.
+// Verifies that every package.json and apps/backend/src/version.ts carry the same version.
 // release-please bumps them together (see release-please-config.json); this guards against a file
 // being missed there or edited by hand.
 //
@@ -10,13 +10,13 @@ import { join } from "node:path";
 const root = join(import.meta.dirname, "..");
 const MANIFESTS = [
 	"package.json",
-	"apps/server/package.json",
-	"apps/web/package.json",
+	"apps/backend/package.json",
+	"apps/frontend/package.json",
 	"packages/contracts/package.json",
 	"packages/db/package.json",
 	"packages/email/package.json",
 ];
-const VERSION_MODULE = "apps/server/src/version.ts";
+const VERSION_MODULE = "apps/backend/src/version.ts";
 const VERSION_EXPORT = /export const AEGIS_VERSION = "([^"]+)";/;
 
 const read = (file) => readFileSync(join(root, file), "utf8");

@@ -1,7 +1,8 @@
 # Installation
 
-Aegis runs as a single container next to PostgreSQL. Database migrations run automatically when
-the container starts, so an empty database is all you need.
+Aegis runs as a single container next to PostgreSQL: one Node.js process, running as an unprivileged
+user, serves the interface, the API and OpenID Connect on port 3000. Database migrations run
+automatically when the container starts, so an empty database is all you need.
 
 ## Docker Compose
 

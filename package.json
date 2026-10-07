@@ -13,7 +13,7 @@
 		"dev": "pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build && pnpm --recursive --parallel --stream dev",
 		"dev:db": "docker compose -f compose.dev.yaml up -d",
 		"build": "pnpm --recursive build",
-		"start": "pnpm --recursive --parallel --stream --filter \"./apps/*\" start",
+		"start": "pnpm --filter @aegis/backend start",
 		"typecheck": "pnpm --filter @aegis/contracts --filter @aegis/db --filter @aegis/email build && pnpm --recursive typecheck",
 		"check": "biome check .",
 		"check:fix": "biome check --write .",
@@ -24,7 +24,7 @@
 		"version:check": "node scripts/version.mjs"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.14",
+		"@biomejs/biome": "2.5.15",
 		"typescript": "~7.0.2"
 	}
 }

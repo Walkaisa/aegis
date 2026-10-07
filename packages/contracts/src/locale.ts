@@ -23,10 +23,14 @@ export function resolveLocale(preference: string | null | undefined, acceptLangu
 		const ranked = acceptLanguage
 			.split(",")
 			.map((part, index) => {
-				const [tag = "", ...params] = part.trim().split(";");
-				const quality = params.map((param) => param.trim()).find((param) => param.startsWith("q="));
+				const quality = part
+					.split(";")
+					.slice(1)
+					.map((param) => param.trim())
+					.find((param) => param.startsWith("q="));
 				return {
-					language: tag.trim().toLowerCase().split("-")[0] ?? "",
+					// `de-AT;q=0.8` → `de`
+					language: part.replace(/;.*$/, "").trim().toLowerCase().replace(/-.*$/, ""),
 					quality: quality ? Number(quality.slice(2)) : 1,
 					index,
 				};
