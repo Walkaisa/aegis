@@ -9,6 +9,13 @@ One account, one sign-in, everywhere.
 
 [Documentation](docs/README.md) · [Installation](docs/installation.md) · [Connect an application](docs/connect-an-application.md)
 
+[![Build](https://img.shields.io/github/actions/workflow/status/Walkaisa/aegis/release.yml?branch=main&label=build)](https://github.com/Walkaisa/aegis/actions/workflows/release.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/Walkaisa/aegis?label=coverage)](https://app.codecov.io/gh/Walkaisa/aegis)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/Walkaisa/aegis/codeql.yml?branch=main&label=CodeQL)](https://github.com/Walkaisa/aegis/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Walkaisa/aegis/badge)](https://scorecard.dev/viewer/?uri=github.com/Walkaisa/aegis)
+[![Release](https://img.shields.io/github/v/release/Walkaisa/aegis?sort=semver)](https://github.com/Walkaisa/aegis/releases/latest)
+[![License](https://img.shields.io/github/license/Walkaisa/aegis)](LICENSE)
+
 <br />
 
 <picture>
