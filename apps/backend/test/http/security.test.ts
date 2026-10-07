@@ -77,7 +77,8 @@ describe("pageContentSecurityPolicy", () => {
 		"<script>self.__next_f.push([0])</script>",
 		'<script id="theme">(function(){document.documentElement.classList.add("dark")})()</script>',
 		"<script>self.__next_f.push([0])</script>",
-		"<SCRIPT>one\r\ntwo\rthree</SCRIPT>",
+		"<SCRIPT>one\r\ntwo\rthree</SCRIPT >",
+		"<script>four</script\n>",
 		"<script></script>",
 	].join("");
 
@@ -91,6 +92,7 @@ describe("pageContentSecurityPolicy", () => {
 				hash("self.__next_f.push([0])"),
 				hash('(function(){document.documentElement.classList.add("dark")})()'),
 				hash("one\ntwo\nthree"),
+				hash("four"),
 				hash(""),
 			].join(" "),
 		);

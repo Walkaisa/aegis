@@ -27,4 +27,11 @@ describe("resolveLocale", () => {
 		expect(resolveLocale(null, "")).toBe(DEFAULT_LOCALE);
 		expect(resolveLocale(undefined, undefined)).toBe(DEFAULT_LOCALE);
 	});
+
+	it("takes linear time on hostile headers", () => {
+		const started = performance.now();
+		expect(resolveLocale(null, `${"-".repeat(100_000)}\n`)).toBe(DEFAULT_LOCALE);
+		expect(resolveLocale(null, `${";".repeat(100_000)}\n`)).toBe(DEFAULT_LOCALE);
+		expect(performance.now() - started).toBeLessThan(1_000);
+	});
 });

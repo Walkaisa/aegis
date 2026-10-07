@@ -9,7 +9,7 @@ const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 export const RESOURCE_CONTENT_SECURITY_POLICY = "default-src 'none'; frame-ancestors 'none'";
 
 /** `<script>` elements of a page; those with a `src` attribute load a file from Aegis itself. */
-const SCRIPT_ELEMENT = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+const SCRIPT_ELEMENT = /<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/gi;
 
 /**
  * CSRF defence for the cookie-authenticated API. Browsers always attach `Origin` and
