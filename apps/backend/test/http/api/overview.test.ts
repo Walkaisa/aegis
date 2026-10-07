@@ -19,6 +19,8 @@ describe("GET /api/overview", () => {
 		const overview = await vi.waitFor(async () => {
 			const body = (await admin.get("/api/overview")).json();
 			expect(body.topApplications).toHaveLength(1);
+			expect(body.stats.signIns24h).toBe(1);
+			expect(body.activity.at(-1).succeeded).toBe(1);
 			return body;
 		});
 
