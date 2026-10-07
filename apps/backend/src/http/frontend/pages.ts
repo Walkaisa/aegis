@@ -1,4 +1,4 @@
-import { hasPermission, LOCALE_COOKIE, type Locale, resolveLocale } from "@aegis/contracts";
+import { hasPermission, LOCALE_COOKIE, type Locale, localPath, resolveLocale } from "@aegis/contracts";
 import type { FastifyRequest } from "fastify";
 import type { AppServices } from "../../services/container.js";
 import { getSession } from "../access.js";
@@ -32,14 +32,11 @@ export function isBackendPath(path: string): boolean {
 
 /** Post sign-in destinations: pages of the administration UI only, never external URLs. */
 export function safeReturnPath(value: string | null | undefined): string {
-	if (!value?.startsWith("/") || value.startsWith("//") || value.includes("\\")) {
+	const target = localPath(value);
+	if (!target || PUBLIC_PAGES.has(target.pathname) || target.pathname === "/setup" || isBackendPath(target.pathname)) {
 		return "/";
 	}
-	const path = value.replace(/[?#].*$/s, "");
-	if (PUBLIC_PAGES.has(path) || path === "/setup" || isBackendPath(path)) {
-		return "/";
-	}
-	return value;
+	return target.path;
 }
 
 interface RouteNode {

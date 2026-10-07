@@ -1,3 +1,5 @@
+import { localPath } from "@aegis/contracts";
+
 /** Pages outside the administration UI: sign-in (admin and OIDC), consent, results, setup and the pages reached from an e-mail. */
 const AUTH_PAGES = new Set([
 	"/sign-in",
@@ -16,14 +18,11 @@ export function isAuthPage(pathname: string): boolean {
 
 /** Mirrors the server-side rule: only pages of the administration UI are valid destinations after signing in. */
 export function safeAdminPath(value: string | null | undefined): string {
-	if (!value?.startsWith("/") || value.startsWith("//") || value.includes("\\")) {
+	const target = localPath(value);
+	if (!target || AUTH_PAGES.has(target.pathname) || /^\/(?:api|oauth2|\.well-known)(?:\/|$)/.test(target.pathname)) {
 		return "/";
 	}
-	const path = value.replace(/[?#].*$/s, "");
-	if (AUTH_PAGES.has(path) || /^\/(?:api|oauth2|\.well-known)(?:\/|$)/.test(path)) {
-		return "/";
-	}
-	return value;
+	return target.path;
 }
 
 export function initials(name: string): string {

@@ -21,9 +21,10 @@ import { ApiRequestError, api } from "@/lib/api";
 import { loadPage } from "@/lib/browser";
 import { safeAdminPath } from "@/lib/navigation";
 
+/** Continues to `?next=`, absolute on this origin, so whatever the parameter holds, the browser stays on Aegis. */
 function continueToAdministration() {
 	const next = new URLSearchParams(window.location.search).get("next");
-	loadPage(safeAdminPath(next));
+	loadPage(`${window.location.origin}${safeAdminPath(next)}`);
 }
 
 /**

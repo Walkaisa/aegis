@@ -24,6 +24,7 @@ describe("safeReturnPath", () => {
 			"users",
 			"//evil.example",
 			"/\\evil.example",
+			"/\t/evil.example",
 			"/sign-in?next=/x",
 			"/setup",
 			"/api/users",

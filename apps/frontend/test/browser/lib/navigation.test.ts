@@ -16,6 +16,7 @@ describe("navigation", () => {
 			"users",
 			"//evil.example",
 			"/\\evil.example",
+			"/\t/evil.example",
 			"/sign-in?next=/",
 			"/api/users",
 			"/.well-known/x",

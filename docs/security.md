@@ -52,6 +52,8 @@
 - CSRF protection through origin checks and `SameSite` cookies.
 - A strict Content Security Policy for all pages: scripts only from Aegis itself, inline scripts only
   with their SHA-256 hash. API responses and static files carry `default-src 'none'`.
+- After signing in, the administration continues only to one of its own pages. The destination is
+  resolved the way browsers resolve URLs, so no spelling of it leads to another site.
 
 ## Reporting a vulnerability
 

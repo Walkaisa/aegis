@@ -75,7 +75,16 @@ describe("pages", () => {
 		const next = async (value: string) => (await admin.get(`/sign-in?next=${encodeURIComponent(value)}`)).headers.location;
 
 		expect(await next("/users?page=2")).toBe("/users?page=2");
-		for (const unsafe of ["//evil.example", "https://evil.example", "/\\evil.example", "/sign-in", "/setup", "/api/users", "users"]) {
+		for (const unsafe of [
+			"//evil.example",
+			"https://evil.example",
+			"/\\evil.example",
+			"/\t/evil.example",
+			"/sign-in",
+			"/setup",
+			"/api/users",
+			"users",
+		]) {
 			expect(await next(unsafe), unsafe).toBe("/");
 		}
 	});

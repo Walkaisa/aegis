@@ -34,7 +34,7 @@ describe("SignInForm", () => {
 			email: "ada@example.com",
 			password: "correct horse battery staple",
 		});
-		expect(loadPage).toHaveBeenCalledWith("/users");
+		expect(loadPage).toHaveBeenCalledWith(`${window.location.origin}/users`);
 	});
 
 	it("asks for the second factor before it continues", async () => {
@@ -47,7 +47,7 @@ describe("SignInForm", () => {
 		await page.getByLabelText(tTwoFactor.codeLabel).fill("123456");
 
 		expect(server.calls("POST /api/auth/session/second-factor")[0]?.body).toEqual({ code: "123456" });
-		await vi.waitFor(() => expect(loadPage).toHaveBeenCalledWith("/"));
+		await vi.waitFor(() => expect(loadPage).toHaveBeenCalledWith(`${window.location.origin}/`));
 	});
 
 	it("goes back to the password for another account or after the second step expired", async () => {
