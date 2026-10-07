@@ -9,6 +9,7 @@
 # Local state and secrets
 **/data
 **/*.log
+**/coverage
 .env
 .env.*
 !.env.example
@@ -31,3 +32,13 @@ release-please-config.json
 .editorconfig
 .gitattributes
 .nvmrc
+
+# Tests run in CI against the image, never inside it
+**/test
+e2e
+test-results
+playwright-report
+vitest.config.ts
+playwright.config.ts
+tsconfig.json
+codecov.yml

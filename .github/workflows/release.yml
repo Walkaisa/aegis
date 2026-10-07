@@ -121,6 +121,10 @@ jobs:
 
   checks:
     name: CI
+    permissions:
+      contents: read
+      # For the coverage upload of the test job.
+      id-token: write
     uses: ./.github/workflows/ci.yml
 
   image:

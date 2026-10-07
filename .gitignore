@@ -16,6 +16,12 @@ next-env.d.ts
 # Local runtime data
 data/
 
+# Test output
+coverage/
+.vitest/
+test-results/
+playwright-report/
+
 # Logs
 *.log
 npm-debug.log*

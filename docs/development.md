@@ -65,6 +65,9 @@ Browser ──> Fastify (apps/backend, port 3000)
 | `pnpm typecheck` | Type check all packages |
 | `pnpm check` | Lint and format check with Biome |
 | `pnpm check:fix` | Apply Biome fixes |
+| `pnpm test` | Run every test with coverage; anything below 100 % fails |
+| `pnpm test:watch` | Rerun the affected tests on every change |
+| `pnpm test:e2e` | Run the end-to-end tests against a Docker image, see [Testing](#testing) |
 | `pnpm db:generate` | Generate a migration from the database schema |
 | `pnpm db:studio` | Start Drizzle Studio for the configured PostgreSQL database |
 | `pnpm docker:up` | Build and start the Compose stack |
@@ -80,6 +83,46 @@ Browser ──> Fastify (apps/backend, port 3000)
 | `packages/contracts` | Shared schemas and types |
 | `packages/db` | Drizzle schema and SQL migrations |
 | `packages/email` | Transactional e-mails, written with React and rendered to HTML and plain text |
+| `e2e` | End-to-end tests of the Docker image with Playwright |
+
+## Testing
+
+All tests run with [Vitest](https://vitest.dev) in a single run with one merged coverage report.
+Coverage is held at 100 % of statements, branches, functions and lines; CI fails below that, and code
+that cannot be reached is removed rather than excluded. Docker must be running for the backend tests,
+and `pnpm exec playwright install chromium` installs the browser for the component tests once.
+
+| Project | Runs in | What it covers |
+| --- | --- | --- |
+| `packages` | Node.js | Contracts, database schema and e-mail templates |
+| `backend` | Node.js | The API, the OpenID Connect provider and the services, through real HTTP requests against a real PostgreSQL ([Testcontainers](https://testcontainers.com)) |
+| `frontend` | Chromium | Components, hooks and helpers, rendered and used like in the browser ([Vitest browser mode](https://vitest.dev/guide/browser/)) |
+| `frontend-node` | Node.js | What Next.js runs while it exports the pages: layouts, pages, metadata and translations |
+
+Tests live next to `src/` in a `test/` folder of each workspace and mirror its layout, so the tests of
+`apps/backend/src/http/api/users/user.ts` are in `apps/backend/test/http/api/users/user.test.ts`. Shared
+helpers are in `test/support/`, global setup in `test/setup/`. The frontend splits its tests by where
+they run: `test/browser/` and `test/node/`.
+
+- Backend tests build the real Fastify app per test with `test` from `test/support/aegis.ts`; every test
+  file gets its own database, cloned from a migrated template in milliseconds.
+- Frontend tests answer API calls with `mockApi` from `test/support/api.ts`; a request without a route
+  fails the test. Fixtures of API responses are in `test/support/fixtures.ts`.
+- Prefer what a user sees and does (roles, labels, clicks) over implementation details.
+
+### End-to-end tests
+
+[Playwright](https://playwright.dev) tests in `e2e/` drive the Docker image in a real browser: the
+first-run setup, the administration and a complete OpenID Connect sign-in of an application with
+consent, token exchange and sign-out. PostgreSQL and the image start in containers; CI runs them
+against the image it just built.
+
+```bash
+docker build -t aegis:e2e .
+pnpm test:e2e
+```
+
+`AEGIS_E2E_IMAGE` selects another image tag.
 
 ## Conventions
 

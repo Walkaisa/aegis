@@ -4,5 +4,5 @@
 		"lib": ["ES2024", "DOM"],
 		"jsx": "react-jsx"
 	},
-	"include": ["src", "tsdown.config.ts"]
+	"include": ["src", "test", "tsdown.config.ts"]
 }

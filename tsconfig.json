@@ -1,0 +1,9 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["ES2024", "DOM"],
+		"types": ["node"]
+	},
+	// The workspaces have their own; this one covers the tooling at the root and the end-to-end tests.
+	"include": ["vitest.config.ts", "playwright.config.ts", "e2e"]
+}

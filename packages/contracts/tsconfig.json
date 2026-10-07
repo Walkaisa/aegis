@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"lib": ["ES2024", "DOM"]
 	},
-	"include": ["src", "tsdown.config.ts"]
+	"include": ["src", "test", "tsdown.config.ts"]
 }
