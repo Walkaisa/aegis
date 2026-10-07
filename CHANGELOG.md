@@ -5,6 +5,19 @@ All notable changes to Aegis are documented here. Aegis follows
 [release-please](https://github.com/googleapis/release-please) from the
 [Conventional Commits](https://www.conventionalcommits.org) on `main`; see [Releasing](docs/releasing.md).
 
+## [1.3.0](https://github.com/Walkaisa/aegis/compare/v1.2.0...v1.3.0) (2026-10-07)
+
+
+### Features
+
+* add auth_time, amr and acr to every ID token ([b83d910](https://github.com/Walkaisa/aegis/commit/b83d910c39e84010be35117ff922172729987ebe))
+
+
+### Bug Fixes
+
+* keep the destination after signing in on Aegis ([b83d910](https://github.com/Walkaisa/aegis/commit/b83d910c39e84010be35117ff922172729987ebe))
+* only let the application a token was issued to revoke it ([b83d910](https://github.com/Walkaisa/aegis/commit/b83d910c39e84010be35117ff922172729987ebe))
+
 ## [1.2.0](https://github.com/Walkaisa/aegis/compare/v1.1.1...v1.2.0) (2026-09-26)
 
 
