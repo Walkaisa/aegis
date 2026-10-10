@@ -5,7 +5,7 @@
 #   docker build -t aegis .
 
 # Pinned by digest for reproducible builds; Dependabot keeps tag and digest up to date.
-FROM node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 AS node
+FROM node:24-bookworm-slim@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20 AS node
 
 FROM node AS base
 ENV PNPM_HOME=/pnpm \
