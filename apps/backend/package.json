@@ -33,10 +33,10 @@
 	},
 	"devDependencies": {
 		"@fastify/http-proxy": "^11.6.4",
-		"@types/node": "^24.19.1",
+		"@types/node": "^24.19.2",
 		"@types/oidc-provider": "^9.12.1",
 		"@types/semver": "^7.8.0",
-		"tsdown": "^0.23.0",
+		"tsdown": "^0.23.1",
 		"tsx": "^4.23.15",
 		"typescript": "~7.0.2"
 	}
