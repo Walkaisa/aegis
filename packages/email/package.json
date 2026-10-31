@@ -20,9 +20,9 @@
 	},
 	"dependencies": {
 		"@aegis/contracts": "workspace:*",
-		"@react-email/render": "^2.1.0",
-		"react": "19.3.0",
-		"react-dom": "19.3.0"
+		"@react-email/render": "^2.1.1",
+		"react": "19.3.1",
+		"react-dom": "19.3.1"
 	},
 	"devDependencies": {
 		"@types/react": "^19.3.0",
